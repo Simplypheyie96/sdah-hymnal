@@ -24,7 +24,9 @@ export function TabBar({
       }`}
     >
       <div className="mx-auto w-fit pointer-events-auto">
-        <div className="glass hairline flex items-center gap-1 rounded-full px-2 py-2 shadow-[var(--shadow-float)]">
+        {/* px-3 not px-2: the active pill's corners cross the container's
+            tighter outer curve at 8px and read as clipped. */}
+        <div className="glass hairline flex items-center gap-1 rounded-full px-3 py-2 shadow-[var(--shadow-float)]">
           {TABS.map(({ id, label, Icon }) => {
             const active = tab === id
             return (

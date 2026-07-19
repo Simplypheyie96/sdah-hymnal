@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 
-const MIN_SPLASH_MS = 2600
+const MIN_SPLASH_MS = 4200
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
