@@ -73,34 +73,69 @@ function ensureElement(): HTMLAudioElement {
   return el
 }
 
-/** True when a recording exists for this hymn. */
+/** True when a recording exists for this hymn — cached, or reachable. */
 export async function hasRecording(hymnNumber: number): Promise<boolean> {
+  const url = audioUrl(hymnNumber)
+  if (await cachedResponse(url)) return true
   try {
-    const res = await fetch(audioUrl(hymnNumber), { method: 'HEAD' })
-    return res.ok && (res.headers.get('content-type')?.includes('audio') ?? true)
+    const res = await fetch(url, { method: 'HEAD' })
+    return res.ok
   } catch {
-    return false
+    return false // offline and not downloaded yet
   }
 }
 
-/**
- * Pull the whole file down once so the service worker stores it.
- *
- * The <audio> element streams with Range requests, which come back 206 and
- * are deliberately not cacheable — a partial response is not a usable copy.
- * So playback would never make a hymn available offline on its own. This
- * plain GET returns 200, the CacheFirst rule keeps it, and afterwards the
- * element's range requests are answered from that cached copy.
- */
-function warmCache(hymnNumber: number): void {
-  void fetch(audioUrl(hymnNumber), { cache: 'force-cache' }).catch(() => {
-    /* offline, or already cached — playback is unaffected either way */
-  })
+// Recordings are cached by hand rather than by the service worker. A media
+// element streams with Range requests, and an installed PWA — iOS in
+// particular — fails when a worker answers those, which is why playback broke
+// once the app was added to the home screen. Keeping media off the worker and
+// serving offline copies as blobs avoids the problem entirely.
+const AUDIO_CACHE = 'hymn-audio'
+const MAX_CACHED = 120
+
+/** The object URL currently in use, revoked when we move on. */
+let objectUrl: string | null = null
+
+function releaseObjectUrl() {
+  if (objectUrl) {
+    URL.revokeObjectURL(objectUrl)
+    objectUrl = null
+  }
+}
+
+async function cachedResponse(url: string): Promise<Response | undefined> {
+  if (!('caches' in globalThis)) return undefined
+  try {
+    return await (await caches.open(AUDIO_CACHE)).match(url)
+  } catch {
+    return undefined
+  }
+}
+
+/** Store a complete copy so the hymn plays again without a signal. */
+async function storeRecording(url: string): Promise<void> {
+  if (!('caches' in globalThis)) return
+  try {
+    const cache = await caches.open(AUDIO_CACHE)
+    if (await cache.match(url)) return
+
+    const res = await fetch(url) // plain GET: a full 200, not a 206 slice
+    if (!res.ok) return
+    await cache.put(url, res)
+
+    // Keep the cache bounded — oldest first.
+    const keys = await cache.keys()
+    for (const stale of keys.slice(0, Math.max(0, keys.length - MAX_CACHED))) {
+      await cache.delete(stale)
+    }
+  } catch {
+    /* offline or storage full — playback is unaffected */
+  }
 }
 
 export async function playHymn(hymnNumber: number): Promise<void> {
   const audio = ensureElement()
-  warmCache(hymnNumber)
+  const url = audioUrl(hymnNumber)
 
   // Resume if this hymn is merely paused.
   if (state.hymnNumber === hymnNumber && state.status === 'paused') {
@@ -109,7 +144,17 @@ export async function playHymn(hymnNumber: number): Promise<void> {
   }
 
   setState({ status: 'loading', hymnNumber, position: 0, duration: 0 })
-  audio.src = audioUrl(hymnNumber)
+
+  // Prefer an offline copy; otherwise stream from the network and keep one.
+  const hit = await cachedResponse(url)
+  releaseObjectUrl()
+  if (hit) {
+    objectUrl = URL.createObjectURL(await hit.blob())
+    audio.src = objectUrl
+  } else {
+    audio.src = url
+    void storeRecording(url)
+  }
   audio.currentTime = 0
 
   try {
@@ -131,6 +176,7 @@ export function stopAudio(): void {
     el.removeAttribute('src')
     el.load()
   }
+  releaseObjectUrl()
   setState({ status: 'idle', hymnNumber: null, position: 0, duration: 0 })
 }
 

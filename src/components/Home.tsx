@@ -19,15 +19,27 @@ function HymnRow({
   onOpen,
   index,
   active,
+  query,
 }: {
   hymn: Hymn
   onOpen: (songId: string) => void
   index: number
   active?: boolean
+  query?: string
 }) {
-  // Prefer the most specific label the entry actually carries.
+  // When a hymn matched on its words rather than its title, show the line
+  // that matched — otherwise the result looks like it has nothing to do with
+  // what was typed.
+  const q = fold(query ?? '')
+  const titleHit =
+    !!q && (fold(hymn.title).includes(q) || (hymn.altTitle ? fold(hymn.altTitle).includes(q) : false))
+  const lyricHit =
+    q.length >= 3 && !titleHit
+      ? hymn.verses.flatMap((v) => v.lines).find((l) => fold(l).includes(q))
+      : undefined
+
   const subtitle =
-    hymn.altTitle || hymn.subcategory || hymn.category || hymn.section || ''
+    lyricHit || hymn.altTitle || hymn.subcategory || hymn.category || hymn.section || ''
 
   return (
     <button
@@ -49,8 +61,12 @@ function HymnRow({
           {hymn.title}
         </span>
         {subtitle && (
-          <span className="mt-0.5 block truncate text-[12.5px] text-[var(--ink-3)]">
-            {subtitle}
+          <span
+            className={`mt-0.5 block truncate text-[12.5px] ${
+              lyricHit ? 'font-lyrics italic text-[var(--accent-ink)]' : 'text-[var(--ink-3)]'
+            }`}
+          >
+            {lyricHit ? `“${subtitle}”` : subtitle}
           </span>
         )}
       </span>
@@ -90,6 +106,16 @@ export function Home({
     return [...seen.keys()].sort((a, b) => seen.get(a)! - seen.get(b)!)
   }, [hymns])
 
+  // Folded lyrics per hymn, built once per edition rather than per keystroke —
+  // 920 hymns is far too much text to re-fold on every character.
+  const lyricsIndex = useMemo(() => {
+    const map = new Map<string, string>()
+    for (const h of hymns) {
+      map.set(h.songId, fold(h.verses.flatMap((v) => v.lines).join(' ')))
+    }
+    return map
+  }, [hymns])
+
   const results = useMemo(() => {
     const q = fold(query)
     return hymns.filter((h) => {
@@ -100,10 +126,12 @@ export function Home({
         fold(h.title).includes(q) ||
         // Yorùbá hymns carry their English name, so either finds the song:
         // "mimo" and "holy" both reach Mímọ́, Mímọ́, Mímọ́.
-        (h.altTitle ? fold(h.altTitle).includes(q) : false)
+        (h.altTitle ? fold(h.altTitle).includes(q) : false) ||
+        // Half-remembered lines are how people actually look for a hymn.
+        (q.length >= 3 && (lyricsIndex.get(h.songId)?.includes(q) ?? false))
       )
     })
-  }, [hymns, query, category])
+  }, [hymns, query, category, lyricsIndex])
 
 
   return (
@@ -148,8 +176,8 @@ export function Home({
               onChange={(e) => setQuery(e.target.value)}
               type="search"
               enterKeyHint="search"
-              aria-label={`Search ${activeHymnal?.hymnalTitle ?? 'the hymnal'} by title or number`}
-              placeholder="Search titles"
+              aria-label={`Search ${activeHymnal?.hymnalTitle ?? 'the hymnal'} by title, number, or words in the hymn`}
+              placeholder="Search titles or words"
               className="w-full min-w-0 bg-transparent text-[15.5px] text-[var(--ink)] outline-none placeholder:text-[var(--ink-3)] [&::-webkit-search-cancel-button]:appearance-none"
             />
             {query && (
@@ -216,7 +244,14 @@ export function Home({
         ) : (
           <div className="divide-y divide-[var(--line)]">
             {results.map((h, i) => (
-              <HymnRow key={h.songId} hymn={h} onOpen={onOpen} index={i} active={selected === h.songId} />
+              <HymnRow
+                key={h.songId}
+                hymn={h}
+                onOpen={onOpen}
+                index={i}
+                active={selected === h.songId}
+                query={query}
+              />
             ))}
           </div>
         )}
