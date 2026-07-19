@@ -48,19 +48,11 @@ export default defineConfig({
               expiration: { maxEntries: 8 },
             },
           },
-          {
-            // Recordings keep themselves once played, so a hymn sung last
-            // Sabbath still works with no signal. Capped so the cache cannot
-            // grow without bound on a phone.
-            urlPattern: ({ url }) => url.pathname.startsWith('/audio/'),
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'hymn-audio',
-              expiration: { maxEntries: 120, maxAgeSeconds: 60 * 60 * 24 * 365 },
-              cacheableResponse: { statuses: [0, 200] },
-              rangeRequests: true, // media elements request byte ranges
-            },
-          },
+          // Recordings are deliberately NOT routed here. A <audio> element
+          // streams with Range requests, and an installed PWA — iOS
+          // especially — breaks when a service worker answers those. The app
+          // manages the 'hymn-audio' cache itself in src/lib/audio.ts, which
+          // keeps media requests off the worker entirely.
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: 'StaleWhileRevalidate',
