@@ -44,11 +44,15 @@ export default function App() {
   useEffect(() => ensure(lang), [ensure, lang])
 
   // The song the user opened, resolved in their chosen language when that
-  // edition has it; otherwise fall back to English and flag the gap.
+  // edition has it; otherwise fall back to English so there is always text.
   const requested = openSongId ? resolve(openSongId, lang) : undefined
   const fallback = openSongId ? resolve(openSongId, 'en') : undefined
   const displayed = requested ?? fallback
-  const pendingLang = displayed && !requested && lang !== 'en' ? lang : undefined
+
+  // Favourites follow the song, not the edition: hearting a hymn in Yorùbá
+  // shows it hearted in English too.
+  const favKey = (h: { songId: string; sdahRef?: number; lang: string; number: number }) =>
+    h.lang === 'en' ? `sdah-${h.number}` : h.sdahRef ? `sdah-${h.sdahRef}` : h.songId
 
   // Previous/next walk the numbering of whichever edition is on screen.
   const editionList = displayed ? hymnsFor(displayed.lang) : []
@@ -63,10 +67,9 @@ export default function App() {
     hymn: displayed,
     lang,
     onLang: setLang,
-    pendingLang,
     fontScale,
-    isFavorite: favorites.includes(displayed.songId),
-    onToggleFavorite: () => toggleFavorite(displayed.songId),
+    isFavorite: favorites.includes(favKey(displayed)),
+    onToggleFavorite: () => toggleFavorite(favKey(displayed)),
     onNavigate: setOpenSongId,
     prev,
     next,

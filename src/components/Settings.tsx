@@ -203,8 +203,7 @@ export function Settings({
               <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
                 The Seventh-day Adventist Hymnal — the 695 hymns <em>and</em> the calls to
                 worship, invocations, scripture readings, and benedictions through No. 920
-                that most hymnal apps leave out — in English and Yorùbá, with Igbo and
-                Hausa to come.
+                that most hymnal apps leave out — in English and Yorùbá.
               </p>
               <p className="mt-3 text-[13px] leading-relaxed text-[var(--ink-3)]">
                 Built with love by an Adventist, for Adventists.{' '}
@@ -240,6 +239,12 @@ export function Settings({
                 <li>
                   Scripture readings from the King James Version (public domain).
                   Accompaniment rendered from MIDI with the TimGM6mb soundfont (GPL).
+                </li>
+                <li>
+                  Igbo and Hausa are not yet included: our search turned up no
+                  digital source for either hymnal. If you know of one — or your
+                  conference holds the text — please get in touch and it will be
+                  added.
                 </li>
                 {editionCredits.map((c) => (
                   <li key={c.url}>

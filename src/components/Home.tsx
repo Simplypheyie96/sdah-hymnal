@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { AnimatePresence } from 'motion/react'
-import { CATEGORIES, LANGS, type Hymn, type LangCode } from '../data/hymns'
+import { LANGS, type Hymn, type LangCode } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { KeypadIcon, SearchIcon } from './icons'
 import { NumberPad } from './NumberPad'
@@ -16,6 +16,10 @@ function HymnRow({
   index: number
   active?: boolean
 }) {
+  // Prefer the most specific label the entry actually carries.
+  const subtitle =
+    hymn.altTitle || hymn.subcategory || hymn.category || hymn.section || ''
+
   return (
     <button
       onClick={() => onOpen(hymn.songId)}
@@ -35,10 +39,9 @@ function HymnRow({
         <span className="block truncate text-[16px] font-medium tracking-[-0.01em] text-[var(--ink)]">
           {hymn.title}
         </span>
-        {(hymn.altTitle || hymn.category || hymn.kind === 'reading') && (
+        {subtitle && (
           <span className="mt-0.5 block truncate text-[12.5px] text-[var(--ink-3)]">
-            {hymn.kind === 'reading' ? 'Reading · ' : ''}
-            {hymn.altTitle || hymn.category}
+            {subtitle}
           </span>
         )}
       </span>
@@ -65,10 +68,23 @@ export function Home({
   const hymns = hymnsFor(lang)
   const activeHymnal = LANGS.find((l) => l.code === lang)
 
+  // Filter chips come from the data, not a fixed list — an edition that ships
+  // without a topical index simply shows none, and its hymns all still list.
+  // Sections (Scripture Readings, Liturgical Responses) act as chips too, so
+  // uncategorised entries stay reachable.
+  const chips = useMemo(() => {
+    const seen = new Map<string, number>()
+    hymns.forEach((h, i) => {
+      const key = h.category || h.section
+      if (key && !seen.has(key)) seen.set(key, i)
+    })
+    return [...seen.keys()].sort((a, b) => seen.get(a)! - seen.get(b)!)
+  }, [hymns])
+
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
     return hymns.filter((h) => {
-      if (category && h.category !== category) return false
+      if (category && h.category !== category && h.section !== category) return false
       if (!q) return true
       return (
         h.number.toString().startsWith(q) ||
@@ -150,7 +166,7 @@ export function Home({
 
       {/* Categories */}
       <div className="rise-in flex gap-2 overflow-x-auto px-6 pb-2 pt-1 [scrollbar-width:none]" style={{ animationDelay: '180ms' }}>
-        {[null, ...CATEGORIES].map((c) => {
+        {[null, ...chips].map((c) => {
           const active = category === c
           return (
             <button
