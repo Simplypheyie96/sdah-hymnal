@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from 'react'
 import { LANGS } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { useOnline } from '../hooks/useOnline'
+import { canCast } from '../lib/present'
 
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
@@ -14,6 +15,46 @@ const ACCENTS: { id: AccentChoice; label: string; swatch: string }[] = [
   { id: 'sage', label: 'Sage', swatch: 'linear-gradient(135deg, #dde8de 50%, #1e4632 50%)' },
   { id: 'rose', label: 'Rose', swatch: 'linear-gradient(135deg, #f5e0e4 50%, #7c2d42 50%)' },
   { id: 'sky', label: 'Sky', swatch: 'linear-gradient(135deg, #dce6f2 50%, #1f3a5f 50%)' },
+]
+
+// Kept here rather than in a separate help screen: people look for this once,
+// in Settings, and never again.
+const HOW_TO: { title: string; body: string }[] = [
+  {
+    title: 'Keep it on your phone',
+    body:
+      'iPhone or iPad: open the app in Safari, tap the Share button, then “Add to Home Screen”. Android: open it in Chrome, tap the ⋮ menu, then “Install app”. It then opens full screen with its own icon, like any other app, and works without a signal.',
+  },
+  {
+    title: 'Find a hymn',
+    body:
+      'Type a title, a number, or a line you half remember — “streams of mercy” finds 334. Tap No. for a keypad if you already know the number. The chips below the search box filter by section: Worship, Jesus Christ, Call to Worship, Benedictions and the rest.',
+  },
+  {
+    title: 'English and Yorùbá',
+    body:
+      'Switch hymnals from the buttons under the title, or inside a hymn to see the same song in the other language. Yorùbá hymns are searchable by their English names too. If a hymn is not in one hymnal, the app says so rather than showing the wrong words.',
+  },
+  {
+    title: 'Save the ones you sing often',
+    body:
+      'Tap the heart on any hymn and it appears under Favourites. A hymn hearted in one language stays hearted in the other.',
+  },
+  {
+    title: 'Make it easier to read',
+    body:
+      'Above: Light, System or Dark, four colour themes, and a lyrics size slider. Larger text helps when the phone is on a music stand.',
+  },
+  {
+    title: 'Play the music',
+    body:
+      'Open a hymn and press play. The recording covers every verse. It downloads the first time you play it and then works offline, so play the hymns you need before Sabbath. A ring around the button shows how far through it is.',
+  },
+  {
+    title: 'Share a verse',
+    body:
+      'Tap the share icon in a hymn, choose which verse and one of four colours, then send the picture to WhatsApp, Instagram or anywhere else. “Copy text” sends the words as plain text instead.',
+  },
 ]
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -49,6 +90,9 @@ export function Settings({
   // uncredited simply because the reader never opened that language.
   const { sources, ensure } = useHymnal()
   const online = useOnline()
+  // Safari implements no part of the Presentation API, so the guidance has
+  // to differ by device rather than describing a button that isn't there.
+  const canCastHere = canCast()
 
   useEffect(() => {
     LANGS.filter((l) => l.available).forEach((l) => ensure(l.code))
@@ -162,6 +206,29 @@ export function Settings({
         </Section>
       </div>
 
+      <div className="rise-in" style={{ animationDelay: '200ms' }}>
+        <Section title="How to use it">
+          <div className="divide-y divide-[var(--line)]">
+            {HOW_TO.map((item) => (
+              <details key={item.title} className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 [&::-webkit-details-marker]:hidden">
+                  <span className="text-[14.5px] font-medium">{item.title}</span>
+                  <span
+                    aria-hidden
+                    className="text-[var(--ink-3)] transition-transform duration-200 group-open:rotate-45"
+                  >
+                    +
+                  </span>
+                </summary>
+                <p className="px-5 pb-5 text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+                  {item.body}
+                </p>
+              </details>
+            ))}
+          </div>
+        </Section>
+      </div>
+
       <div className="rise-in" style={{ animationDelay: '240ms' }}>
         <Section title="For churches & home worship">
           <div className="divide-y divide-[var(--line)]">
@@ -174,11 +241,23 @@ export function Settings({
             </div>
             <div className="px-5 py-5">
               <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
-                For family devotions, mirror your phone to the TV — AirPlay on Apple TV,
-                Cast on Android, or an HDMI cable — then present a hymn and press play. The
-                words fill the screen and the accompaniment plays through the TV, so
-                everyone can sing along.
+                <span className="font-semibold text-[var(--ink)]">Putting it on a TV.</span>{' '}
+                {canCastHere
+                  ? 'Open a hymn, tap the screen icon, then Cast — pick your Chromecast or smart TV and the words appear on it while this phone stays the remote.'
+                  : 'Open a hymn and tap the screen icon to fill this screen, then mirror it to the TV.'}
               </p>
+              {!canCastHere && (
+                <p className="mt-3 text-[13px] leading-relaxed text-[var(--ink-3)]">
+                  On iPhone and iPad, casting from a web app isn’t possible — Apple only
+                  allows it from its own apps, so no website can offer a Cast button on
+                  these devices. Use{' '}
+                  <span className="text-[var(--ink-2)]">
+                    Control Centre → Screen Mirroring
+                  </span>{' '}
+                  instead: pick your Apple TV or AirPlay screen, then open the hymn and tap
+                  the screen icon. AirPlay carries the music across with the words.
+                </p>
+              )}
             </div>
           </div>
         </Section>
