@@ -4,7 +4,7 @@
  "hymns": [
   {
    "number": 1,
-   "songId": "praise-to-the-lord-the-almighty",
+   "songId": "sdah-1",
    "title": "Praise to the Lord, the Almighty",
    "category": "Worship",
    "kind": "hymn",
@@ -34,11 +34,12 @@
       "Gladly for aye we adore Him."
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 12,
-   "songId": "joyful-joyful-we-adore-thee",
+   "songId": "sdah-12",
    "title": "Joyful, Joyful, We Adore Thee",
    "category": "Worship",
    "kind": "hymn",
@@ -68,11 +69,12 @@
       "Call us to rejoice in Thee."
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 73,
-   "songId": "holy-holy-holy",
+   "songId": "sdah-73",
    "title": "Holy, Holy, Holy",
    "category": "Trinity",
    "kind": "hymn",
@@ -102,11 +104,12 @@
       "God in three persons, blessed Trinity!"
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 88,
-   "songId": "i-sing-the-mighty-power-of-god",
+   "songId": "sdah-88",
    "title": "I Sing the Mighty Power of God",
    "category": "God the Father",
    "kind": "hymn",
@@ -136,11 +139,12 @@
       "Or gaze upon the sky!"
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 92,
-   "songId": "this-is-my-fathers-world",
+   "songId": "sdah-92",
    "title": "This Is My Father’s World",
    "category": "God the Father",
    "kind": "hymn",
@@ -170,11 +174,12 @@
       "God reigns; let the earth be glad!"
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 108,
-   "songId": "amazing-grace",
+   "songId": "sdah-108",
    "title": "Amazing Grace",
    "category": "Gospel",
    "kind": "hymn",
@@ -212,11 +217,12 @@
       "Than when we first begun."
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 191,
-   "songId": "love-divine-all-loves-excelling",
+   "songId": "sdah-191",
    "title": "Love Divine, All Loves Excelling",
    "category": "Jesus Christ",
    "kind": "hymn",
@@ -246,11 +252,12 @@
       "Lost in wonder, love, and praise."
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 213,
-   "songId": "jesus-is-coming-again",
+   "songId": "sdah-213",
    "title": "Jesus Is Coming Again",
    "category": "Early Advent",
    "kind": "hymn",
@@ -287,11 +294,12 @@
       "Jesus is coming again!"
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 249,
-   "songId": "praise-him-praise-him",
+   "songId": "sdah-249",
    "title": "Praise Him! Praise Him!",
    "category": "Jesus Christ",
    "kind": "hymn",
@@ -314,11 +322,12 @@
      ],
      "isRefrain": true
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 250,
-   "songId": "o-for-a-thousand-tongues",
+   "songId": "sdah-250",
    "title": "O for a Thousand Tongues to Sing",
    "category": "Jesus Christ",
    "kind": "hymn",
@@ -340,11 +349,12 @@
       "’Tis life, and health, and peace."
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 341,
-   "songId": "to-god-be-the-glory",
+   "songId": "sdah-341",
    "title": "To God Be the Glory",
    "category": "Gospel",
    "kind": "hymn",
@@ -369,11 +379,12 @@
      ],
      "isRefrain": true
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 462,
-   "songId": "blessed-assurance",
+   "songId": "sdah-462",
    "title": "Blessed Assurance, Jesus Is Mine",
    "category": "Christian Life",
    "kind": "hymn",
@@ -412,11 +423,12 @@
       "Filled with His goodness, lost in His love."
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 469,
-   "songId": "leaning-on-the-everlasting-arms",
+   "songId": "sdah-469",
    "title": "Leaning on the Everlasting Arms",
    "category": "Christian Life",
    "kind": "hymn",
@@ -439,11 +451,12 @@
      ],
      "isRefrain": true
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 499,
-   "songId": "what-a-friend-we-have-in-jesus",
+   "songId": "sdah-499",
    "title": "What a Friend We Have in Jesus",
    "category": "Christian Life",
    "kind": "hymn",
@@ -473,11 +486,12 @@
       "Take it to the Lord in prayer."
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 506,
-   "songId": "a-mighty-fortress",
+   "songId": "sdah-506",
    "title": "A Mighty Fortress Is Our God",
    "category": "Christian Life",
    "kind": "hymn",
@@ -507,11 +521,12 @@
       "Through Him who with us sideth."
      ]
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 524,
-   "songId": "tis-so-sweet-to-trust-in-jesus",
+   "songId": "sdah-524",
    "title": "’Tis So Sweet to Trust in Jesus",
    "category": "Christian Life",
    "kind": "hymn",
@@ -534,11 +549,12 @@
      ],
      "isRefrain": true
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 530,
-   "songId": "it-is-well-with-my-soul",
+   "songId": "sdah-530",
    "title": "It Is Well With My Soul",
    "category": "Christian Life",
    "kind": "hymn",
@@ -559,11 +575,12 @@
      ],
      "isRefrain": true
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 633,
-   "songId": "when-we-all-get-to-heaven",
+   "songId": "sdah-633",
    "title": "When We All Get to Heaven",
    "category": "Early Advent",
    "kind": "hymn",
@@ -586,11 +603,12 @@
      ],
      "isRefrain": true
     }
-   ]
+   ],
+   "section": "Hymns"
   },
   {
    "number": 696,
-   "songId": "call-to-worship-psalm-95",
+   "songId": "sdah-696",
    "title": "Call to Worship — O Come, Let Us Sing",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -612,11 +630,12 @@
       "let us kneel before the Lord our maker."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 697,
-   "songId": "ctw-make-a-joyful-noise",
+   "songId": "sdah-697",
    "title": "Call to Worship — Make a Joyful Noise",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -641,11 +660,12 @@
       "and his truth endureth to all generations."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 698,
-   "songId": "ctw-this-is-the-day",
+   "songId": "sdah-698",
    "title": "Call to Worship — This Is the Day",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -657,11 +677,12 @@
       "we will rejoice and be glad in it."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 699,
-   "songId": "ctw-holy-temple",
+   "songId": "sdah-699",
    "title": "Call to Worship — The Lord Is in His Holy Temple",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -673,11 +694,12 @@
       "let all the earth keep silence before him."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 700,
-   "songId": "ctw-i-was-glad",
+   "songId": "sdah-700",
    "title": "Call to Worship — I Was Glad",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -689,11 +711,12 @@
       "Let us go into the house of the Lord."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 701,
-   "songId": "ctw-worship-in-beauty-of-holiness",
+   "songId": "sdah-701",
    "title": "Call to Worship — In the Beauty of Holiness",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -707,11 +730,12 @@
       "fear before him, all the earth."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 702,
-   "songId": "ctw-o-magnify-the-lord",
+   "songId": "sdah-702",
    "title": "Call to Worship — O Magnify the Lord",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -723,11 +747,12 @@
       "and let us exalt his name together."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 703,
-   "songId": "inv-words-of-my-mouth",
+   "songId": "sdah-703",
    "title": "Invocation — Let the Words of My Mouth",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -741,11 +766,12 @@
       "my strength, and my redeemer."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 704,
-   "songId": "inv-send-out-thy-light",
+   "songId": "sdah-704",
    "title": "Invocation — Send Out Thy Light",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -759,11 +785,12 @@
       "and to thy tabernacles."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 705,
-   "songId": "inv-teach-me-thy-paths",
+   "songId": "sdah-705",
    "title": "Invocation — Teach Me Thy Paths",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -777,11 +804,12 @@
       "on thee do I wait all the day."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 706,
-   "songId": "inv-search-me-o-god",
+   "songId": "sdah-706",
    "title": "Invocation — Search Me, O God",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -795,11 +823,12 @@
       "and lead me in the way everlasting."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 707,
-   "songId": "off-all-things-come-of-thee",
+   "songId": "sdah-707",
    "title": "Offertory — All Things Come of Thee",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -813,11 +842,12 @@
       "and of thine own have we given thee."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 708,
-   "songId": "off-earth-is-the-lords",
+   "songId": "sdah-708",
    "title": "Offertory — The Earth Is the Lord’s",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -829,11 +859,12 @@
       "the world, and they that dwell therein."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 709,
-   "songId": "off-cheerful-giver",
+   "songId": "sdah-709",
    "title": "Offertory — God Loveth a Cheerful Giver",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -846,11 +877,12 @@
       "for God loveth a cheerful giver."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 710,
-   "songId": "off-bring-ye-the-tithes",
+   "songId": "sdah-710",
    "title": "Offertory — Bring Ye All the Tithes",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -866,11 +898,12 @@
       "that there shall not be room enough to receive it."
      ]
     }
-   ]
+   ],
+   "section": "Scripture Readings"
   },
   {
    "number": 913,
-   "songId": "ben-grace-of-our-lord",
+   "songId": "sdah-913",
    "title": "Benediction — The Grace of Our Lord",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -884,11 +917,12 @@
       "be with you all. Amen."
      ]
     }
-   ]
+   ],
+   "section": "Liturgical Responses"
   },
   {
    "number": 914,
-   "songId": "ben-him-that-is-able",
+   "songId": "sdah-914",
    "title": "Benediction — Now unto Him That Is Able",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -904,11 +938,12 @@
       "both now and ever. Amen."
      ]
     }
-   ]
+   ],
+   "section": "Liturgical Responses"
   },
   {
    "number": 915,
-   "songId": "ben-god-of-peace",
+   "songId": "sdah-915",
    "title": "Benediction — The God of Peace",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -924,11 +959,12 @@
       "through Jesus Christ; to whom be glory for ever and ever. Amen."
      ]
     }
-   ]
+   ],
+   "section": "Liturgical Responses"
   },
   {
    "number": 916,
-   "songId": "ben-peace-of-god",
+   "songId": "sdah-916",
    "title": "Benediction — The Peace of God",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -941,11 +977,12 @@
       "through Christ Jesus."
      ]
     }
-   ]
+   ],
+   "section": "Liturgical Responses"
   },
   {
    "number": 917,
-   "songId": "ben-god-of-hope",
+   "songId": "sdah-917",
    "title": "Benediction — The God of Hope",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -959,11 +996,12 @@
       "through the power of the Holy Ghost."
      ]
     }
-   ]
+   ],
+   "section": "Liturgical Responses"
   },
   {
    "number": 918,
-   "songId": "ben-the-lord-preserve-thee",
+   "songId": "sdah-918",
    "title": "Benediction — The Lord Shall Preserve Thee",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -977,11 +1015,12 @@
       "from this time forth, and even for evermore."
      ]
     }
-   ]
+   ],
+   "section": "Liturgical Responses"
   },
   {
    "number": 920,
-   "songId": "benediction-numbers-6",
+   "songId": "sdah-920",
    "title": "Benediction — The Lord Bless Thee",
    "category": "Aids to Worship",
    "kind": "reading",
@@ -996,7 +1035,8 @@
       "and give thee peace."
      ]
     }
-   ]
+   ],
+   "section": "Liturgical Responses"
   }
  ]
 }

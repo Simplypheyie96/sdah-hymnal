@@ -14,7 +14,7 @@ export type Verse = {
   isRefrain?: boolean
 }
 
-export type LangCode = 'en' | 'yo' | 'ig' | 'ha'
+export type LangCode = 'en' | 'yo'
 
 export const LANGS: {
   code: LangCode
@@ -24,8 +24,6 @@ export const LANGS: {
 }[] = [
   { code: 'en', label: 'English', hymnalTitle: 'Seventh-day Adventist Hymnal', available: true },
   { code: 'yo', label: 'Yorùbá', hymnalTitle: 'Ìwé Orin Mímọ́', available: true },
-  { code: 'ig', label: 'Igbo', hymnalTitle: 'Abụ Ọtụtọ', available: false },
-  { code: 'ha', label: 'Hausa', hymnalTitle: 'Hausa Hymnal', available: false },
 ]
 
 export type Hymn = {
@@ -35,8 +33,13 @@ export type Hymn = {
   title: string
   /** Title in another language (e.g. the English name of a Yorùbá hymn). */
   altTitle?: string
-  /** May be empty when an edition ships without topical indexing. */
+  /** Broad grouping: "Hymns", "Scripture Readings", "Liturgical Responses". */
+  section?: string
+  /** Major theme from the topical index. Empty for uncategorised entries —
+      they still list and search normally, just without a filter chip. */
   category: string
+  /** Finer group within the category, e.g. "Adoration and Praise". */
+  subcategory?: string
   kind: 'hymn' | 'reading'
   verses: Verse[]
   author?: string

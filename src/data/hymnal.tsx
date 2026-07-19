@@ -24,6 +24,19 @@ const HymnalContext = createContext<HymnalContextValue | null>(null)
 // Module-level so a re-mounted provider (HMR, strict mode) never double-fetches.
 const inflight = new Map<LangCode, Promise<LoadedEdition>>()
 
+/** Loose title key for cross-edition matching: case, accents, punctuation and
+ *  leading articles all vary between hymnals for the same song. */
+function normaliseTitle(title: string) {
+  return title
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // combining marks: Yorùbá tones, dots below
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, '')
+    .replace(/\b(the|a|an|o|oh)\b/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 type LoadedEdition = { hymns: Hymn[]; source?: EditionSource }
 
 async function fetchEdition(lang: LangCode): Promise<LoadedEdition> {
@@ -76,16 +89,46 @@ export function HymnalProvider({ children }: { children: ReactNode }) {
       return undefined
     }
 
+    // Find the source entry for a songId in whichever edition holds it.
+    const entryOf = (songId: string) => {
+      const lang = songId.match(/^([a-z]{2})-\d+$/)?.[1] as LangCode | undefined
+      const list = lang ? editions[lang] : editions.en
+      return list?.find((h) => h.songId === songId)
+    }
+
     const resolve = (songId: string, lang: LangCode) => {
       const list = editions[lang]
       if (!list) return undefined
+
       const direct = list.find((h) => h.songId === songId)
       if (direct) return direct
+
+      // Explicit cross-reference is the reliable path.
       const n = sdahNumberOf(songId)
-      if (n == null) return undefined
-      return lang === 'en'
-        ? list.find((h) => h.number === n)
-        : list.find((h) => h.sdahRef === n)
+      if (n != null) {
+        const byNumber =
+          lang === 'en'
+            ? list.find((h) => h.number === n)
+            : list.find((h) => h.sdahRef === n)
+        if (byNumber) return byNumber
+      }
+
+      // Fallback for translations that ship an English title but no number
+      // reference — match on the title itself. Roughly half the Yorùbá
+      // hymnal reaches its English counterpart this way.
+      const entry = entryOf(songId)
+      const englishName = entry?.altTitle ?? (entry?.lang === 'en' ? entry.title : undefined)
+      if (englishName) {
+        const key = normaliseTitle(englishName)
+        const byTitle = list.find(
+          (h) =>
+            normaliseTitle(h.title) === key ||
+            (h.altTitle ? normaliseTitle(h.altTitle) === key : false),
+        )
+        if (byTitle) return byTitle
+      }
+
+      return undefined
     }
 
     return { ready: Boolean(editions.en), error, editions, sources, ensure, hymnsFor, resolve }
