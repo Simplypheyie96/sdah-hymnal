@@ -38,3 +38,5 @@ dev-dist
 
 # Hymn recordings (~1 GB). Too large for git — see public/audio/README.md
 public/audio/*.mp3
+.vercel
+.env*

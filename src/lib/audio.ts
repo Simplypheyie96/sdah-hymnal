@@ -83,8 +83,24 @@ export async function hasRecording(hymnNumber: number): Promise<boolean> {
   }
 }
 
+/**
+ * Pull the whole file down once so the service worker stores it.
+ *
+ * The <audio> element streams with Range requests, which come back 206 and
+ * are deliberately not cacheable — a partial response is not a usable copy.
+ * So playback would never make a hymn available offline on its own. This
+ * plain GET returns 200, the CacheFirst rule keeps it, and afterwards the
+ * element's range requests are answered from that cached copy.
+ */
+function warmCache(hymnNumber: number): void {
+  void fetch(audioUrl(hymnNumber), { cache: 'force-cache' }).catch(() => {
+    /* offline, or already cached — playback is unaffected either way */
+  })
+}
+
 export async function playHymn(hymnNumber: number): Promise<void> {
   const audio = ensureElement()
+  warmCache(hymnNumber)
 
   // Resume if this hymn is merely paused.
   if (state.hymnNumber === hymnNumber && state.status === 'paused') {
