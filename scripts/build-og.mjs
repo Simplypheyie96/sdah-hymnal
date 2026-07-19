@@ -17,7 +17,7 @@ const W = 1200
 const H = 630
 const OUT = fileURLToPath(new URL('../public/og.png', import.meta.url))
 
-// The mark's own geometry, shared with favicon.svg and the splash. Its natural
+// The mark's own geometry, shared with icon.svg and the splash. Its natural
 // box is 324×262 starting at (94,140); place it centred on the left third.
 const MARK_W = 324
 const MARK_H = 262

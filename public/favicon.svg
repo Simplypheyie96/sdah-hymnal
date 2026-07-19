@@ -1,28 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hymnal">
-  <!-- A hymnal, not just a book: an open songbook with a note on the page.
-       Deep ink ground so the mark holds on light and dark home screens.
-       Solid shapes throughout — hairlines disappear at favicon size. -->
-  <rect width="512" height="512" rx="112" fill="#17191b"/>
+  <!-- The mark for tab-strip sizes: 16 and 32 pixels.
+       favicon.svg carries the full drawing — two pages, a spine, ruled lines
+       and a quaver. All of that turns to porridge at 16px, where the whole
+       icon is smaller than a single letter of this comment. So here the ruled
+       lines are gone, the book is scaled up to fill the frame, and the note is
+       drawn heavier: three shapes instead of six, each big enough to survive.
+       Keep the two files in step whenever the mark changes. -->
+  <rect width="512" height="512" rx="104" fill="#17191b"/>
 
-  <!-- Open book: two pages fanning from a central spine. -->
-  <g fill="#f2f3f3">
-    <path d="M248 168c-40-28-96-38-148-27a8 8 0 0 0-6 8v190a8 8 0 0 0 10 8c46-10 96-2 134 22a8 8 0 0 0 10-7V168z"/>
-    <path d="M264 168c40-28 96-38 148-27a8 8 0 0 1 6 8v190a8 8 0 0 1-10 8c-46-10-96-2-134 22a8 8 0 0 1-10-7V168z"/>
-  </g>
+  <g transform="translate(256 268) scale(1.24) translate(-256 -271)">
+    <!-- Two pages fanning from the spine. -->
+    <g fill="#f2f3f3">
+      <path d="M248 168c-40-28-96-38-148-27a8 8 0 0 0-6 8v190a8 8 0 0 0 10 8c46-10 96-2 134 22a8 8 0 0 0 10-7V168z"/>
+      <path d="M264 168c40-28 96-38 148-27a8 8 0 0 1 6 8v190a8 8 0 0 1-10 8c-46-10-96-2-134 22a8 8 0 0 1-10-7V168z"/>
+    </g>
 
-  <!-- Spine. -->
-  <rect x="250" y="152" width="12" height="238" rx="6" fill="#8b9195"/>
+    <!-- Spine, thicker than on the full mark so it still reads as a gap. -->
+    <rect x="246" y="150" width="20" height="242" rx="10" fill="#17191b"/>
 
-  <!-- Left page: ruled lines, the words. -->
-  <g fill="#c9cdcf">
-    <rect x="126" y="232" width="92" height="12" rx="6"/>
-    <rect x="126" y="274" width="66" height="12" rx="6"/>
-  </g>
-
-  <!-- Right page: a quaver, the tune. -->
-  <g fill="#17191b">
-    <rect x="344" y="212" width="11" height="92" rx="5"/>
-    <path d="M355 212c26 10 42 24 44 44 1 12-3 22-11 30 3-16-3-28-16-36-9-6-14-10-17-16v-22z"/>
-    <ellipse cx="326" cy="304" rx="30" ry="23" transform="rotate(-19 326 304)"/>
+    <!-- A single quaver, enlarged and squared up. The stem is the only thin
+         part left, so it is nearly twice its original width. -->
+    <g fill="#17191b">
+      <rect x="330" y="196" width="19" height="104" rx="9"/>
+      <path d="M349 196c30 12 48 28 50 50 1 14-4 25-13 34 4-18-3-32-18-41-10-7-16-11-19-18v-25z"/>
+      <ellipse cx="308" cy="302" rx="36" ry="27" transform="rotate(-19 308 302)"/>
+    </g>
   </g>
 </svg>
