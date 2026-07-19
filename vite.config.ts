@@ -32,9 +32,15 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}', 'data/en.json'],
         runtimeCaching: [
           {
+            // Network-first: a corrected hymn should never be shown stale
+            // while online. Falls back to cache immediately when offline.
             urlPattern: ({ url }) => url.pathname.startsWith('/data/'),
-            handler: 'StaleWhileRevalidate',
-            options: { cacheName: 'hymnal-editions' },
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'hymnal-editions',
+              networkTimeoutSeconds: 3,
+              expiration: { maxEntries: 8 },
+            },
           },
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/midi/'),

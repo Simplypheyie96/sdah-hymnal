@@ -56,10 +56,10 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   const ctx = canvas.getContext('2d')!
 
   await Promise.all([
-    document.fonts.load('400 240px "Bodoni Moda"'),
-    document.fonts.load('500 58px "EB Garamond"'),
-    document.fonts.load('400 44px "EB Garamond"'),
-    document.fonts.load('italic 400 44px "EB Garamond"'),
+    document.fonts.load('400 132px "Bodoni Moda"'),
+    document.fonts.load('600 54px "EB Garamond"'),
+    document.fonts.load('500 78px "EB Garamond"'),
+    document.fonts.load('italic 500 78px "EB Garamond"'),
   ]).catch(() => {})
 
   const p = PALETTES.find((x) => x.id === paletteId)!
@@ -104,48 +104,49 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   ctx.font = '600 24px -apple-system, system-ui, sans-serif'
   ctx.fillText('S E V E N T H - D A Y   A D V E N T I S T   H Y M N A L', W / 2, 122)
 
-  // Hero numeral — the app's signature, a hymn-board plate number
+  // Numeral — a mark on the page, not the subject. The verse is the point.
   ctx.fillStyle = accent
-  ctx.font = '400 240px "Bodoni Moda", Didot, Georgia, serif'
-  ctx.fillText(String(hymn.number), W / 2, 366)
+  ctx.font = '400 132px "Bodoni Moda", Didot, Georgia, serif'
+  ctx.fillText(String(hymn.number), W / 2, 262)
 
   // Title
   ctx.fillStyle = ink
-  ctx.font = '500 58px "EB Garamond", Georgia, serif'
+  ctx.font = '600 54px "EB Garamond", Georgia, serif'
   const titleLines = wrapLines(ctx, hymn.title, 880)
-  let ty = 452
+  let ty = 336
   for (const line of titleLines) {
     ctx.fillText(line, W / 2, ty)
-    ty += 70
+    ty += 64
   }
 
   // Hairline rule under the title block
   ctx.strokeStyle = accent
-  ctx.globalAlpha = 0.45
-  ctx.lineWidth = 2
+  ctx.globalAlpha = 0.5
+  ctx.lineWidth = 3
   ctx.beginPath()
-  ctx.moveTo(W / 2 - 52, ty + 6)
-  ctx.lineTo(W / 2 + 52, ty + 6)
+  ctx.moveTo(W / 2 - 56, ty + 2)
+  ctx.lineTo(W / 2 + 56, ty + 2)
   ctx.stroke()
   ctx.globalAlpha = 1
 
-  // Verse — set as reading text, auto-fitted to the remaining space
+  // Verse — the hero. Auto-fitted to fill the space that remains, set at a
+  // weight that survives the compression social apps apply to images.
   const verse = hymn.verses[verseIndex]
   const italic = verse.isRefrain ? 'italic ' : ''
-  const top = ty + 70
-  const bottom = H - 230
+  const top = ty + 62
+  const bottom = H - 190
   const room = bottom - top
 
-  let fontSize = 52
+  let fontSize = 78
   let lines: string[] = []
-  for (; fontSize >= 30; fontSize -= 3) {
-    ctx.font = `${italic}400 ${fontSize}px "EB Garamond", Georgia, serif`
-    lines = verse.lines.flatMap((l) => wrapLines(ctx, l, 860))
-    if (lines.length * fontSize * 1.52 <= room) break
+  for (; fontSize >= 34; fontSize -= 2) {
+    ctx.font = `${italic}500 ${fontSize}px "EB Garamond", Georgia, serif`
+    lines = verse.lines.flatMap((l) => wrapLines(ctx, l, 900))
+    if (lines.length * fontSize * 1.42 <= room) break
   }
-  const lineHeight = fontSize * 1.52
+  const lineHeight = fontSize * 1.42
   const blockTop = top + Math.max(0, (room - lines.length * lineHeight) / 2)
-  ctx.font = `${italic}400 ${fontSize}px "EB Garamond", Georgia, serif`
+  ctx.font = `${italic}500 ${fontSize}px "EB Garamond", Georgia, serif`
   ctx.fillStyle = ink
   lines.forEach((line, i) => {
     ctx.fillText(line, W / 2, blockTop + (i + 1) * lineHeight)
@@ -241,7 +242,8 @@ export function ShareSheet({ hymn, onDismiss }: { hymn: Hymn; onDismiss: () => v
           </button>
         </div>
 
-        {/* Verse + palette pickers */}
+        {/* Verse picker — scrolls on its own so it can never push the
+            colours out of reach on a hymn with many verses. */}
         <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
           {hymn.verses.map((_, i) => (
             <button
@@ -256,17 +258,21 @@ export function ShareSheet({ hymn, onDismiss }: { hymn: Hymn; onDismiss: () => v
               {verseLabel(hymn.verses, i)}
             </button>
           ))}
-          <span className="mx-1 h-5 w-px shrink-0 bg-[var(--line-strong)]" />
+        </div>
+
+        {/* Colours — always visible */}
+        <div className="mt-2.5 flex items-center gap-2.5">
           {PALETTES.map((p) => (
             <button
               key={p.id}
               onClick={() => setPaletteId(p.id)}
-              aria-label={`${p.label} colors`}
+              aria-label={`${p.label} colours`}
+              aria-pressed={paletteId === p.id}
               title={p.label}
-              className={`h-7 w-7 shrink-0 rounded-full transition-transform duration-200 ${
+              className={`h-8 w-8 shrink-0 rounded-full transition-transform duration-200 ${
                 paletteId === p.id
-                  ? 'scale-110 ring-2 ring-[var(--ink)] ring-offset-2 ring-offset-[var(--paper)]'
-                  : 'hairline'
+                  ? 'scale-110 ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--paper)]'
+                  : 'hairline hover:scale-105'
               }`}
               style={{
                 background:
@@ -276,6 +282,9 @@ export function ShareSheet({ hymn, onDismiss }: { hymn: Hymn; onDismiss: () => v
               }}
             />
           ))}
+          <span className="ml-auto text-[12px] text-[var(--ink-3)]">
+            {PALETTES.find((p) => p.id === paletteId)?.label}
+          </span>
         </div>
 
         {/* Preview */}
