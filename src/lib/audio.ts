@@ -73,15 +73,61 @@ function ensureElement(): HTMLAudioElement {
   return el
 }
 
-/** True when a recording exists for this hymn — cached, or reachable. */
-export async function hasRecording(hymnNumber: number): Promise<boolean> {
+/**
+ * Why a hymn cannot be played right now.
+ *
+ * 'none' — never recorded. A real gap in the library, and the reader should
+ *   be told so plainly.
+ * 'offline' — recorded, but this copy has not been downloaded and there is no
+ *   connection to fetch it.
+ * 'unreachable' — recorded, we are online, and the file still will not load.
+ *   That is our problem, not the hymn's, and it must not be dressed up as a
+ *   missing recording. It is exactly what happened when the mp3s stopped
+ *   being deployed: every hymn reported itself as never recorded.
+ */
+export type Availability = 'ready' | 'none' | 'offline' | 'unreachable'
+
+/**
+ * Which hymns were recorded at all, loaded once.
+ *
+ * This used to be a HEAD request per hymn, which could not distinguish a hymn
+ * that was never recorded from a file missing off the server — both answered
+ * 404. The manifest settles the question without touching the network.
+ */
+let manifest: Set<number> | null = null
+let manifestLoad: Promise<Set<number>> | null = null
+
+function loadManifest(): Promise<Set<number>> {
+  if (manifest) return Promise.resolve(manifest)
+  manifestLoad ??= fetch(`${import.meta.env.BASE_URL}data/recordings.json`)
+    .then((r) => (r.ok ? r.json() : []))
+    .catch(() => [])
+    .then((list: number[]) => {
+      manifest = new Set(list)
+      return manifest
+    })
+  return manifestLoad
+}
+
+/** Whether this hymn can be played, and if not, why not. */
+export async function recordingAvailability(hymnNumber: number): Promise<Availability> {
   const url = audioUrl(hymnNumber)
-  if (await cachedResponse(url)) return true
+
+  // A downloaded copy plays regardless of the network or the manifest.
+  if (await cachedResponse(url)) return 'ready'
+
+  const recorded = await loadManifest()
+  // An empty manifest means it could not be loaded; fall back to trying, so a
+  // manifest problem never suppresses music that is actually there.
+  if (recorded.size > 0 && !recorded.has(hymnNumber)) return 'none'
+
+  if (!navigator.onLine) return 'offline'
+
   try {
     const res = await fetch(url, { method: 'HEAD' })
-    return res.ok
+    return res.ok ? 'ready' : 'unreachable'
   } catch {
-    return false // offline and not downloaded yet
+    return navigator.onLine ? 'unreachable' : 'offline'
   }
 }
 
