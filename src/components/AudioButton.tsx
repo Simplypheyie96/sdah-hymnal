@@ -1,5 +1,6 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { getAudioState, hasRecording, pauseAudio, playHymn, subscribeAudio } from '../lib/audio'
+import { useOnline } from '../hooks/useOnline'
 import { MusicOffIcon, PauseIcon, PlayIcon } from './icons'
 
 export function useAudioState() {
@@ -25,6 +26,7 @@ export function AudioButton({
   variant?: 'paper' | 'stage'
 }) {
   const state = useAudioState()
+  const online = useOnline()
   const mine = state.hymnNumber === hymnNumber
   const status = mine ? state.status : 'idle'
 
@@ -47,14 +49,19 @@ export function AudioButton({
       : 'glass hairline text-[var(--ink-2)] shadow-[var(--shadow-float)] hover:text-[var(--ink)]'
 
   if (available === false || status === 'unavailable' || status === 'error') {
+    // Offline, an uncached recording simply isn't reachable — say so rather
+    // than implying the hymn has no music.
+    const offlineMiss = !online && available === false
     return (
       <button
         disabled
-        aria-label="Recording not available"
+        aria-label={offlineMiss ? 'Recording needs a connection' : 'Recording not available'}
         title={
-          status === 'error'
-            ? 'Playback failed — try again'
-            : 'No recording for this hymn yet'
+          offlineMiss
+            ? 'This recording has not been downloaded yet — connect to play it once, then it works offline'
+            : status === 'error'
+              ? 'Playback failed — try again'
+              : 'No recording for this hymn yet'
         }
         className={`flex h-[52px] w-[52px] items-center justify-center rounded-full opacity-40 ${skin}`}
       >

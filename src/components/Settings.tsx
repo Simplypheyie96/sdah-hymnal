@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { LANGS } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
+import { useOnline } from '../hooks/useOnline'
 
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
@@ -45,6 +46,7 @@ export function Settings({
 }) {
   // Credit every loaded edition whose data came from an outside source.
   const { sources } = useHymnal()
+  const online = useOnline()
   const editionCredits = LANGS.flatMap((l) => {
     const source = sources[l.code]
     return source ? [{ ...source, hymnalTitle: l.hymnalTitle }] : []
@@ -176,7 +178,30 @@ export function Settings({
         </Section>
       </div>
 
-      <div className="rise-in" style={{ animationDelay: '300ms' }}>
+      <div className="rise-in" style={{ animationDelay: '270ms' }}>
+        <Section title="Offline">
+          <div className="px-5 py-5">
+            <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
+              <span
+                className={`mr-2 inline-block h-2 w-2 rounded-full align-middle ${
+                  online ? 'bg-[var(--accent)]' : 'bg-[var(--ink-3)]'
+                }`}
+                aria-hidden
+              />
+              {online ? 'Connected' : 'No connection'} — all 920 hymns and readings work
+              either way. The words, search, favourites, and projection need no signal
+              once the app has been opened once.
+            </p>
+            <p className="mt-3 text-[13px] leading-relaxed text-[var(--ink-3)]">
+              Recordings are the exception: each one downloads the first time you play it,
+              and then stays available offline. Play the hymns you need before Sabbath and
+              they will be there without a signal.
+            </p>
+          </div>
+        </Section>
+      </div>
+
+      <div className="rise-in" style={{ animationDelay: '320ms' }}>
         <Section title="About">
           <div className="divide-y divide-[var(--line)]">
             <div className="px-5 py-5">

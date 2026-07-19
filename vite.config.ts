@@ -30,7 +30,9 @@ export default defineConfig({
         // App shell + the English edition precache. Recordings are ~1 GB in
         // total and must never be precached — they cache individually as
         // hymns are actually played, below.
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}', 'data/en.json'],
+        // Both editions precache: the words are the part that must never
+        // depend on a signal. Together they are ~2 MB.
+        globPatterns: ['**/*.{js,css,html,svg,png,woff2}', 'data/*.json'],
         globIgnores: ['**/audio/**'],
         // A single recording can exceed the default 2 MB precache ceiling.
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
