@@ -40,3 +40,6 @@ dev-dist
 public/audio/*.mp3
 .vercel
 .env*
+
+# Video capture frames
+.video/
