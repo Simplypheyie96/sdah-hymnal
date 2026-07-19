@@ -4,7 +4,7 @@ import type { Hymn, Verse } from '../data/hymns'
 
 // Where to get the app, printed on every shared card. Change this one line
 // when a real domain replaces the Vercel address.
-const APP_URL = 'sdah-hymnal.vercel.app'
+const APP_URL = 'sdahymnal.vercel.app'
 
 const W = 1080
 const H = 1350
