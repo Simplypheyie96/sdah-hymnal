@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react'
+import { LANGS } from '../data/hymns'
+import { useHymnal } from '../data/hymnal'
 
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
@@ -42,6 +44,13 @@ export function Settings({
   fontScale: number
   onFontScale: (n: number) => void
 }) {
+  // Credit every loaded edition whose data came from an outside source.
+  const { sources } = useHymnal()
+  const editionCredits = LANGS.flatMap((l) => {
+    const source = sources[l.code]
+    return source ? [{ ...source, hymnalTitle: l.hymnalTitle }] : []
+  })
+
   return (
     <div className="space-y-9 pb-36">
       <header className="px-6 pt-[max(env(safe-area-inset-top),28px)]">
@@ -232,6 +241,21 @@ export function Settings({
                   Scripture readings from the King James Version (public domain).
                   Accompaniment rendered from MIDI with the TimGM6mb soundfont (GPL).
                 </li>
+                {editionCredits.map((c) => (
+                  <li key={c.url}>
+                    {c.hymnalTitle} text from{' '}
+                    <a
+                      href={c.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline decoration-[var(--line-strong)] underline-offset-2 text-[var(--ink-2)]"
+                    >
+                      {c.name}
+                    </a>
+                    {c.author ? ` by ${c.author}` : ''} — used under the {c.license} licence
+                    with thanks.
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

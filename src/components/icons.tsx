@@ -71,6 +71,22 @@ export function ShareIcon({ size = 20, strokeWidth = 1.7, className }: IconProps
   )
 }
 
+export function KeypadIcon({ size = 19, strokeWidth = 1.7, className }: IconProps) {
+  return (
+    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
+      <circle cx="6" cy="6" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="6" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="18" cy="6" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="6" cy="12" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="18" cy="12" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="6" cy="18" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="18" r="1.15" fill="currentColor" stroke="none" />
+      <circle cx="18" cy="18" r="1.15" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
 export function PresentIcon({ size = 20, strokeWidth = 1.7, className }: IconProps) {
   return (
     <svg {...base(size)} strokeWidth={strokeWidth} className={className}>

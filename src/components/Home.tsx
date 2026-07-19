@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
+import { AnimatePresence } from 'motion/react'
 import { CATEGORIES, LANGS, type Hymn, type LangCode } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
-import { ChevronRightIcon, SearchIcon } from './icons'
+import { KeypadIcon, SearchIcon } from './icons'
+import { NumberPad } from './NumberPad'
 
 function HymnRow({
   hymn,
@@ -33,10 +35,12 @@ function HymnRow({
         <span className="block truncate text-[16px] font-medium tracking-[-0.01em] text-[var(--ink)]">
           {hymn.title}
         </span>
-        <span className="mt-0.5 block text-[12.5px] text-[var(--ink-3)]">
-          {hymn.kind === 'reading' ? 'Reading · ' : ''}
-          {hymn.category}
-        </span>
+        {(hymn.altTitle || hymn.category || hymn.kind === 'reading') && (
+          <span className="mt-0.5 block truncate text-[12.5px] text-[var(--ink-3)]">
+            {hymn.kind === 'reading' ? 'Reading · ' : ''}
+            {hymn.altTitle || hymn.category}
+          </span>
+        )}
       </span>
     </button>
   )
@@ -54,7 +58,7 @@ export function Home({
   onLang: (l: LangCode) => void
 }) {
   const [query, setQuery] = useState('')
-  const [numberQuery, setNumberQuery] = useState('')
+  const [padOpen, setPadOpen] = useState(false)
   const [category, setCategory] = useState<string | null>(null)
 
   const { hymnsFor } = useHymnal()
@@ -66,21 +70,15 @@ export function Home({
     return hymns.filter((h) => {
       if (category && h.category !== category) return false
       if (!q) return true
-      return h.number.toString().startsWith(q) || h.title.toLowerCase().includes(q)
+      return (
+        h.number.toString().startsWith(q) ||
+        h.title.toLowerCase().includes(q) ||
+        // Yorùbá hymns carry their English name, so either finds the song.
+        (h.altTitle?.toLowerCase().includes(q) ?? false)
+      )
     })
   }, [hymns, query, category])
 
-  const numberMatch = useMemo(() => {
-    if (!numberQuery) return undefined
-    return hymns.find((h) => h.number === Number(numberQuery))
-  }, [hymns, numberQuery])
-
-  const jumpToNumber = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!numberMatch) return
-    onOpen(numberMatch.songId)
-    setNumberQuery('')
-  }
 
   return (
     <div className="pb-36">
@@ -139,38 +137,15 @@ export function Home({
             )}
           </label>
 
-          <form
-            onSubmit={jumpToNumber}
-            className="glass hairline flex shrink-0 items-center rounded-2xl pl-3 pr-1.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30"
+          <button
+            onClick={() => setPadOpen(true)}
+            aria-label="Open number keypad"
+            className="glass hairline flex shrink-0 items-center gap-2 rounded-2xl px-4 shadow-[var(--shadow-soft)] transition-all duration-200 hover:bg-[var(--accent)]/8 active:scale-[0.97]"
           >
-            <span aria-hidden className="eyebrow mr-1.5 hidden text-[var(--ink-3)] min-[380px]:inline">
-              No.
-            </span>
-            <input
-              value={numberQuery}
-              onChange={(e) => setNumberQuery(e.target.value.replace(/\D/g, '').slice(0, 3))}
-              inputMode="numeric"
-              pattern="[0-9]*"
-              enterKeyHint="go"
-              aria-label="Go to hymn number"
-              placeholder="000"
-              className="numeral w-[3.4ch] bg-transparent text-[19px] text-[var(--ink)] outline-none placeholder:text-[var(--ink-3)] placeholder:opacity-45"
-            />
-            <button
-              type="submit"
-              disabled={!numberMatch}
-              aria-label={numberMatch ? `Go to hymn ${numberQuery}` : 'Enter a hymn number'}
-              className="ml-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)] text-[var(--accent-contrast)] transition-opacity duration-200 disabled:opacity-25"
-            >
-              <ChevronRightIcon size={18} />
-            </button>
-          </form>
+            <KeypadIcon className="text-[var(--accent-ink)]" />
+            <span className="eyebrow text-[var(--ink-2)]">No.</span>
+          </button>
         </div>
-        {numberQuery && !numberMatch && (
-          <p role="status" className="mt-2 pl-1 text-[12.5px] text-[var(--ink-2)]">
-            No. {numberQuery} isn’t in {activeHymnal?.hymnalTitle}.
-          </p>
-        )}
       </div>
 
       {/* Categories */}
@@ -225,6 +200,17 @@ export function Home({
           </p>
         )}
       </div>
+
+      <AnimatePresence>
+        {padOpen && (
+          <NumberPad
+            hymns={hymns}
+            hymnalTitle={activeHymnal?.hymnalTitle ?? 'Hymnal'}
+            onOpen={onOpen}
+            onDismiss={() => setPadOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }
