@@ -34,6 +34,14 @@
     />
     <meta name="twitter:image" content="https://sdah-hymnal.vercel.app/og.png" />
 
+    <!-- Raster first, SVG last. Current desktop browsers prefer the SVG and
+         will take it regardless of order, but tab switchers, history entries
+         and older Android only look for a raster icon — and when they find
+         none they go on showing whatever they cached, which is how Vite's
+         lightning bolt outlived the scaffold it came from. -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

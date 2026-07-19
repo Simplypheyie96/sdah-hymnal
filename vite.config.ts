@@ -35,7 +35,7 @@ export default defineConfig({
         // hymns are actually played, below.
         // Both editions precache: the words are the part that must never
         // depend on a signal. Together they are ~2 MB.
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}', 'data/*.json'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}', 'data/*.json'],
         globIgnores: ['**/audio/**'],
         // A single recording can exceed the default 2 MB precache ceiling.
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
