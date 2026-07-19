@@ -192,12 +192,18 @@ export function HymnContent({
                 <div className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--accent-ink)] opacity-70">
                   {verse.isRefrain
                     ? 'Refrain'
-                    : hymn.kind === 'reading'
-                      ? `Part ${verseNumber}`
-                      : `Verse ${verseNumber}`}
+                    : verse.isResponse
+                      ? 'Congregation'
+                      : hymn.kind === 'reading'
+                        ? `Part ${verseNumber}`
+                        : `Verse ${verseNumber}`}
                 </div>
                 <p
-                  className={`font-lyrics leading-[1.75] text-[var(--ink)] ${verse.isRefrain ? 'italic' : ''}`}
+                  className={`font-lyrics leading-[1.75] text-[var(--ink)] ${verse.isRefrain ? 'italic' : ''} ${
+                    // The printed hymnal sets the congregation's response in
+                    // bold; carry that so people know when to join in.
+                    verse.isResponse ? 'font-semibold' : ''
+                  }`}
                   style={{ fontSize: `${19 * fontScale}px` }}
                 >
                   {verse.lines.map((line, j) => (

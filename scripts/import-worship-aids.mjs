@@ -90,6 +90,7 @@ function parseReading(number, lyrics, category) {
   const body = tidy(lines.slice(i))
   if (!body.length) return null
 
+
   // Without a proper title the reference names the reading, the way the
   // printed hymnal does — but then don't also repeat it underneath.
   const titledByReference = !title
@@ -104,12 +105,46 @@ function parseReading(number, lyrics, category) {
   }
 }
 
+/**
+ * Split a reading into leader and congregation parts.
+ *
+ * The printed hymnal alternates light and bold type; the source pages carry
+ * that as <em> around the congregation's lines. A plain-text scrape loses it,
+ * so this only runs when the entry also carries `lyrics_html`.
+ *
+ * To capture it, have the scraper keep the raw HTML of the lyrics block
+ * alongside the text, as `lyrics_html`.
+ */
+function splitResponsive(html) {
+  if (!html || !/<em[\s>]/i.test(html)) return null
+
+  const parts = []
+  // Alternate outside/inside <em>, preserving order.
+  const chunks = html.split(/(<em[^>]*>[\s\S]*?<\/em>)/i)
+  for (const chunk of chunks) {
+    const isResponse = /^<em[\s>]/i.test(chunk)
+    const lines = tidy(
+      chunk
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;|&rsquo;/g, '’')
+        .split('\n'),
+    )
+    if (lines.length) parts.push({ lines, ...(isResponse ? { isResponse: true } : {}) })
+  }
+  return parts.length > 1 ? parts : null
+}
+
 const rows = JSON.parse(await readFile(input, 'utf8'))
 const existing = JSON.parse(await readFile(OUT, 'utf8'))
 
 const keep = existing.hymns.filter((h) => h.number <= 695)
 const added = []
 const skipped = []
+let responsiveCount = 0
 
 for (const r of rows) {
   const n = Number(r.number)
@@ -119,6 +154,13 @@ for (const r of rows) {
   if (!parsed) {
     skipped.push(n)
     continue
+  }
+
+  // Prefer the leader/congregation split when the source kept its markup.
+  const responsive = splitResponsive(r.lyrics_html)
+  if (responsive) {
+    parsed.verses = responsive
+    responsiveCount += 1
   }
 
   added.push({
@@ -149,5 +191,10 @@ console.log(`Hymns 1–695 kept   : ${keep.length}`)
 console.log(`Worship aids added : ${added.length}`)
 for (const [c, n] of Object.entries(cats)) console.log(`    ${c}: ${n}`)
 console.log(`en.json total      : ${hymns.length}`)
+console.log(
+  responsiveCount
+    ? `Leader/response set: ${responsiveCount}`
+    : 'Leader/response    : not available — add `lyrics_html` to the scrape to capture it',
+)
 if (skipped.length) console.log(`Skipped (no text)  : ${skipped.length} ${skipped.slice(0, 10)}`)
 console.log(missing.length ? `Still missing      : ${missing.length} ${missing.slice(0, 10)}` : 'Complete: 1–920 (683 does not exist)')

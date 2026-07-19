@@ -12,6 +12,12 @@
 export type Verse = {
   lines: string[]
   isRefrain?: boolean
+  /**
+   * Congregation's part of a responsive reading. The printed hymnal sets the
+   * leader's lines in light type and the congregation's in bold; this carries
+   * that distinction so a congregation can see when to join in.
+   */
+  isResponse?: boolean
 }
 
 export type LangCode = 'en' | 'yo'
