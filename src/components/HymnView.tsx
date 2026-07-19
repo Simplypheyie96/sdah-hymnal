@@ -8,22 +8,12 @@ import {
   PresentIcon,
   ShareIcon,
 } from './icons'
-import { MidiButton } from './MidiButton'
+import { AudioButton } from './AudioButton'
 import { ShareSheet } from './ShareSheet'
 import { Presenter } from './Presenter'
 
-/**
- * How many times the tune should be played through: once per verse. A
- * refrain isn't counted — the tune already covers it, since it is sung after
- * every verse rather than on its own.
- */
-export function sungVerseCount(hymn: Hymn): number {
-  const verses = hymn.verses.filter((v) => !v.isRefrain).length
-  return Math.max(1, verses)
-}
-
-/** SDAH number whose MIDI accompanies this entry (tunes are shared across editions). */
-export function midiNumberFor(hymn: Hymn): number | undefined {
+/** SDAH number whose recording accompanies this entry (shared across editions). */
+export function recordingNumberFor(hymn: Hymn): number | undefined {
   if (hymn.kind !== 'hymn') return undefined
   return hymn.lang === 'en' ? hymn.number : hymn.sdahRef
 }
@@ -218,7 +208,7 @@ export function HymnContent({
         </div>
       </motion.article>
 
-      {/* Floating controls: previous / next hymn + future MIDI player */}
+      {/* Floating controls: previous / next hymn + accompaniment */}
       <div className="sticky bottom-0 z-20 mt-auto flex justify-center pb-[max(env(safe-area-inset-bottom),20px)] pt-3 pointer-events-none">
         <div className="flex items-center gap-3 pointer-events-auto">
           <div className="glass hairline flex items-center rounded-full px-1.5 py-1.5 shadow-[var(--shadow-float)]">
@@ -243,8 +233,8 @@ export function HymnContent({
             </button>
           </div>
 
-          {midiNumberFor(hymn) !== undefined && (
-            <MidiButton hymnNumber={midiNumberFor(hymn)!} verseCount={sungVerseCount(hymn)} />
+          {recordingNumberFor(hymn) !== undefined && (
+            <AudioButton hymnNumber={recordingNumberFor(hymn)!} />
           )}
         </div>
       </div>

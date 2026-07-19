@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import type { Hymn, Verse } from '../data/hymns'
 import { ChevronLeftIcon, ChevronRightIcon } from './icons'
-import { MidiButton } from './MidiButton'
-import { midiNumberFor, sungVerseCount } from './HymnView'
+import { AudioButton } from './AudioButton'
+import { recordingNumberFor } from './HymnView'
 
 function verseLabel(verses: Verse[], index: number) {
   if (verses[index].isRefrain) return 'Refrain'
@@ -133,12 +133,8 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
           <span className="w-24 text-center text-[13px] tracking-wide text-[#7a8187]">
             tap / arrows
           </span>
-          {midiNumberFor(hymn) !== undefined && (
-            <MidiButton
-              hymnNumber={midiNumberFor(hymn)!}
-              verseCount={sungVerseCount(hymn)}
-              variant="stage"
-            />
+          {recordingNumberFor(hymn) !== undefined && (
+            <AudioButton hymnNumber={recordingNumberFor(hymn)!} variant="stage" />
           )}
           <button
             onClick={() => go(1)}

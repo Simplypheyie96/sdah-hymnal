@@ -27,9 +27,13 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // App shell + the English edition precache; the heavyweights (soundfont,
-        // per-hymn MIDI, other editions) cache on first use below.
+        // App shell + the English edition precache. Recordings are ~1 GB in
+        // total and must never be precached — they cache individually as
+        // hymns are actually played, below.
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}', 'data/en.json'],
+        globIgnores: ['**/audio/**'],
+        // A single recording can exceed the default 2 MB precache ceiling.
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         runtimeCaching: [
           {
             // Network-first: a corrected hymn should never be shown stale
@@ -43,21 +47,16 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: ({ url }) => url.pathname.startsWith('/midi/'),
+            // Recordings keep themselves once played, so a hymn sung last
+            // Sabbath still works with no signal. Capped so the cache cannot
+            // grow without bound on a phone.
+            urlPattern: ({ url }) => url.pathname.startsWith('/audio/'),
             handler: 'CacheFirst',
             options: {
-              cacheName: 'hymn-midi',
-              expiration: { maxEntries: 800, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheName: 'hymn-audio',
+              expiration: { maxEntries: 120, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-          {
-            urlPattern: ({ url }) => url.pathname.startsWith('/sf/'),
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'soundfont',
-              expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 },
-              cacheableResponse: { statuses: [0, 200] },
+              rangeRequests: true, // media elements request byte ranges
             },
           },
           {

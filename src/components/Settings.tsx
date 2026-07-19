@@ -218,7 +218,7 @@ export function Settings({
                 </li>
                 <li>
                   Scripture readings from the King James Version (public domain).
-                  Accompaniment rendered from MIDI with the TimGM6mb soundfont (GPL).
+                  Hymn recordings supplied by the app owner.
                 </li>
                 <li>
                   Igbo and Hausa are not yet included. Abụ Ọtụtọ, the Igbo
