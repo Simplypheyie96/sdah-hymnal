@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { LANGS } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { useOnline } from '../hooks/useOnline'
@@ -6,7 +6,7 @@ import { useOnline } from '../hooks/useOnline'
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
 // ⚠️ Fill these in: your Buy Me a Coffee page and portfolio URL.
-const PORTFOLIO_URL = 'https://YOUR-PORTFOLIO-LINK'
+const PORTFOLIO_URL = 'https://simplypheyie.is-a.dev/'
 export type AccentChoice = 'mono' | 'sage' | 'rose' | 'sky'
 
 const ACCENTS: { id: AccentChoice; label: string; swatch: string }[] = [
@@ -44,9 +44,15 @@ export function Settings({
   fontScale: number
   onFontScale: (n: number) => void
 }) {
-  // Credit every loaded edition whose data came from an outside source.
-  const { sources } = useHymnal()
+  // Credit every edition whose data came from an outside source. Editions
+  // load lazily, so make sure they are all present — otherwise a source goes
+  // uncredited simply because the reader never opened that language.
+  const { sources, ensure } = useHymnal()
   const online = useOnline()
+
+  useEffect(() => {
+    LANGS.filter((l) => l.available).forEach((l) => ensure(l.code))
+  }, [ensure])
   const editionCredits = LANGS.flatMap((l) => {
     const source = sources[l.code]
     return source ? [{ ...source, hymnalTitle: l.hymnalTitle }] : []
@@ -242,8 +248,20 @@ export function Settings({
                   the address above with any concern and I will respond promptly.
                 </li>
                 <li>
-                  Scripture readings from the King James Version (public domain).
-                  Hymn recordings supplied by the app owner.
+                  The responsive readings quote several Bible translations, as the
+                  printed hymnal does — NIV, NKJV, NASB, RSV, NEB, TEV, the Jerusalem
+                  Bible, the New Jewish Version, and the King James Version. Each
+                  reading names its own source, and all rights in those translations
+                  belong to their publishers.
+                </li>
+                <li>
+                  Hymn recordings are provided for worship use and remain the property
+                  of their performers and publishers.
+                </li>
+                <li>
+                  This app collects nothing. No accounts, no analytics, no tracking.
+                  Your favourites and settings are stored only on your own device, and
+                  nothing you do here is sent anywhere.
                 </li>
                 <li>
                   Igbo and Hausa are not yet included. Abụ Ọtụtọ, the Igbo
