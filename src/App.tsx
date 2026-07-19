@@ -8,6 +8,7 @@ import { Home } from './components/Home'
 import { Favorites } from './components/Favorites'
 import { Settings, type AccentChoice, type ThemeChoice } from './components/Settings'
 import { HymnContent, HymnOverlay } from './components/HymnView'
+import { Presenter } from './components/Presenter'
 import { Splash } from './components/Splash'
 import { TabBar, type Tab } from './components/TabBar'
 import { BookIcon } from './components/icons'
@@ -31,6 +32,14 @@ export default function App() {
   const [fontScale, setFontScale] = useLocalStorage<number>('sdah.fontScale', 1)
   const [favorites, setFavorites] = useLocalStorage<string[]>('sdah.favorites.v2', [])
   const splitView = useMediaQuery('(min-width: 900px)')
+
+  // Presenting lives up here rather than inside the hymn view because going
+  // fullscreen changes the viewport, which can flip `splitView` and swap the
+  // whole tree between the two branches below. Held any lower, the presenter
+  // would tear itself down the instant it opened — and reopen, and tear down
+  // again. It also means rotating an iPad mid-hymn no longer drops the words
+  // off the screen.
+  const [presenting, setPresenting] = useState(false)
 
   useEffect(() => {
     if (castTarget) return
@@ -96,6 +105,11 @@ export default function App() {
   }
 
   // iPad / desktop: split view for the hymns tab
+  const presenter =
+    presenting && hymnProps ? (
+      <Presenter hymn={hymnProps.hymn} onClose={() => setPresenting(false)} />
+    ) : null
+
   if (splitView && tab === 'hymns') {
     return (
       <div className="mx-auto flex h-dvh max-w-7xl">
@@ -105,7 +119,13 @@ export default function App() {
         </aside>
         <main className="relative flex flex-1 flex-col overflow-y-auto">
           {hymnProps ? (
-            <HymnContent key={displayed!.songId} {...hymnProps} inline />
+            <HymnContent
+              key={displayed!.songId}
+              {...hymnProps}
+              inline
+              presenting={presenting}
+              onPresent={() => setPresenting(true)}
+            />
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center pb-24 text-center">
               <div className="hairline flex h-16 w-16 items-center justify-center rounded-full bg-[var(--paper-raised)] text-[var(--ink-3)]">
@@ -119,6 +139,7 @@ export default function App() {
           )}
         </main>
         <TabBar tab={tab} onChange={setTab} dock="left" />
+        <AnimatePresence>{presenter}</AnimatePresence>
       </div>
     )
   }
@@ -143,9 +164,17 @@ export default function App() {
 
       <TabBar tab={tab} onChange={setTab} />
 
+      <AnimatePresence>{presenter}</AnimatePresence>
+
       <AnimatePresence>
         {hymnProps && (
-          <HymnOverlay key="hymn-overlay" {...hymnProps} onClose={() => setOpenSongId(null)} />
+          <HymnOverlay
+            key="hymn-overlay"
+            {...hymnProps}
+            onClose={() => setOpenSongId(null)}
+            presenting={presenting}
+            onPresent={() => setPresenting(true)}
+          />
         )}
       </AnimatePresence>
     </div>
