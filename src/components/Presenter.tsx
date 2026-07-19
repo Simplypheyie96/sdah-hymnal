@@ -5,6 +5,7 @@ import { CastIcon, ChevronLeftIcon, ChevronRightIcon } from './icons'
 import { AudioButton } from './AudioButton'
 import { recordingNumberFor } from './HymnView'
 import { canCast, castHymn, type CastSession } from '../lib/present'
+import { SecondScreen } from './SecondScreen'
 
 function verseLabel(verses: Verse[], index: number) {
   if (verses[index].isRefrain) return 'Refrain'
@@ -18,6 +19,7 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
   const [index, setIndex] = useState(0)
   const [cast, setCast] = useState<CastSession | null>(null)
   const [castError, setCastError] = useState<string | null>(null)
+  const [secondScreen, setSecondScreen] = useState(false)
   const verse = hymn.verses[index]
 
   // Hand the hymn to a television. The phone keeps the controls; the TV shows
@@ -32,7 +34,9 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
     } catch (e) {
       // Dismissing the device picker is a cancel, not a failure.
       const msg = e instanceof Error ? e.message : String(e)
-      if (!/cancel|abort|NotAllowed/i.test(msg)) setCastError('No television found')
+      if (!/cancel|abort|NotAllowed/i.test(msg)) {
+        setCastError('No Chromecast found — use “Open on TV” for other televisions')
+      }
     }
   }
 
@@ -110,6 +114,16 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
           <span className="text-[clamp(13px,1.2vw,18px)] font-semibold uppercase tracking-[0.2em]">
             {verseLabel(hymn.verses, index)} · {index + 1}/{hymn.verses.length}
           </span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setSecondScreen(true)
+            }}
+            aria-label="Open this hymn on another screen"
+            className="rounded-full px-4 py-1.5 text-[14px] font-semibold text-[#c7ccd0] transition-colors hover:bg-white/10"
+          >
+            Open on TV
+          </button>
           {canCast() && (
             <button
               onClick={(e) => {
@@ -198,6 +212,16 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
                 : 'To put this on a TV, mirror your screen — iPhone: Control Centre → Screen Mirroring. AirPlay carries the music too.'}
         </p>
       </div>
+
+      {secondScreen && (
+        <div onClick={(e) => e.stopPropagation()}>
+          <SecondScreen
+            songId={hymn.songId}
+            lang={hymn.lang}
+            onDismiss={() => setSecondScreen(false)}
+          />
+        </div>
+      )}
     </motion.div>
   )
 }
