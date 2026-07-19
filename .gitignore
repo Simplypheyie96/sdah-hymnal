@@ -35,3 +35,6 @@ dev-dist
 .env.*
 !.env.example
 .firecrawl/
+
+# Hymn recordings (~1 GB). Too large for git — see public/audio/README.md
+public/audio/*.mp3
