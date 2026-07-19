@@ -1,0 +1,21 @@
+{
+  "_note": [
+    "Does a release have to ship with playable recordings?",
+    "",
+    "The 691 mp3s are gitignored (~1 GB), so a build from a fresh clone — which",
+    "is what Vercel does — has none of them. They reach production only from an",
+    "external host named by VITE_AUDIO_BASE. When that was neither set up nor",
+    "noticed, every deploy silently shipped without music and the app told",
+    "readers the hymns had never been recorded.",
+    "",
+    "So the answer lives here, in version control, where changing it is a commit",
+    "someone can see — rather than in an environment variable whose absence is",
+    "invisible. scripts/check-audio.mjs enforces it.",
+    "",
+    "Currently false: there is no host for the recordings yet, so releases go out",
+    "without them and the app says so plainly. Set this back to true the moment",
+    "VITE_AUDIO_BASE points at a bucket holding the files — that is what stops",
+    "the original bug from returning."
+  ],
+  "expectRecordings": false
+}
