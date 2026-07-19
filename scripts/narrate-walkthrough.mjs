@@ -68,7 +68,7 @@ async function endCard(file) {
       <rect x="-60" y="220" width="120" height="3" rx="2" fill="#5c6469"/>
       <text y="330" text-anchor="middle" fill="#f2f3f3"
             font-family="-apple-system, Helvetica, sans-serif" font-size="44" font-weight="600">
-        sdah-hymnal.vercel.app
+        sdahymnal.vercel.app
       </text>
     </g>
   </svg>`

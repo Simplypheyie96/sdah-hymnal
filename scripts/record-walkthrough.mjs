@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
 
 const run = promisify(execFile)
-const BASE = process.argv[2] ?? 'https://sdah-hymnal.vercel.app'
+const BASE = process.argv[2] ?? 'https://sdahymnal.vercel.app'
 // fileURLToPath, not .pathname: the project path contains a space, which
 // .pathname leaves percent-encoded and ffmpeg then cannot open.
 const DIR = fileURLToPath(new URL('../.video/', import.meta.url))

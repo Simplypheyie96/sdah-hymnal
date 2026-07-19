@@ -26,6 +26,11 @@ const HOW_TO: { title: string; body: string }[] = [
       'iPhone or iPad: open the app in Safari, tap the Share button, then “Add to Home Screen”. Android: open it in Chrome, tap the ⋮ menu, then “Install app”. It then opens full screen with its own icon, like any other app, and works without a signal.',
   },
   {
+    title: 'Install it on a Mac or PC',
+    body:
+      'Mac: in Safari, choose File then “Add to Dock”. In Chrome or Edge, click the install icon at the right of the address bar. Windows is the same in Chrome or Edge. It opens in its own window without browser tabs or an address bar, which is what you want when the screen is going out to a projector.',
+  },
+  {
     title: 'Find a hymn',
     body:
       'Type a title, a number, or a line you half remember — “streams of mercy” finds 334. Tap No. for a keypad if you already know the number. The chips below the search box filter by section: Worship, Jesus Christ, Call to Worship, Benedictions and the rest.',
