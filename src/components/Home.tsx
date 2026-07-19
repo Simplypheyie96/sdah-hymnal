@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { CATEGORIES, LANGS, type Hymn, type LangCode } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
-import { SearchIcon } from './icons'
+import { ChevronRightIcon, SearchIcon } from './icons'
 
 function HymnRow({
   hymn,
@@ -23,8 +23,8 @@ function HymnRow({
       style={{ animationDelay: `${Math.min(index * 45, 400)}ms` }}
     >
       <span
-        className={`font-lyrics w-12 shrink-0 text-right text-[22px] font-[250] tabular-nums transition-colors duration-200 group-hover:text-[var(--ink)] ${
-          active ? 'text-[var(--ink)]' : 'text-[var(--ink-3)]'
+        className={`numeral w-12 shrink-0 text-right text-[23px] transition-colors duration-200 ${
+          active ? 'text-[var(--accent-ink)]' : 'text-[var(--ink-3)] group-hover:text-[var(--accent-ink)]'
         }`}
       >
         {hymn.number}
@@ -54,6 +54,7 @@ export function Home({
   onLang: (l: LangCode) => void
 }) {
   const [query, setQuery] = useState('')
+  const [numberQuery, setNumberQuery] = useState('')
   const [category, setCategory] = useState<string | null>(null)
 
   const { hymnsFor } = useHymnal()
@@ -69,14 +70,29 @@ export function Home({
     })
   }, [hymns, query, category])
 
+  const numberMatch = useMemo(() => {
+    if (!numberQuery) return undefined
+    return hymns.find((h) => h.number === Number(numberQuery))
+  }, [hymns, numberQuery])
+
+  const jumpToNumber = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!numberMatch) return
+    onOpen(numberMatch.songId)
+    setNumberQuery('')
+  }
+
   return (
     <div className="pb-36">
       {/* Masthead */}
       <header className="px-6 pt-[max(env(safe-area-inset-top),28px)]">
-        <p className="rise-in pt-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--ink-3)]">
+        <p className="rise-in eyebrow pt-8 text-[var(--accent-ink)] opacity-75">
           Seventh-day Adventist
         </p>
-        <h1 className="rise-in font-lyrics mt-1.5 text-[44px] font-[350] leading-none tracking-[-0.02em]" style={{ animationDelay: '60ms' }}>
+        <h1
+          className="rise-in display-title mt-1.5 text-[44px] leading-none tracking-[-0.02em] text-[var(--accent-ink)]"
+          style={{ animationDelay: '60ms' }}
+        >
           {lang === 'en' ? 'Hymnal' : activeHymnal?.hymnalTitle}
         </h1>
         <div className="rise-in mt-4 flex gap-2" style={{ animationDelay: '90ms' }}>
@@ -97,26 +113,64 @@ export function Home({
         </div>
       </header>
 
-      {/* Search */}
-      <div className="rise-in sticky top-0 z-30 -mx-0 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
-        <label className="glass hairline flex items-center gap-3 rounded-2xl px-4.5 py-3.5 shadow-[var(--shadow-soft)] transition-shadow focus-within:shadow-[var(--shadow-float)]">
-          <SearchIcon className="shrink-0 text-[var(--ink-3)]" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            inputMode="search"
-            placeholder="Search by number or title"
-            className="w-full bg-transparent text-[15.5px] text-[var(--ink)] outline-none placeholder:text-[var(--ink-3)]"
-          />
-          {query && (
+      {/* Search: free text, plus a dedicated number field that jumps straight
+          to a hymn. Both are always available. */}
+      <div className="rise-in sticky top-0 z-30 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
+        <div className="flex items-stretch gap-2.5">
+          <label className="glass hairline group flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30">
+            <SearchIcon className="shrink-0 text-[var(--ink-3)] transition-colors group-focus-within:text-[var(--accent-ink)]" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              type="search"
+              enterKeyHint="search"
+              aria-label={`Search ${activeHymnal?.hymnalTitle ?? 'the hymnal'} by title or number`}
+              placeholder="Search titles"
+              className="w-full min-w-0 bg-transparent text-[15.5px] text-[var(--ink)] outline-none placeholder:text-[var(--ink-3)] [&::-webkit-search-cancel-button]:appearance-none"
+            />
+            {query && (
+              <button
+                onClick={() => setQuery('')}
+                aria-label="Clear search"
+                className="shrink-0 rounded-full px-2 py-1 text-[13px] font-medium text-[var(--ink-2)] transition-colors hover:text-[var(--ink)]"
+              >
+                Clear
+              </button>
+            )}
+          </label>
+
+          <form
+            onSubmit={jumpToNumber}
+            className="glass hairline flex shrink-0 items-center rounded-2xl pl-3 pr-1.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30"
+          >
+            <span aria-hidden className="eyebrow mr-1.5 hidden text-[var(--ink-3)] min-[380px]:inline">
+              No.
+            </span>
+            <input
+              value={numberQuery}
+              onChange={(e) => setNumberQuery(e.target.value.replace(/\D/g, '').slice(0, 3))}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              enterKeyHint="go"
+              aria-label="Go to hymn number"
+              placeholder="000"
+              className="numeral w-[3.4ch] bg-transparent text-[19px] text-[var(--ink)] outline-none placeholder:text-[var(--ink-3)] placeholder:opacity-45"
+            />
             <button
-              onClick={() => setQuery('')}
-              className="text-[13px] font-medium text-[var(--ink-2)]"
+              type="submit"
+              disabled={!numberMatch}
+              aria-label={numberMatch ? `Go to hymn ${numberQuery}` : 'Enter a hymn number'}
+              className="ml-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--accent)] text-[var(--accent-contrast)] transition-opacity duration-200 disabled:opacity-25"
             >
-              Clear
+              <ChevronRightIcon size={18} />
             </button>
-          )}
-        </label>
+          </form>
+        </div>
+        {numberQuery && !numberMatch && (
+          <p role="status" className="mt-2 pl-1 text-[12.5px] text-[var(--ink-2)]">
+            No. {numberQuery} isn’t in {activeHymnal?.hymnalTitle}.
+          </p>
+        )}
       </div>
 
       {/* Categories */}
@@ -147,9 +201,8 @@ export function Home({
               {activeHymnal?.hymnalTitle} is on its way
             </p>
             <p className="mx-auto mt-3 max-w-[300px] text-[13.5px] leading-relaxed text-[var(--ink-3)]">
-              The {activeHymnal?.label} texts arrive as soon as their licensing is settled.
-              Meanwhile every hymn is available in English — switch back above, or open any
-              hymn and it will show the English words.
+              This edition isn’t loaded yet. Every hymn is available in English — switch
+              back above to keep singing.
             </p>
           </div>
         ) : results.length === 0 ? (
@@ -168,8 +221,7 @@ export function Home({
         )}
         {hymns.length > 0 && (
           <p className="px-6 pt-8 text-center text-[12px] leading-relaxed text-[var(--ink-3)]">
-            {hymns.length} {activeHymnal?.label} entries · public-domain texts while licensing is
-            in progress.
+            {hymns.length} entries · {activeHymnal?.hymnalTitle}
           </p>
         )}
       </div>

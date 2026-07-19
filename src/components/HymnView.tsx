@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { LANGS, canShowText, type Hymn, type LangCode } from '../data/hymns'
+import { LANGS, type Hymn, type LangCode } from '../data/hymns'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -22,7 +22,6 @@ export type HymnContentProps = {
   hymn: Hymn
   lang: LangCode
   onLang: (l: LangCode) => void
-  pendingLang?: LangCode
   fontScale: number
   isFavorite: boolean
   onToggleFavorite: () => void
@@ -37,7 +36,6 @@ export function HymnContent({
   hymn,
   lang,
   onLang,
-  pendingLang,
   fontScale,
   isFavorite,
   onToggleFavorite,
@@ -48,7 +46,6 @@ export function HymnContent({
 }: HymnContentProps) {
   const [shareOpen, setShareOpen] = useState(false)
   const [presentOpen, setPresentOpen] = useState(false)
-  const pendingLabel = pendingLang && LANGS.find((l) => l.code === pendingLang)
 
   // Arrow keys page between hymns — handy on iPad keyboards and desktop.
   // Paused while presenting, so the presenter owns the arrows.
@@ -117,10 +114,10 @@ export function HymnContent({
         className="mx-auto w-full max-w-2xl px-7 pb-16"
       >
         <header className="pt-12 pb-10 text-center">
-          <div className="font-lyrics text-[92px] font-[200] leading-none tracking-[-0.03em] text-[var(--ink)]">
+          <div className="numeral text-[92px] leading-none text-[var(--accent-ink)]">
             {hymn.number}
           </div>
-          <h1 className="font-lyrics mx-auto mt-4 max-w-md text-[26px] font-[450] leading-snug tracking-[-0.01em]">
+          <h1 className="display-title mx-auto mt-4 max-w-md text-[26px] leading-snug text-[var(--accent-ink)]">
             {hymn.title}
           </h1>
           {hymn.author && (
@@ -128,7 +125,7 @@ export function HymnContent({
               {hymn.author}
             </p>
           )}
-          <div className="mx-auto mt-8 h-px w-16 bg-[var(--line-strong)]" />
+          <div className="mx-auto mt-8 h-px w-16 bg-[var(--accent)] opacity-30" />
 
           {/* Language switch lives with the hymn, where it has room to breathe */}
           <div className="mt-8 flex flex-wrap justify-center gap-2">
@@ -152,62 +149,39 @@ export function HymnContent({
           </div>
         </header>
 
-        {pendingLabel && (
-          <div className="hairline mb-10 rounded-3xl bg-[var(--paper-raised)] px-8 py-6 text-center">
-            <p className="font-lyrics text-[17px] text-[var(--ink-2)]">
-              Not yet in {pendingLabel.hymnalTitle}
-            </p>
-            <p className="mx-auto mt-1.5 max-w-xs text-[13px] leading-relaxed text-[var(--ink-3)]">
-              This song isn’t mapped to the {pendingLabel.label} hymnal yet — showing the
-              English text meanwhile.
-            </p>
-          </div>
-        )}
-        {!canShowText(hymn) ? (
-          <div className="hairline rounded-3xl bg-[var(--paper-raised)] px-8 py-10 text-center">
-            <p className="font-lyrics text-[19px] leading-relaxed text-[var(--ink-2)]">
-              This text is under copyright.
-            </p>
-            <p className="mx-auto mt-3 max-w-sm text-[13.5px] leading-relaxed text-[var(--ink-3)]">
-              We show the full words of every hymn we have the rights to. This one arrives as
-              soon as our licensing agreement with the publishers is complete — the number,
-              title, and tune are here so you can still follow along in the printed hymnal.
-            </p>
-            {hymn.author && (
-              <p className="mt-5 text-[12px] uppercase tracking-[0.16em] text-[var(--ink-3)]">
-                {hymn.author}
-              </p>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-10">
-            {/* verses always render — English fallback when the edition lacks this song */}
-            {hymn.verses.map((verse, i) => {
-              const verseNumber = hymn.verses.slice(0, i + 1).filter((v) => !v.isRefrain).length
-              return (
-                <div key={i} className={verse.isRefrain ? 'pl-6' : ''}>
-                  <div className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--ink-3)]">
-                    {verse.isRefrain
-                      ? 'Refrain'
-                      : hymn.kind === 'reading'
-                        ? `Part ${verseNumber}`
-                        : `Verse ${verseNumber}`}
-                  </div>
-                  <p
-                    className={`font-lyrics leading-[1.75] text-[var(--ink)] ${verse.isRefrain ? 'italic' : ''}`}
-                    style={{ fontSize: `${19 * fontScale}px` }}
-                  >
-                    {verse.lines.map((line, j) => (
-                      <span key={j} className="block">
-                        {line}
-                      </span>
-                    ))}
-                  </p>
+        <div className="space-y-10">
+          {hymn.verses.map((verse, i) => {
+            const verseNumber = hymn.verses.slice(0, i + 1).filter((v) => !v.isRefrain).length
+            return (
+              <div
+                key={i}
+                className={
+                  verse.isRefrain
+                    ? 'border-l-2 border-[var(--accent)]/35 pl-5 sm:pl-6'
+                    : ''
+                }
+              >
+                <div className="mb-2.5 text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--accent-ink)] opacity-70">
+                  {verse.isRefrain
+                    ? 'Refrain'
+                    : hymn.kind === 'reading'
+                      ? `Part ${verseNumber}`
+                      : `Verse ${verseNumber}`}
                 </div>
-              )
-            })}
-          </div>
-        )}
+                <p
+                  className={`font-lyrics leading-[1.75] text-[var(--ink)] ${verse.isRefrain ? 'italic' : ''}`}
+                  style={{ fontSize: `${19 * fontScale}px` }}
+                >
+                  {verse.lines.map((line, j) => (
+                    <span key={j} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </p>
+              </div>
+            )
+          })}
+        </div>
       </motion.article>
 
       {/* Floating controls: previous / next hymn + future MIDI player */}

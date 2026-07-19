@@ -72,33 +72,48 @@ export function Settings({
             </div>
           </div>
           <div className="border-t border-[var(--line)] px-5 py-4">
-            <span className="text-[15px] font-medium">App theme</span>
-            <div className="mt-3.5 flex gap-2.5">
-              {ACCENTS.map((a) => (
-                <button
-                  key={a.id}
-                  onClick={() => onAccent(a.id)}
-                  className={`hairline flex flex-1 flex-col items-center gap-2 rounded-2xl px-2 py-3 transition-all duration-200 ${
-                    accent === a.id ? 'bg-[var(--paper-raised)] shadow-[var(--shadow-soft)]' : ''
-                  }`}
-                >
-                  <span
-                    className={`h-7 w-7 rounded-full ${
-                      accent === a.id
-                        ? 'ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--paper)]'
-                        : 'hairline'
-                    }`}
-                    style={{ background: a.swatch }}
-                  />
-                  <span
-                    className={`text-[12px] font-semibold ${
-                      accent === a.id ? 'text-[var(--ink)]' : 'text-[var(--ink-3)]'
+            <span id="app-theme-label" className="text-[15px] font-medium">
+              App theme
+            </span>
+            <p className="mt-1 text-[12.5px] leading-relaxed text-[var(--ink-3)]">
+              Tints the paper and colours hymn numbers, titles, and verse marks.
+            </p>
+            {/* Grid (not flex-1) so the four options keep equal width and the
+                selected ring is never clipped on narrow phones. */}
+            <div
+              role="radiogroup"
+              aria-labelledby="app-theme-label"
+              className="mt-3.5 grid grid-cols-4 gap-2"
+            >
+              {ACCENTS.map((a) => {
+                const isActive = accent === a.id
+                return (
+                  <button
+                    key={a.id}
+                    role="radio"
+                    aria-checked={isActive}
+                    onClick={() => onAccent(a.id)}
+                    className={`flex flex-col items-center gap-2 rounded-2xl px-1 py-3 transition-all duration-200 ${
+                      isActive
+                        ? 'bg-[var(--paper-raised)] shadow-[var(--shadow-soft)] ring-2 ring-[var(--accent)]'
+                        : 'hairline hover:bg-[var(--paper-raised)]'
                     }`}
                   >
-                    {a.label}
-                  </span>
-                </button>
-              ))}
+                    <span
+                      aria-hidden
+                      className="hairline h-7 w-7 rounded-full"
+                      style={{ background: a.swatch }}
+                    />
+                    <span
+                      className={`text-[11.5px] font-semibold ${
+                        isActive ? 'text-[var(--ink)]' : 'text-[var(--ink-3)]'
+                      }`}
+                    >
+                      {a.label}
+                    </span>
+                  </button>
+                )
+              })}
             </div>
           </div>
           <div className="border-t border-[var(--line)] px-5 py-4">
@@ -115,14 +130,18 @@ export function Settings({
               step={0.05}
               value={fontScale}
               onChange={(e) => onFontScale(parseFloat(e.target.value))}
-              className="mt-4 w-full accent-[var(--ink)]"
+              aria-label="Lyrics size"
+              className="mt-4 w-full accent-[var(--accent)]"
             />
-            <p
-              className="font-lyrics mt-4 text-[var(--ink-2)]"
-              style={{ fontSize: `${19 * fontScale}px` }}
-            >
-              Amazing grace! how sweet the sound…
-            </p>
+            <div className="mt-4">
+              <div className="eyebrow text-[var(--accent-ink)] opacity-70">Verse 1</div>
+              <p
+                className="font-lyrics mt-1.5 text-[var(--ink)]"
+                style={{ fontSize: `${19 * fontScale}px` }}
+              >
+                Amazing grace! how sweet the sound…
+              </p>
+            </div>
           </div>
         </Section>
       </div>
@@ -195,23 +214,23 @@ export function Settings({
               </p>
             </div>
             <div className="px-5 py-5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--ink-3)]">
-                Licensing &amp; credits
-              </p>
+              <p className="eyebrow text-[var(--ink-3)]">Credits &amp; notices</p>
               <ul className="mt-3 space-y-2 text-[12.5px] leading-relaxed text-[var(--ink-3)]">
                 <li>
-                  The Seventh-day Adventist Hymnal (1985) © Review &amp; Herald Publishing
-                  Association. Ìwé Orin Mímọ́ © its respective church publishers. This is
-                  an unofficial app, not endorsed by the General Conference.
+                  An independent, unofficial app. Not published by, affiliated with, or
+                  endorsed by the General Conference of Seventh-day Adventists or its
+                  publishing houses.
                 </li>
                 <li>
-                  A licensing agreement is being actively sought from the rights holders
-                  (Pacific Press / Review &amp; Herald). Until granted, the app carries
-                  public-domain hymn texts and scripture readings only.
+                  Hymn and reading texts remain the property of their respective copyright
+                  holders, including the Review &amp; Herald Publishing Association for the
+                  Seventh-day Adventist Hymnal. Provided here free of charge as a worship
+                  aid for people who own the printed hymnal. Rights holders may reach me at
+                  the address above with any concern and I will respond promptly.
                 </li>
                 <li>
-                  Scripture quotations from the King James Version (public domain). Hymn
-                  texts by their original authors, in the public domain.
+                  Scripture readings from the King James Version (public domain).
+                  Accompaniment rendered from MIDI with the TimGM6mb soundfont (GPL).
                 </li>
               </ul>
             </div>

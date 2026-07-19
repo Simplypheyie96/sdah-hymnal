@@ -4,7 +4,12 @@
 
 @theme {
   --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
-  --font-serif: "Literata", "Iowan Old Style", Georgia, serif;
+  /* Lyrics and titles: a liturgical old-style face with the Latin Extended
+     coverage Yorùbá (ẹ ọ ṣ + tone marks) and Igbo (ị ọ ụ) need. */
+  --font-serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  /* Numerals only: high-contrast didone, like an engraved hymn-board plate.
+     Digits are diacritic-free, so this face is safe in every edition. */
+  --font-numeral: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
 }
 
 :root {
@@ -13,7 +18,7 @@
   --glass: rgba(244, 245, 245, 0.72);
   --ink: #17191b;
   --ink-2: #585e63;
-  --ink-3: #989ea3;
+  --ink-3: #6e757c;
   --line: rgba(23, 25, 27, 0.09);
   --line-strong: rgba(23, 25, 27, 0.16);
   --grain-opacity: 0.72;
@@ -21,6 +26,11 @@
   --shadow-float: 0 2px 6px rgba(23, 25, 27, 0.06), 0 16px 48px rgba(23, 25, 27, 0.12);
   --accent: var(--ink);
   --accent-contrast: var(--paper);
+  /* Accent as reading color: hymn numbers, titles, verse labels. Falls back
+     to ink in Mono so the accented themes feel materially different. */
+  --accent-ink: var(--ink);
+  /* Whisper of the accent through the paper itself. */
+  --paper-tint: transparent;
 }
 
 .dark {
@@ -29,7 +39,7 @@
   --glass: rgba(16, 18, 20, 0.66);
   --ink: #eef0f1;
   --ink-2: #a4aaae;
-  --ink-3: #5f666b;
+  --ink-3: #8a929a;
   --line: rgba(238, 240, 241, 0.09);
   --line-strong: rgba(238, 240, 241, 0.17);
   --grain-opacity: 0.42;
@@ -37,31 +47,44 @@
   --shadow-float: 0 2px 6px rgba(0, 0, 0, 0.35), 0 16px 48px rgba(0, 0, 0, 0.5);
 }
 
-/* Accent themes — Mono is the default (accent = ink). Each theme pairs a
-   bold tone (interactive highlights) with the neutral paper base. */
+/* Accent themes — Mono is the default (accent = ink). Each theme carries a
+   deep tone for interactive highlights AND accent-ink for display type, plus
+   a faint wash of itself through the paper. */
 :root[data-accent='sage'] {
   --accent: #35604a;
   --accent-contrast: #f2f5f2;
+  --accent-ink: #2c5440;
+  --paper-tint: rgba(53, 96, 74, 0.045);
 }
 :root[data-accent='rose'] {
   --accent: #8e3c4e;
   --accent-contrast: #f7f1f2;
+  --accent-ink: #7e3345;
+  --paper-tint: rgba(142, 60, 78, 0.04);
 }
 :root[data-accent='sky'] {
   --accent: #2f4f78;
   --accent-contrast: #f0f4f8;
+  --accent-ink: #2a476c;
+  --paper-tint: rgba(47, 79, 120, 0.045);
 }
 :root.dark[data-accent='sage'] {
   --accent: #a3cdb4;
   --accent-contrast: #0f1a14;
+  --accent-ink: #b7d8c4;
+  --paper-tint: rgba(163, 205, 180, 0.05);
 }
 :root.dark[data-accent='rose'] {
   --accent: #e2aab7;
   --accent-contrast: #221016;
+  --accent-ink: #e8bcc6;
+  --paper-tint: rgba(226, 170, 183, 0.05);
 }
 :root.dark[data-accent='sky'] {
   --accent: #a8c5e6;
   --accent-contrast: #0e1723;
+  --accent-ink: #b9d1ec;
+  --paper-tint: rgba(168, 197, 230, 0.055);
 }
 
 html {
@@ -71,7 +94,8 @@ html {
 body {
   margin: 0;
   font-family: var(--font-ui);
-  background: var(--paper);
+  /* Theme wash sits over the paper so the accent reads as tinted stock. */
+  background: linear-gradient(var(--paper-tint), var(--paper-tint)), var(--paper);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -110,6 +134,34 @@ body::before {
 .font-lyrics {
   font-family: var(--font-serif);
   font-optical-sizing: auto;
+}
+
+/* ——— The hymnal's own typographic voice ———
+   Numerals are set like the numbers on a church hymn board: high-contrast
+   didone, light, tightly tracked, tabular so they never jitter while paging. */
+.numeral {
+  font-family: var(--font-numeral);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.035em;
+}
+
+/* Titles: old-style serif, a touch of weight, generous but not loud. */
+.display-title {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+}
+
+/* Section eyebrows: small, letterspaced, quietly carrying the theme colour. */
+.eyebrow {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
 }
 
 .glass {
