@@ -1,14 +1,17 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import type { EditionFile, Hymn, LangCode } from './hymns'
+import type { EditionFile, EditionSource, Hymn, LangCode } from './hymns'
 
 type EditionMap = Partial<Record<LangCode, Hymn[]>>
+type SourceMap = Partial<Record<LangCode, EditionSource>>
 
 type HymnalContextValue = {
   /** English edition is loaded — the app is ready to leave the splash. */
   ready: boolean
   error: string | null
   editions: EditionMap
+  /** Attribution for each loaded edition, rendered in Settings › Credits. */
+  sources: SourceMap
   /** Kick off loading an edition (no-op if loaded or in flight). */
   ensure: (lang: LangCode) => void
   hymnsFor: (lang: LangCode) => Hymn[]
@@ -19,19 +22,25 @@ type HymnalContextValue = {
 const HymnalContext = createContext<HymnalContextValue | null>(null)
 
 // Module-level so a re-mounted provider (HMR, strict mode) never double-fetches.
-const inflight = new Map<LangCode, Promise<Hymn[]>>()
+const inflight = new Map<LangCode, Promise<LoadedEdition>>()
 
-async function fetchEdition(lang: LangCode): Promise<Hymn[]> {
+type LoadedEdition = { hymns: Hymn[]; source?: EditionSource }
+
+async function fetchEdition(lang: LangCode): Promise<LoadedEdition> {
   const res = await fetch(`${import.meta.env.BASE_URL}data/${lang}.json`)
   if (!res.ok) throw new Error(`Failed to load ${lang} hymnal (${res.status})`)
   const file = (await res.json()) as EditionFile
-  return file.hymns
-    .map((h) => ({ ...h, lang }))
-    .sort((a, b) => a.number - b.number)
+  return {
+    source: file.source,
+    hymns: file.hymns
+      .map((h) => ({ ...h, lang }))
+      .sort((a, b) => a.number - b.number),
+  }
 }
 
 export function HymnalProvider({ children }: { children: ReactNode }) {
   const [editions, setEditions] = useState<EditionMap>({})
+  const [sources, setSources] = useState<SourceMap>({})
   const [error, setError] = useState<string | null>(null)
 
   const ensure = useCallback((lang: LangCode) => {
@@ -39,7 +48,10 @@ export function HymnalProvider({ children }: { children: ReactNode }) {
     const p = fetchEdition(lang)
     inflight.set(lang, p)
     p.then(
-      (hymns) => setEditions((prev) => (prev[lang] ? prev : { ...prev, [lang]: hymns })),
+      ({ hymns, source }) => {
+        setEditions((prev) => (prev[lang] ? prev : { ...prev, [lang]: hymns }))
+        if (source) setSources((prev) => (prev[lang] ? prev : { ...prev, [lang]: source }))
+      },
       (e: unknown) => {
         inflight.delete(lang) // allow retry on next ensure()
         setError(e instanceof Error ? e.message : String(e))
@@ -76,8 +88,8 @@ export function HymnalProvider({ children }: { children: ReactNode }) {
         : list.find((h) => h.sdahRef === n)
     }
 
-    return { ready: Boolean(editions.en), error, editions, ensure, hymnsFor, resolve }
-  }, [editions, error, ensure])
+    return { ready: Boolean(editions.en), error, editions, sources, ensure, hymnsFor, resolve }
+  }, [editions, sources, error, ensure])
 
   return <HymnalContext.Provider value={value}>{children}</HymnalContext.Provider>
 }

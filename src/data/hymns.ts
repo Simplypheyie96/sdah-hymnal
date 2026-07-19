@@ -33,6 +33,9 @@ export type Hymn = {
   lang: LangCode
   songId: string
   title: string
+  /** Title in another language (e.g. the English name of a Yorùbá hymn). */
+  altTitle?: string
+  /** May be empty when an edition ships without topical indexing. */
   category: string
   kind: 'hymn' | 'reading'
   verses: Verse[]
@@ -42,10 +45,19 @@ export type Hymn = {
   sdahRef?: number
 }
 
+/** Where an edition's text came from, credited in Settings. */
+export type EditionSource = {
+  name: string
+  url: string
+  license: string
+  author?: string
+}
+
 /** Shape of /public/data/{lang}.json */
 export type EditionFile = {
   lang: LangCode
   hymnalTitle: string
+  source?: EditionSource
   hymns: Omit<Hymn, 'lang'>[]
 }
 

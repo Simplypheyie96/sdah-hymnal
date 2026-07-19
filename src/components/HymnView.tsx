@@ -61,42 +61,44 @@ export function HymnContent({
 
   return (
     <>
-      {/* Top chrome */}
-      <div className="glass sticky top-0 z-10 border-b border-[var(--line)]">
-        <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3 pt-[max(env(safe-area-inset-top),12px)]">
+      {/* Floating chrome — two detached glass clusters so the page reads as
+          one continuous sheet of paper running underneath them. */}
+      <div className="sticky top-0 z-30 px-4 pt-[max(env(safe-area-inset-top),12px)] pointer-events-none">
+        <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
           {onClose ? (
             <button
               onClick={onClose}
               aria-label="Back"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)]"
+              className="glass hairline pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[var(--ink-2)] shadow-[var(--shadow-soft)] transition-all duration-200 hover:text-[var(--ink)] active:scale-95"
             >
               <ChevronLeftIcon />
             </button>
           ) : (
-            <div className="w-10" />
+            <div className="h-11 w-11 shrink-0" />
           )}
 
-          <div className="flex items-center gap-1">
+          <div className="glass hairline pointer-events-auto flex items-center gap-0.5 rounded-full p-1 shadow-[var(--shadow-soft)]">
             <button
               onClick={() => setPresentOpen(true)}
               aria-label="Present on screen"
               title="Project this hymn for the congregation"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)]"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--accent)]/12 hover:text-[var(--accent-ink)]"
             >
               <PresentIcon />
             </button>
             <button
               onClick={() => setShareOpen(true)}
               aria-label="Share"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)]"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--accent)]/12 hover:text-[var(--accent-ink)]"
             >
               <ShareIcon />
             </button>
             <button
               onClick={onToggleFavorite}
-              aria-label="Favorite"
-              className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 hover:bg-[var(--paper-raised)] ${
-                isFavorite ? 'text-[var(--ink)]' : 'text-[var(--ink-2)]'
+              aria-label={isFavorite ? 'Remove from favourites' : 'Add to favourites'}
+              aria-pressed={isFavorite}
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 hover:bg-[var(--accent)]/12 ${
+                isFavorite ? 'text-[var(--accent-ink)]' : 'text-[var(--ink-2)]'
               }`}
             >
               <HeartIcon filled={isFavorite} />
@@ -111,9 +113,9 @@ export function HymnContent({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="mx-auto w-full max-w-2xl px-7 pb-16"
+        className="mx-auto -mt-[60px] w-full max-w-2xl px-7 pb-16"
       >
-        <header className="pt-12 pb-10 text-center">
+        <header className="pt-[104px] pb-10 text-center">
           <div className="numeral text-[92px] leading-none text-[var(--accent-ink)]">
             {hymn.number}
           </div>
