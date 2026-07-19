@@ -11,7 +11,6 @@ import {
 import { AudioButton } from './AudioButton'
 import { stopAudio } from '../lib/audio'
 import { ShareSheet } from './ShareSheet'
-import { Presenter } from './Presenter'
 
 /** SDAH number whose recording accompanies this entry (shared across editions). */
 export function recordingNumberFor(hymn: Hymn): number | undefined {
@@ -33,6 +32,9 @@ export type HymnContentProps = {
   next?: string
   onClose?: () => void
   inline?: boolean
+  /** Presenting is owned by App — see `presenting` there for why. */
+  presenting: boolean
+  onPresent: () => void
 }
 
 export function HymnContent({
@@ -47,9 +49,10 @@ export function HymnContent({
   prev,
   next,
   onClose,
+  presenting,
+  onPresent,
 }: HymnContentProps) {
   const [shareOpen, setShareOpen] = useState(false)
-  const [presentOpen, setPresentOpen] = useState(false)
   const missingFrom = unavailableIn ? LANGS.find((l) => l.code === unavailableIn) : undefined
 
   // Arrow keys page between hymns — handy on iPad keyboards and desktop.
@@ -59,14 +62,14 @@ export function HymnContent({
   useEffect(() => () => stopAudio(), [hymn.songId])
 
   useEffect(() => {
-    if (presentOpen) return
+    if (presenting) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft' && prev) onNavigate(prev)
       if (e.key === 'ArrowRight' && next) onNavigate(next)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [prev, next, onNavigate, presentOpen])
+  }, [prev, next, onNavigate, presenting])
 
   return (
     <>
@@ -88,7 +91,7 @@ export function HymnContent({
 
           <div className="glass hairline pointer-events-auto flex items-center gap-0.5 rounded-full p-1 shadow-[var(--shadow-soft)]">
             <button
-              onClick={() => setPresentOpen(true)}
+              onClick={onPresent}
               aria-label="Present on screen"
               title="Project this hymn for the congregation"
               className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--accent)]/12 hover:text-[var(--accent-ink)]"
@@ -246,9 +249,6 @@ export function HymnContent({
 
       <AnimatePresence>
         {shareOpen && <ShareSheet hymn={hymn} onDismiss={() => setShareOpen(false)} />}
-      </AnimatePresence>
-      <AnimatePresence>
-        {presentOpen && <Presenter hymn={hymn} onClose={() => setPresentOpen(false)} />}
       </AnimatePresence>
     </>
   )

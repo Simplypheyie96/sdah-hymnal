@@ -10,9 +10,13 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const CONTENTS = ['Hymns', 'Calls to Worship', 'Invocations', 'Benedictions']
 
 /**
- * Opening screen. An open book is drawn stroke by stroke, the wordmark
- * settles, and the contents fade up one after another — long enough to be
- * read, which is what makes the wait feel intended rather than slow.
+ * Opening screen. The app's own mark opens, the wordmark settles, and the
+ * contents fade up one after another — long enough to be read, which is what
+ * makes the wait feel intended rather than slow.
+ *
+ * Every animation here is opacity or transform only. Anything that forces a
+ * repaint per frame (stroke drawing, scaling a painted gradient) stutters on
+ * a phone that is also parsing the hymn data behind this screen.
  */
 export function Splash({ ready }: { ready: boolean }) {
   const [minElapsed, setMinElapsed] = useState(false)
@@ -29,7 +33,7 @@ export function Splash({ ready }: { ready: boolean }) {
       {show && (
         <motion.div
           key="splash"
-          exit={{ opacity: 0, scale: 1.02 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.75, ease: EASE }}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-[var(--paper)]"
           aria-label="Opening the hymnal"
@@ -37,49 +41,84 @@ export function Splash({ ready }: { ready: boolean }) {
           {/* A slow wash of the theme colour breathing behind everything. */}
           <motion.div
             aria-hidden
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2.6, ease: 'easeOut' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.8, ease: 'easeOut' }}
             className="pointer-events-none absolute h-[560px] w-[560px] rounded-full"
             style={{
               background:
                 'radial-gradient(circle, color-mix(in oklab, var(--accent) 12%, transparent) 0%, transparent 68%)',
+              willChange: 'opacity',
+              transform: 'translateZ(0)',
             }}
           />
 
           <div className="relative flex flex-col items-center px-8 text-center">
-            {/* Open book, drawn rather than dropped in. */}
-            <svg
-              width="86"
-              height="86"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-[var(--accent-ink)]"
+            {/* The app icon's own artwork, so the splash and the home-screen
+                icon are unmistakably the same mark. Only the ink ground is
+                dropped — that belongs to the tile, not to the glyph.
+
+                Everything animates on opacity and transform alone. The old
+                version drew the outline with pathLength, which repaints the
+                whole SVG every frame and stuttered badly on a phone. */}
+            <motion.svg
+              width="94"
+              height="94"
+              viewBox="94 140 324 262"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.9, ease: EASE }}
               aria-hidden
             >
+              {/* Two pages fanning from the spine, settling open. */}
               <motion.path
-                d="M12 6.5C10.6 5 8.6 4.25 6 4.25c-1 0-1.9.12-2.75.36V18.4c.85-.24 1.75-.36 2.75-.36 2.6 0 4.6.75 6 2.21"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 1.15, ease: EASE, delay: 0.15 }}
+                d="M248 168c-40-28-96-38-148-27a8 8 0 0 0-6 8v190a8 8 0 0 0 10 8c46-10 96-2 134 22a8 8 0 0 0 10-7V168z"
+                fill="var(--accent-ink)"
+                style={{ originX: '256px', originY: '270px' }}
+                initial={{ opacity: 0, rotate: -7 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                transition={{ duration: 1, ease: EASE, delay: 0.1 }}
               />
               <motion.path
-                d="M12 6.5c1.4-1.5 3.4-2.25 6-2.25 1 0 1.9.12 2.75.36V18.4c-.85-.24-1.75-.36-2.75-.36-2.6 0-4.6.75-6 2.21"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 1.15, ease: EASE, delay: 0.35 }}
+                d="M264 168c40-28 96-38 148-27a8 8 0 0 1 6 8v190a8 8 0 0 1-10 8c-46-10-96-2-134 22a8 8 0 0 1-10-7V168z"
+                fill="var(--accent-ink)"
+                style={{ originX: '256px', originY: '270px' }}
+                initial={{ opacity: 0, rotate: 7 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                transition={{ duration: 1, ease: EASE, delay: 0.1 }}
               />
-              <motion.path
-                d="M12 6.5v13.75"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 0.7, ease: EASE, delay: 1.1 }}
+
+              <motion.rect
+                x="250" y="152" width="12" height="238" rx="6"
+                fill="var(--ink-3)"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.5 }}
               />
-            </svg>
+
+              {/* Left page: the words. */}
+              <motion.g
+                fill="var(--paper)"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.7, ease: EASE, delay: 0.75 }}
+              >
+                <rect x="126" y="232" width="92" height="12" rx="6" />
+                <rect x="126" y="274" width="66" height="12" rx="6" />
+              </motion.g>
+
+              {/* Right page: the tune. */}
+              <motion.g
+                fill="var(--paper)"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: EASE, delay: 0.95 }}
+              >
+                <rect x="344" y="212" width="11" height="92" rx="5" />
+                <path d="M355 212c26 10 42 24 44 44 1 12-3 22-11 30 3-16-3-28-16-36-9-6-14-10-17-16v-22z" />
+                <ellipse cx="326" cy="304" rx="30" ry="23" transform="rotate(-19 326 304)" />
+              </motion.g>
+            </motion.svg>
 
             <motion.p
               initial={{ opacity: 0, y: 8 }}
@@ -102,7 +141,7 @@ export function Splash({ ready }: { ready: boolean }) {
             <motion.div
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
-              transition={{ duration: 1.5, ease: EASE, delay: 1.05 }}
+              transition={{ duration: 1.1, ease: EASE, delay: 1.15 }}
               className="mt-7 h-px w-20 origin-center bg-[var(--accent)] opacity-40"
             />
 

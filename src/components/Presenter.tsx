@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import type { Hymn, Verse } from '../data/hymns'
-import { CastIcon, ChevronLeftIcon, ChevronRightIcon } from './icons'
+import { CastIcon, ChevronLeftIcon, ChevronRightIcon, PresentIcon } from './icons'
 import { AudioButton } from './AudioButton'
 import { recordingNumberFor } from './HymnView'
 import { canCast, castHymn, type CastSession } from '../lib/present'
@@ -52,13 +52,19 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
     [hymn.verses.length],
   )
 
+  // Hide the browser chrome, once, on open.
+  //
+  // Deliberately not keyed on `cast`: re-requesting fullscreen every time the
+  // cast session changes resizes the viewport again, and a viewport resize can
+  // flip the app's split-view breakpoint. Fullscreen is a nicety — the
+  // presenter is already a fixed, full-bleed overlay — so every failure here
+  // is swallowed and nothing downstream depends on it.
   useEffect(() => {
-    if (cast) return // casting: the phone stays a remote, not a display
     document.documentElement.requestFullscreen?.().catch(() => {})
     return () => {
       if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {})
     }
-  }, [cast])
+  }, [])
 
   // Keep the screen awake while projecting — a phone mirrored to the family
   // TV must not sleep mid-hymn. Re-acquired when the tab becomes visible
@@ -105,52 +111,57 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
       className="fixed inset-0 z-[90] flex flex-col bg-[#0b0d0e] text-[#f4f5f4]"
       onClick={() => go(1)}
     >
-      {/* Top strip */}
-      <div className="flex items-center justify-between px-8 pt-6 text-[#7a8187]">
-        <span className="font-lyrics text-[clamp(16px,1.6vw,24px)]">
-          {hymn.number} · {hymn.title}
-        </span>
-        <div className="flex items-center gap-4">
-          <span className="text-[clamp(13px,1.2vw,18px)] font-semibold uppercase tracking-[0.2em]">
-            {verseLabel(hymn.verses, index)} · {index + 1}/{hymn.verses.length}
+      {/* Top strip. Everything here has to survive a narrow phone held
+          upright: the title truncates rather than wrapping a word per line,
+          and the controls fall back to icons when there is no room for
+          labels. */}
+      <div className="flex items-center gap-3 px-[4vw] pt-[max(env(safe-area-inset-top),14px)] text-[#7a8187]">
+        <div className="flex min-w-0 flex-1 items-baseline gap-3">
+          <span className="numeral shrink-0 text-[clamp(17px,1.8vw,26px)] text-[#c7ccd0]">
+            {hymn.number}
           </span>
+          <span className="font-lyrics truncate text-[clamp(14px,1.5vw,22px)]">
+            {hymn.title}
+          </span>
+        </div>
+
+        <span className="shrink-0 text-[clamp(11px,1.1vw,16px)] font-semibold uppercase tracking-[0.18em] tabular-nums">
+          <span className="hidden md:inline">{verseLabel(hymn.verses, index)} · </span>
+          {index + 1}/{hymn.verses.length}
+        </span>
+
+        <div className="flex shrink-0 items-center gap-1" onClick={(e) => e.stopPropagation()}>
           <button
-            onClick={(e) => {
-              e.stopPropagation()
-              setSecondScreen(true)
-            }}
+            onClick={() => setSecondScreen(true)}
             aria-label="Open this hymn on another screen"
-            className="rounded-full px-4 py-1.5 text-[14px] font-semibold text-[#c7ccd0] transition-colors hover:bg-white/10"
+            title="Open on a TV or second screen"
+            className="flex h-10 items-center gap-2 rounded-full px-3 text-[14px] font-semibold text-[#c7ccd0] transition-colors hover:bg-white/10"
           >
-            Open on TV
+            <PresentIcon size={19} />
+            <span className="hidden sm:inline">Open on TV</span>
           </button>
+
           {canCast() && (
             <button
-              onClick={(e) => {
-                e.stopPropagation()
-                if (cast) cast.stop()
-                else void startCast()
-              }}
+              onClick={() => (cast ? cast.stop() : void startCast())}
               aria-label={cast ? 'Stop casting' : 'Cast to a television'}
-              className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-[14px] font-semibold transition-colors ${
-                cast
-                  ? 'bg-white/90 text-[#0b0d0e]'
-                  : 'text-[#c7ccd0] hover:bg-white/10'
+              title={cast ? 'Stop casting' : 'Cast to a Chromecast'}
+              className={`flex h-10 items-center gap-2 rounded-full px-3 text-[14px] font-semibold transition-colors ${
+                cast ? 'bg-white/90 text-[#0b0d0e]' : 'text-[#c7ccd0] hover:bg-white/10'
               }`}
             >
-              <CastIcon size={18} />
-              {cast ? 'On TV' : 'Cast'}
+              <CastIcon size={19} />
+              <span className="hidden sm:inline">{cast ? 'On TV' : 'Cast'}</span>
             </button>
           )}
+
           <button
-            onClick={(e) => {
-              e.stopPropagation()
-              onClose()
-            }}
+            onClick={onClose}
             aria-label="Exit presentation"
-            className="rounded-full px-4 py-1.5 text-[14px] font-semibold text-[#c7ccd0] transition-colors hover:bg-white/10"
+            title="Exit"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-[18px] text-[#c7ccd0] transition-colors hover:bg-white/10"
           >
-            Exit ✕
+            ✕
           </button>
         </div>
       </div>
