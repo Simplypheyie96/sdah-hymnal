@@ -14,6 +14,10 @@ export type MidiState = {
   status: MidiStatus
   /** SDAH number the state refers to (null when idle). */
   hymnNumber: number | null
+  /** Which verse the accompaniment is on, 1-based (0 when idle). */
+  verse: number
+  /** How many times the tune will be played through in total. */
+  verseCount: number
 }
 
 let ctx: AudioContext | null = null
@@ -21,7 +25,12 @@ let synth: WorkletSynthesizer | null = null
 let sequencer: Sequencer | null = null
 let endWatch: number | null = null
 
-let state: MidiState = { status: 'idle', hymnNumber: null }
+let state: MidiState = { status: 'idle', hymnNumber: null, verse: 0, verseCount: 0 }
+
+// A hymn MIDI holds the tune once, because every verse is sung to the same
+// music. Playing it once and stopping leaves the congregation stranded after
+// verse 1, so we replay it until the verses run out.
+let versesLeft = 0
 const listeners = new Set<() => void>()
 
 function setState(next: MidiState) {
@@ -58,56 +67,80 @@ async function ensureEngine(): Promise<Sequencer> {
 }
 
 // Flip back to idle shortly after the song runs out, so the button resets.
-function watchForEnd() {
+function stopWatch() {
   if (endWatch !== null) window.clearInterval(endWatch)
+  endWatch = null
+}
+
+// At the end of each pass, start the tune again for the next verse — or stop
+// once every verse has been played.
+function watchForEnd() {
+  stopWatch()
   endWatch = window.setInterval(() => {
     if (!sequencer || state.status !== 'playing') return
     if (sequencer.duration > 0 && sequencer.currentTime >= sequencer.duration - 0.1) {
+      versesLeft -= 1
+      if (versesLeft > 0) {
+        sequencer.currentTime = 0
+        sequencer.play()
+        setState({ ...state, verse: state.verseCount - versesLeft + 1 })
+        return
+      }
       sequencer.pause()
-      setState({ status: 'idle', hymnNumber: null })
-      if (endWatch !== null) window.clearInterval(endWatch)
-      endWatch = null
+      setState({ status: 'idle', hymnNumber: null, verse: 0, verseCount: 0 })
+      stopWatch()
     }
-  }, 400)
+  }, 250)
 }
 
-export async function playHymn(hymnNumber: number): Promise<void> {
+/**
+ * Play a hymn's accompaniment.
+ *
+ * @param verseCount how many verses the congregation will sing. The tune is
+ *   replayed once per verse, so the music lasts as long as the words do.
+ */
+export async function playHymn(hymnNumber: number, verseCount = 1): Promise<void> {
+  const total = Math.max(1, verseCount)
+
   // Resume if this hymn is just paused.
   if (state.hymnNumber === hymnNumber && state.status === 'paused' && sequencer) {
     sequencer.play()
-    setState({ status: 'playing', hymnNumber })
+    setState({ ...state, status: 'playing' })
     watchForEnd()
     return
   }
-  setState({ status: 'loading', hymnNumber })
+  setState({ status: 'loading', hymnNumber, verse: 0, verseCount: total })
   try {
     const res = await fetch(midiUrl(hymnNumber))
     const buf = res.ok ? await res.arrayBuffer() : null
     // Guard against SPA-fallback HTML masquerading as a .mid
     const isMidi = buf && new TextDecoder().decode(buf.slice(0, 4)) === 'MThd'
     if (!buf || !isMidi) {
-      setState({ status: 'unavailable', hymnNumber })
+      setState({ status: 'unavailable', hymnNumber, verse: 0, verseCount: 0 })
       return
     }
     const seq = await ensureEngine()
     await ctx!.resume()
     seq.loadNewSongList([{ binary: buf, fileName: `${hymnNumber}.mid` }])
-    seq.loopCount = 0
+    seq.loopCount = 0 // repeats are counted here, not by the sequencer
     seq.play()
-    setState({ status: 'playing', hymnNumber })
+    versesLeft = total
+    setState({ status: 'playing', hymnNumber, verse: 1, verseCount: total })
     watchForEnd()
   } catch {
-    setState({ status: 'error', hymnNumber })
+    setState({ status: 'error', hymnNumber, verse: 0, verseCount: 0 })
   }
 }
 
 export function pauseMidi(): void {
   if (!sequencer || state.status !== 'playing') return
   sequencer.pause()
-  setState({ status: 'paused', hymnNumber: state.hymnNumber })
+  setState({ ...state, status: 'paused' })
 }
 
 export function stopMidi(): void {
   sequencer?.pause()
-  setState({ status: 'idle', hymnNumber: null })
+  versesLeft = 0
+  stopWatch()
+  setState({ status: 'idle', hymnNumber: null, verse: 0, verseCount: 0 })
 }

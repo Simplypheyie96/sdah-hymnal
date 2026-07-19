@@ -10,9 +10,12 @@ export function useMidiState() {
 // floats over the reading view, 'stage' sits in the dark presenter.
 export function MidiButton({
   hymnNumber,
+  verseCount = 1,
   variant = 'paper',
 }: {
   hymnNumber: number
+  /** Verses to be sung — the tune repeats once for each. */
+  verseCount?: number
   variant?: 'paper' | 'stage'
 }) {
   const state = useMidiState()
@@ -44,28 +47,52 @@ export function MidiButton({
   const playing = status === 'playing'
   const loading = status === 'loading'
 
+  // While playing, show which verse the music is on so singers can follow.
+  const showVerse = playing && mine && state.verseCount > 1
+
   return (
-    <button
-      onClick={(e) => {
-        e.stopPropagation()
-        if (playing) pauseMidi()
-        else void playHymn(hymnNumber)
-      }}
-      disabled={loading}
-      aria-label={playing ? 'Pause accompaniment' : 'Play accompaniment'}
-      title={playing ? 'Pause' : 'Play the hymn tune'}
-      className={`flex h-[52px] w-[52px] items-center justify-center rounded-full transition-colors ${skin}`}
-    >
-      {loading ? (
+    <div className="relative">
+      <button
+        onClick={(e) => {
+          e.stopPropagation()
+          if (playing) pauseMidi()
+          else void playHymn(hymnNumber, verseCount)
+        }}
+        disabled={loading}
+        aria-label={playing ? 'Pause accompaniment' : 'Play accompaniment'}
+        title={
+          playing
+            ? 'Pause'
+            : verseCount > 1
+              ? `Play the tune through all ${verseCount} verses`
+              : 'Play the hymn tune'
+        }
+        className={`flex h-[52px] w-[52px] items-center justify-center rounded-full transition-colors ${skin}`}
+      >
+        {loading ? (
+          <span
+            aria-hidden
+            className="h-5 w-5 animate-spin rounded-full border-[1.8px] border-current border-t-transparent opacity-70"
+          />
+        ) : playing ? (
+          <PauseIcon />
+        ) : (
+          <PlayIcon />
+        )}
+      </button>
+
+      {showVerse && (
         <span
-          aria-hidden
-          className="h-5 w-5 animate-spin rounded-full border-[1.8px] border-current border-t-transparent opacity-70"
-        />
-      ) : playing ? (
-        <PauseIcon />
-      ) : (
-        <PlayIcon />
+          aria-live="polite"
+          className={`pointer-events-none absolute -top-1 -right-1 min-w-[22px] rounded-full px-1.5 py-0.5 text-center text-[10.5px] font-bold tabular-nums ${
+            variant === 'stage'
+              ? 'bg-white/85 text-[#0b0d0e]'
+              : 'bg-[var(--accent)] text-[var(--accent-contrast)]'
+          }`}
+        >
+          {state.verse}/{state.verseCount}
+        </span>
       )}
-    </button>
+    </div>
   )
 }

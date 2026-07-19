@@ -3,7 +3,7 @@ import { motion } from 'motion/react'
 import type { Hymn, Verse } from '../data/hymns'
 import { ChevronLeftIcon, ChevronRightIcon } from './icons'
 import { MidiButton } from './MidiButton'
-import { midiNumberFor } from './HymnView'
+import { midiNumberFor, sungVerseCount } from './HymnView'
 
 function verseLabel(verses: Verse[], index: number) {
   if (verses[index].isRefrain) return 'Refrain'
@@ -134,7 +134,11 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
             tap / arrows
           </span>
           {midiNumberFor(hymn) !== undefined && (
-            <MidiButton hymnNumber={midiNumberFor(hymn)!} variant="stage" />
+            <MidiButton
+              hymnNumber={midiNumberFor(hymn)!}
+              verseCount={sungVerseCount(hymn)}
+              variant="stage"
+            />
           )}
           <button
             onClick={() => go(1)}
