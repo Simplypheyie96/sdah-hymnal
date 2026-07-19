@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import type { Hymn, Verse } from '../data/hymns'
-import { ChevronLeftIcon, ChevronRightIcon } from './icons'
+import { CastIcon, ChevronLeftIcon, ChevronRightIcon } from './icons'
 import { AudioButton } from './AudioButton'
 import { recordingNumberFor } from './HymnView'
+import { canCast, castHymn, type CastSession } from '../lib/present'
 
 function verseLabel(verses: Verse[], index: number) {
   if (verses[index].isRefrain) return 'Refrain'
@@ -15,7 +16,30 @@ function verseLabel(verses: Verse[], index: number) {
 // time, arrow keys / clicks to advance. Dark stage so it reads from the pews.
 export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }) {
   const [index, setIndex] = useState(0)
+  const [cast, setCast] = useState<CastSession | null>(null)
+  const [castError, setCastError] = useState<string | null>(null)
   const verse = hymn.verses[index]
+
+  // Hand the hymn to a television. The phone keeps the controls; the TV shows
+  // only the words. Chrome and Edge can do this; Safari cannot, so there the
+  // button is replaced by mirroring instructions.
+  const startCast = async () => {
+    setCastError(null)
+    try {
+      const session = await castHymn(hymn.songId, hymn.lang, () => setCast(null))
+      session.showVerse(index)
+      setCast(session)
+    } catch (e) {
+      // Dismissing the device picker is a cancel, not a failure.
+      const msg = e instanceof Error ? e.message : String(e)
+      if (!/cancel|abort|NotAllowed/i.test(msg)) setCastError('No television found')
+    }
+  }
+
+  // Keep the television on the same verse as the phone.
+  useEffect(() => {
+    cast?.showVerse(index)
+  }, [cast, index])
 
   const go = useCallback(
     (delta: number) => {
@@ -25,11 +49,12 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
   )
 
   useEffect(() => {
+    if (cast) return // casting: the phone stays a remote, not a display
     document.documentElement.requestFullscreen?.().catch(() => {})
     return () => {
       if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {})
     }
-  }, [])
+  }, [cast])
 
   // Keep the screen awake while projecting — a phone mirrored to the family
   // TV must not sleep mid-hymn. Re-acquired when the tab becomes visible
@@ -81,10 +106,28 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
         <span className="font-lyrics text-[clamp(16px,1.6vw,24px)]">
           {hymn.number} · {hymn.title}
         </span>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-4">
           <span className="text-[clamp(13px,1.2vw,18px)] font-semibold uppercase tracking-[0.2em]">
             {verseLabel(hymn.verses, index)} · {index + 1}/{hymn.verses.length}
           </span>
+          {canCast() && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                if (cast) cast.stop()
+                else void startCast()
+              }}
+              aria-label={cast ? 'Stop casting' : 'Cast to a television'}
+              className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-[14px] font-semibold transition-colors ${
+                cast
+                  ? 'bg-white/90 text-[#0b0d0e]'
+                  : 'text-[#c7ccd0] hover:bg-white/10'
+              }`}
+            >
+              <CastIcon size={18} />
+              {cast ? 'On TV' : 'Cast'}
+            </button>
+          )}
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -145,9 +188,14 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
             <ChevronRightIcon />
           </button>
         </div>
-        <p className="px-8 text-center text-[12px] leading-relaxed tracking-wide text-[#565d63]">
-          At home: mirror this phone to your TV (AirPlay / Cast / HDMI) — the music plays
-          through the TV with it.
+        <p className="max-w-md px-8 text-center text-[12px] leading-relaxed tracking-wide text-[#565d63]">
+          {castError
+            ? castError
+            : cast
+              ? 'Showing on the television. This phone stays the remote — change verses here.'
+              : canCast()
+                ? 'Cast sends the words to a Chromecast or smart TV, and this phone becomes the remote.'
+                : 'To put this on a TV, mirror your screen — iPhone: Control Centre → Screen Mirroring. AirPlay carries the music too.'}
         </p>
       </div>
     </motion.div>

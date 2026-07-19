@@ -11,6 +11,15 @@ import { HymnContent, HymnOverlay } from './components/HymnView'
 import { Splash } from './components/Splash'
 import { TabBar, type Tab } from './components/TabBar'
 import { BookIcon } from './components/icons'
+import { ReceiverScreen } from './components/ReceiverScreen'
+
+// When a phone casts a hymn, the television opens this same app with
+// ?present=… — it renders only the receiver screen, never the full UI.
+const castTarget = (() => {
+  const p = new URLSearchParams(window.location.search)
+  const songId = p.get('present')
+  return songId ? { songId, lang: (p.get('lang') as LangCode) || 'en' } : null
+})()
 
 export default function App() {
   const { ready, ensure, hymnsFor, resolve } = useHymnal()
@@ -24,6 +33,7 @@ export default function App() {
   const splitView = useMediaQuery('(min-width: 900px)')
 
   useEffect(() => {
+    if (castTarget) return
     const media = window.matchMedia('(prefers-color-scheme: dark)')
     const apply = () => {
       const dark = theme === 'dark' || (theme === 'system' && media.matches)
@@ -78,6 +88,11 @@ export default function App() {
     onNavigate: setOpenSongId,
     prev,
     next,
+  }
+
+  // The television's copy shows the hymn and nothing else.
+  if (castTarget) {
+    return <ReceiverScreen songId={castTarget.songId} lang={castTarget.lang} />
   }
 
   // iPad / desktop: split view for the hymns tab
