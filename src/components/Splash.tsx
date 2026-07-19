@@ -25,9 +25,31 @@ const STAFF = [0, 1, 2, 3, 4]
  */
 export function Splash({ ready }: { ready: boolean }) {
   const [minElapsed, setMinElapsed] = useState(false)
+  const [fontsReady, setFontsReady] = useState(false)
 
   useEffect(() => {
     const t = window.setTimeout(() => setMinElapsed(true), MIN_SPLASH_MS)
+    return () => window.clearTimeout(t)
+  }, [])
+
+  // The wordmark is set in Bodoni, which arrives over the network. With
+  // `display=swap` it paints in a fallback serif first and then snaps to the
+  // real face — a visible jolt, directly under the reader's eye, because the
+  // splash is the first thing they see. Holding the content back until the
+  // faces have loaded costs a beat of the 4.2s we were spending anyway.
+  //
+  // Capped so a slow or failed font fetch can never hold the splash open.
+  useEffect(() => {
+    let done = false
+    const settle = () => {
+      if (!done) {
+        done = true
+        setFontsReady(true)
+      }
+    }
+    if (document.fonts) void document.fonts.ready.then(settle)
+    else settle()
+    const t = window.setTimeout(settle, 1800)
     return () => window.clearTimeout(t)
   }, [])
 
@@ -43,6 +65,10 @@ export function Splash({ ready }: { ready: boolean }) {
           className="grain-local fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-[var(--paper)]"
           aria-label="Opening the hymnal"
         >
+          {/* Held until the faces have loaded — see fontsReady above. The
+              paper ground is already painted, so there is nothing to see
+              during the wait but the background. */}
+          {fontsReady && (
           <div className="relative flex w-full flex-col items-center px-8 text-center">
             {/* The staff, and the mark resting on it. */}
             <div className="relative flex w-full items-center justify-center">
@@ -144,7 +170,9 @@ export function Splash({ ready }: { ready: boolean }) {
               ))}
             </div>
           </div>
+          )}
 
+          {fontsReady && (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -153,6 +181,7 @@ export function Splash({ ready }: { ready: boolean }) {
           >
             The complete hymnal — in English and Yorùbá
           </motion.p>
+          )}
         </motion.div>
       )}
     </AnimatePresence>
