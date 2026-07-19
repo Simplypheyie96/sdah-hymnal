@@ -9,6 +9,31 @@
       name="description"
       content="The Seventh-day Adventist Hymnal — hymns and scripture readings 1–920 with music playback and projection, for church and home worship. English and Yorùbá, with Igbo and Hausa to come."
     />
+    <!-- Share preview. Without these a pasted link showed nothing at all: no
+         picture, no title, no description — which is most of why it looked
+         untrustworthy in a WhatsApp group. og:image must be an absolute URL;
+         relative paths are ignored by every scraper. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hymnal" />
+    <meta property="og:title" content="Seventh-day Adventist Hymnal" />
+    <meta
+      property="og:description"
+      content="All 920 — hymns, calls to worship, invocations, responsive readings and benedictions. English and Yorùbá, with recordings. Works offline, and free."
+    />
+    <meta property="og:url" content="https://sdah-hymnal.vercel.app/" />
+    <meta property="og:image" content="https://sdah-hymnal.vercel.app/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Hymnal — 920 hymns, readings and benedictions" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Seventh-day Adventist Hymnal" />
+    <meta
+      name="twitter:description"
+      content="All 920 — hymns, readings and benedictions. English and Yorùbá. Works offline, and free."
+    />
+    <meta name="twitter:image" content="https://sdah-hymnal.vercel.app/og.png" />
+
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
