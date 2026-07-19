@@ -1,5 +1,12 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
-import { getAudioState, hasRecording, pauseAudio, playHymn, subscribeAudio } from '../lib/audio'
+import type { Availability } from '../lib/audio'
+import {
+  getAudioState,
+  pauseAudio,
+  playHymn,
+  recordingAvailability,
+  subscribeAudio,
+} from '../lib/audio'
 import { useOnline } from '../hooks/useOnline'
 import { MusicOffIcon, PauseIcon, PlayIcon } from './icons'
 
@@ -30,39 +37,56 @@ export function AudioButton({
   const mine = state.hymnNumber === hymnNumber
   const status = mine ? state.status : 'idle'
 
-  // Recordings cover almost every hymn but not all; check before offering it.
-  const [available, setAvailable] = useState<boolean | null>(null)
+  // Recordings cover almost every hymn but not all, and "not all" is not the
+  // only reason one might not play — see Availability.
+  const [available, setAvailable] = useState<Availability | null>(null)
   useEffect(() => {
     let cancelled = false
     setAvailable(null)
-    void hasRecording(hymnNumber).then((ok) => {
-      if (!cancelled) setAvailable(ok)
+    void recordingAvailability(hymnNumber).then((a) => {
+      if (!cancelled) setAvailable(a)
     })
     return () => {
       cancelled = true
     }
-  }, [hymnNumber])
+  }, [hymnNumber, online])
 
   const skin =
     variant === 'stage'
       ? 'bg-white/5 text-[#c7ccd0] hover:bg-white/15'
       : 'glass hairline text-[var(--ink-2)] shadow-[var(--shadow-float)] hover:text-[var(--ink)]'
 
-  if (available === false || status === 'unavailable' || status === 'error') {
-    // Offline, an uncached recording simply isn't reachable — say so rather
-    // than implying the hymn has no music.
-    const offlineMiss = !online && available === false
+  if ((available !== null && available !== 'ready') || status === 'unavailable' || status === 'error') {
+    // Three different problems used to share one message — "no recording for
+    // this hymn yet" — which is how a deployment that shipped without any of
+    // the mp3s looked identical to a hymn nobody ever recorded. Say which.
+    const reason: Availability | 'failed' =
+      status === 'error' ? 'failed' : (available ?? 'unreachable')
+
+    const copy = {
+      none: {
+        label: 'No recording for this hymn',
+        title: 'This hymn has not been recorded yet',
+      },
+      offline: {
+        label: 'Recording needs a connection',
+        title:
+          'This recording has not been downloaded yet — connect to play it once, then it works offline',
+      },
+      unreachable: {
+        label: 'Recordings unavailable',
+        title:
+          'The recordings cannot be reached right now. This is a problem with the app, not with the hymn — please try again later.',
+      },
+      failed: { label: 'Playback failed', title: 'Playback failed — try again' },
+      ready: { label: '', title: '' },
+    }[reason]
+
     return (
       <button
         disabled
-        aria-label={offlineMiss ? 'Recording needs a connection' : 'Recording not available'}
-        title={
-          offlineMiss
-            ? 'This recording has not been downloaded yet — connect to play it once, then it works offline'
-            : status === 'error'
-              ? 'Playback failed — try again'
-              : 'No recording for this hymn yet'
-        }
+        aria-label={copy.label}
+        title={copy.title}
         className={`flex h-[52px] w-[52px] items-center justify-center rounded-full opacity-40 ${skin}`}
       >
         <MusicOffIcon />
