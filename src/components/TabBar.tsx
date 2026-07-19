@@ -24,9 +24,11 @@ export function TabBar({
       }`}
     >
       <div className="mx-auto w-fit pointer-events-auto">
-        {/* px-3 not px-2: the active pill's corners cross the container's
-            tighter outer curve at 8px and read as clipped. */}
-        <div className="glass hairline flex items-center gap-1 rounded-full px-3 py-2 shadow-[var(--shadow-float)]">
+        {/* The container's ends are semicircles, so the space available at the
+            active pill's *corner* is far less than the flat padding suggests:
+            at 12px the corner had only 4px of clearance and read as clipped.
+            20px puts it at a comfortable ~12px. */}
+        <div className="glass hairline flex items-center gap-1 rounded-full px-5 py-2 shadow-[var(--shadow-float)]">
           {TABS.map(({ id, label, Icon }) => {
             const active = tab === id
             return (
