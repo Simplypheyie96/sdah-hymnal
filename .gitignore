@@ -29,3 +29,9 @@ data-pipeline/.hymns.bundle.mjs
 
 # PWA build artifacts
 dev-dist
+
+# Local secrets
+.env
+.env.*
+!.env.example
+.firecrawl/

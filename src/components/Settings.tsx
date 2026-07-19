@@ -241,10 +241,11 @@ export function Settings({
                   Accompaniment rendered from MIDI with the TimGM6mb soundfont (GPL).
                 </li>
                 <li>
-                  Igbo and Hausa are not yet included: our search turned up no
-                  digital source for either hymnal. If you know of one — or your
-                  conference holds the text — please get in touch and it will be
-                  added.
+                  Igbo and Hausa are not yet included. Abụ Ọtụtọ, the Igbo
+                  Adventist hymnal, exists only inside a closed Android app; no
+                  Hausa Adventist hymnal appears to have been digitised at all.
+                  If you hold either text — or your conference does — please get
+                  in touch and it will be added and credited.
                 </li>
                 {editionCredits.map((c) => (
                   <li key={c.url}>
