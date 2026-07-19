@@ -38,9 +38,11 @@ export function subscribeAudio(listener: () => void): () => void {
   return () => listeners.delete(listener)
 }
 
-// Recordings total ~1 GB, which is too much for a git repository. They live
-// in public/audio for local development and can be served from anywhere in
-// production by setting VITE_AUDIO_BASE (e.g. a Cloudflare R2 or B2 bucket).
+// Recordings total ~1 GB — too much for a git repository, and too much to
+// ship inside the build. The masters live in media/, outside public/, so they
+// never reach dist; production reads them from the Cloudflare R2 bucket named
+// by VITE_AUDIO_BASE. Without that variable this falls back to a local
+// /audio/ path, which only resolves in a checkout that has the files.
 const AUDIO_BASE =
   import.meta.env.VITE_AUDIO_BASE?.replace(/\/?$/, '/') ?? `${import.meta.env.BASE_URL}audio/`
 

@@ -2,8 +2,9 @@
 //
 //   node scripts/upload-audio-r2.mjs
 //
-// Reads credentials from .env.local (gitignored) — never pass them on the
-// command line, where they end up in shell history:
+// Reads credentials from .env.r2 (gitignored) — never pass them on the command
+// line, where they end up in shell history. Not .env.local: `vercel env pull`
+// rewrites that file wholesale and drops anything Vercel does not know about.
 //
 //   R2_ACCOUNT_ENDPOINT=https://<account>.r2.cloudflarestorage.com
 //   R2_BUCKET=hymns
@@ -22,8 +23,8 @@ import { S3Client, ListObjectsV2Command, PutObjectCommand } from '@aws-sdk/clien
 import { readFile, readdir, stat } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
-const AUDIO_DIR = fileURLToPath(new URL('../public/audio/', import.meta.url))
-const ENV = fileURLToPath(new URL('../.env.local', import.meta.url))
+const AUDIO_DIR = fileURLToPath(new URL('../media/audio/', import.meta.url))
+const ENV = fileURLToPath(new URL('../.env.r2', import.meta.url))
 const PREFIX = 'audio/'
 const CONCURRENCY = 12
 
