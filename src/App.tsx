@@ -1,0 +1,130 @@
+import { useEffect, useState } from 'react'
+import { AnimatePresence } from 'motion/react'
+import type { LangCode } from './data/hymns'
+import { useHymnal } from './data/hymnal'
+import { useLocalStorage } from './hooks/useLocalStorage'
+import { useMediaQuery } from './hooks/useMediaQuery'
+import { Home } from './components/Home'
+import { Favorites } from './components/Favorites'
+import { Settings, type AccentChoice, type ThemeChoice } from './components/Settings'
+import { HymnContent, HymnOverlay } from './components/HymnView'
+import { Splash } from './components/Splash'
+import { TabBar, type Tab } from './components/TabBar'
+import { BookIcon } from './components/icons'
+
+export default function App() {
+  const { ready, ensure, hymnsFor, resolve } = useHymnal()
+  const [tab, setTab] = useState<Tab>('hymns')
+  const [openSongId, setOpenSongId] = useState<string | null>(null)
+  const [lang, setLang] = useLocalStorage<LangCode>('sdah.lang', 'en')
+  const [theme, setTheme] = useLocalStorage<ThemeChoice>('sdah.theme', 'system')
+  const [accent, setAccent] = useLocalStorage<AccentChoice>('sdah.accent', 'mono')
+  const [fontScale, setFontScale] = useLocalStorage<number>('sdah.fontScale', 1)
+  const [favorites, setFavorites] = useLocalStorage<string[]>('sdah.favorites.v2', [])
+  const splitView = useMediaQuery('(min-width: 900px)')
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-color-scheme: dark)')
+    const apply = () => {
+      const dark = theme === 'dark' || (theme === 'system' && media.matches)
+      document.documentElement.classList.toggle('dark', dark)
+    }
+    apply()
+    media.addEventListener('change', apply)
+    return () => media.removeEventListener('change', apply)
+  }, [theme])
+
+  useEffect(() => {
+    const root = document.documentElement
+    if (accent === 'mono') delete root.dataset.accent
+    else root.dataset.accent = accent
+  }, [accent])
+
+  // Editions load lazily; the one the user is reading in must be in flight.
+  useEffect(() => ensure(lang), [ensure, lang])
+
+  // The song the user opened, resolved in their chosen language when that
+  // edition has it; otherwise fall back to English and flag the gap.
+  const requested = openSongId ? resolve(openSongId, lang) : undefined
+  const fallback = openSongId ? resolve(openSongId, 'en') : undefined
+  const displayed = requested ?? fallback
+  const pendingLang = displayed && !requested && lang !== 'en' ? lang : undefined
+
+  // Previous/next walk the numbering of whichever edition is on screen.
+  const editionList = displayed ? hymnsFor(displayed.lang) : []
+  const idx = displayed ? editionList.findIndex((h) => h.songId === displayed.songId) : -1
+  const prev = idx > 0 ? editionList[idx - 1].songId : undefined
+  const next = idx >= 0 && idx < editionList.length - 1 ? editionList[idx + 1].songId : undefined
+
+  const toggleFavorite = (songId: string) =>
+    setFavorites((p) => (p.includes(songId) ? p.filter((x) => x !== songId) : [...p, songId]))
+
+  const hymnProps = displayed && {
+    hymn: displayed,
+    lang,
+    onLang: setLang,
+    pendingLang,
+    fontScale,
+    isFavorite: favorites.includes(displayed.songId),
+    onToggleFavorite: () => toggleFavorite(displayed.songId),
+    onNavigate: setOpenSongId,
+    prev,
+    next,
+  }
+
+  // iPad / desktop: split view for the hymns tab
+  if (splitView && tab === 'hymns') {
+    return (
+      <div className="mx-auto flex h-dvh max-w-7xl">
+        <Splash ready={ready} />
+        <aside className="w-[400px] shrink-0 overflow-y-auto border-r border-[var(--line)]">
+          <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
+        </aside>
+        <main className="relative flex flex-1 flex-col overflow-y-auto">
+          {hymnProps ? (
+            <HymnContent key={displayed!.songId} {...hymnProps} inline />
+          ) : (
+            <div className="flex flex-1 flex-col items-center justify-center pb-24 text-center">
+              <div className="hairline flex h-16 w-16 items-center justify-center rounded-full bg-[var(--paper-raised)] text-[var(--ink-3)]">
+                <BookIcon size={26} strokeWidth={1.5} />
+              </div>
+              <p className="font-lyrics mt-7 text-[21px] text-[var(--ink-2)]">Select a hymn</p>
+              <p className="mx-auto mt-2.5 max-w-[260px] text-[13.5px] leading-relaxed text-[var(--ink-3)]">
+                Choose from the list, or search by number or title.
+              </p>
+            </div>
+          )}
+        </main>
+        <TabBar tab={tab} onChange={setTab} dock="left" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="mx-auto min-h-dvh max-w-2xl">
+      <Splash ready={ready} />
+      {tab === 'hymns' && (
+        <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
+      )}
+      {tab === 'favorites' && <Favorites favorites={favorites} onOpen={setOpenSongId} />}
+      {tab === 'settings' && (
+        <Settings
+          theme={theme}
+          onTheme={setTheme}
+          accent={accent}
+          onAccent={setAccent}
+          fontScale={fontScale}
+          onFontScale={setFontScale}
+        />
+      )}
+
+      <TabBar tab={tab} onChange={setTab} />
+
+      <AnimatePresence>
+        {hymnProps && (
+          <HymnOverlay key="hymn-overlay" {...hymnProps} onClose={() => setOpenSongId(null)} />
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}

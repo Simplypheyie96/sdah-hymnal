@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  --font-serif: "Literata", "Iowan Old Style", Georgia, serif;
+}
+
+:root {
+  --paper: #f2f3f3;
+  --paper-raised: rgba(255, 255, 255, 0.62);
+  --glass: rgba(244, 245, 245, 0.72);
+  --ink: #17191b;
+  --ink-2: #585e63;
+  --ink-3: #989ea3;
+  --line: rgba(23, 25, 27, 0.09);
+  --line-strong: rgba(23, 25, 27, 0.16);
+  --grain-opacity: 0.72;
+  --shadow-soft: 0 1px 2px rgba(23, 25, 27, 0.04), 0 8px 28px rgba(23, 25, 27, 0.06);
+  --shadow-float: 0 2px 6px rgba(23, 25, 27, 0.06), 0 16px 48px rgba(23, 25, 27, 0.12);
+  --accent: var(--ink);
+  --accent-contrast: var(--paper);
+}
+
+.dark {
+  --paper: #101214;
+  --paper-raised: rgba(255, 255, 255, 0.055);
+  --glass: rgba(16, 18, 20, 0.66);
+  --ink: #eef0f1;
+  --ink-2: #a4aaae;
+  --ink-3: #5f666b;
+  --line: rgba(238, 240, 241, 0.09);
+  --line-strong: rgba(238, 240, 241, 0.17);
+  --grain-opacity: 0.42;
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px rgba(0, 0, 0, 0.35);
+  --shadow-float: 0 2px 6px rgba(0, 0, 0, 0.35), 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* Accent themes — Mono is the default (accent = ink). Each theme pairs a
+   bold tone (interactive highlights) with the neutral paper base. */
+:root[data-accent='sage'] {
+  --accent: #35604a;
+  --accent-contrast: #f2f5f2;
+}
+:root[data-accent='rose'] {
+  --accent: #8e3c4e;
+  --accent-contrast: #f7f1f2;
+}
+:root[data-accent='sky'] {
+  --accent: #2f4f78;
+  --accent-contrast: #f0f4f8;
+}
+:root.dark[data-accent='sage'] {
+  --accent: #a3cdb4;
+  --accent-contrast: #0f1a14;
+}
+:root.dark[data-accent='rose'] {
+  --accent: #e2aab7;
+  --accent-contrast: #221016;
+}
+:root.dark[data-accent='sky'] {
+  --accent: #a8c5e6;
+  --accent-contrast: #0e1723;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overscroll-behavior-y: none;
+  transition: background-color 320ms ease, color 320ms ease;
+}
+
+/* Paper grain — fine fiber noise, like recycled stock */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.42 0 0 0 0 0.43 0 0 0 0 0.44 0 0 0 0.34 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
+/* Paper flecks — the sparse dark specks in the reference stock */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 59;
+  pointer-events: none;
+  opacity: calc(var(--grain-opacity) * 0.9);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.32' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='discrete' tableValues='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0.9'/%3E%3C/feComponentTransfer%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.22 0 0 0 0 0.23 0 0 0 0 0.24 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 420px 420px;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--ink) 14%, transparent);
+}
+
+.font-lyrics {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+}
+
+.glass {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  backdrop-filter: blur(22px) saturate(1.35);
+}
+
+.hairline {
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Scrollbar discretion on desktop preview */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}

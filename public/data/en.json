@@ -1,0 +1,1002 @@
+{
+ "lang": "en",
+ "hymnalTitle": "Seventh-day Adventist Hymnal",
+ "hymns": [
+  {
+   "number": 1,
+   "songId": "praise-to-the-lord-the-almighty",
+   "title": "Praise to the Lord, the Almighty",
+   "category": "Worship",
+   "kind": "hymn",
+   "author": "Joachim Neander, tr. Catherine Winkworth",
+   "verses": [
+    {
+     "lines": [
+      "Praise to the Lord, the Almighty, the King of creation!",
+      "O my soul, praise Him, for He is thy health and salvation!",
+      "All ye who hear, now to His temple draw near;",
+      "Join me in glad adoration!"
+     ]
+    },
+    {
+     "lines": [
+      "Praise to the Lord, who o’er all things so wondrously reigneth,",
+      "Shelters thee under His wings, yea, so gently sustaineth!",
+      "Hast thou not seen how thy desires e’er have been",
+      "Granted in what He ordaineth?"
+     ]
+    },
+    {
+     "lines": [
+      "Praise to the Lord! O let all that is in me adore Him!",
+      "All that hath life and breath, come now with praises before Him!",
+      "Let the Amen sound from His people again;",
+      "Gladly for aye we adore Him."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 12,
+   "songId": "joyful-joyful-we-adore-thee",
+   "title": "Joyful, Joyful, We Adore Thee",
+   "category": "Worship",
+   "kind": "hymn",
+   "author": "Henry van Dyke",
+   "verses": [
+    {
+     "lines": [
+      "Joyful, joyful, we adore Thee,",
+      "God of glory, Lord of love;",
+      "Hearts unfold like flowers before Thee,",
+      "Opening to the sun above.",
+      "Melt the clouds of sin and sadness;",
+      "Drive the dark of doubt away;",
+      "Giver of immortal gladness,",
+      "Fill us with the light of day!"
+     ]
+    },
+    {
+     "lines": [
+      "All Thy works with joy surround Thee,",
+      "Earth and heaven reflect Thy rays,",
+      "Stars and angels sing around Thee,",
+      "Center of unbroken praise.",
+      "Field and forest, vale and mountain,",
+      "Flowery meadow, flashing sea,",
+      "Chanting bird and flowing fountain,",
+      "Call us to rejoice in Thee."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 73,
+   "songId": "holy-holy-holy",
+   "title": "Holy, Holy, Holy",
+   "category": "Trinity",
+   "kind": "hymn",
+   "author": "Reginald Heber",
+   "verses": [
+    {
+     "lines": [
+      "Holy, holy, holy! Lord God Almighty!",
+      "Early in the morning our song shall rise to Thee;",
+      "Holy, holy, holy! merciful and mighty!",
+      "God in three persons, blessed Trinity!"
+     ]
+    },
+    {
+     "lines": [
+      "Holy, holy, holy! all the saints adore Thee,",
+      "Casting down their golden crowns around the glassy sea;",
+      "Cherubim and seraphim falling down before Thee,",
+      "Which wert, and art, and evermore shalt be."
+     ]
+    },
+    {
+     "lines": [
+      "Holy, holy, holy! Lord God Almighty!",
+      "All Thy works shall praise Thy name in earth and sky and sea;",
+      "Holy, holy, holy! merciful and mighty!",
+      "God in three persons, blessed Trinity!"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 88,
+   "songId": "i-sing-the-mighty-power-of-god",
+   "title": "I Sing the Mighty Power of God",
+   "category": "God the Father",
+   "kind": "hymn",
+   "author": "Isaac Watts",
+   "verses": [
+    {
+     "lines": [
+      "I sing the mighty power of God",
+      "That made the mountains rise,",
+      "That spread the flowing seas abroad",
+      "And built the lofty skies.",
+      "I sing the wisdom that ordained",
+      "The sun to rule the day;",
+      "The moon shines full at His command,",
+      "And all the stars obey."
+     ]
+    },
+    {
+     "lines": [
+      "I sing the goodness of the Lord",
+      "That filled the earth with food;",
+      "He formed the creatures with His word",
+      "And then pronounced them good.",
+      "Lord, how Thy wonders are displayed",
+      "Where’er I turn my eye:",
+      "If I survey the ground I tread",
+      "Or gaze upon the sky!"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 92,
+   "songId": "this-is-my-fathers-world",
+   "title": "This Is My Father’s World",
+   "category": "God the Father",
+   "kind": "hymn",
+   "author": "Maltbie D. Babcock",
+   "verses": [
+    {
+     "lines": [
+      "This is my Father’s world,",
+      "And to my listening ears",
+      "All nature sings, and round me rings",
+      "The music of the spheres.",
+      "This is my Father’s world:",
+      "I rest me in the thought",
+      "Of rocks and trees, of skies and seas —",
+      "His hand the wonders wrought."
+     ]
+    },
+    {
+     "lines": [
+      "This is my Father’s world:",
+      "O let me ne’er forget",
+      "That though the wrong seems oft so strong,",
+      "God is the Ruler yet.",
+      "This is my Father’s world:",
+      "Why should my heart be sad?",
+      "The Lord is King — let the heavens ring!",
+      "God reigns; let the earth be glad!"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 108,
+   "songId": "amazing-grace",
+   "title": "Amazing Grace",
+   "category": "Gospel",
+   "kind": "hymn",
+   "author": "John Newton",
+   "verses": [
+    {
+     "lines": [
+      "Amazing grace! how sweet the sound,",
+      "That saved a wretch like me!",
+      "I once was lost, but now am found,",
+      "Was blind, but now I see."
+     ]
+    },
+    {
+     "lines": [
+      "’Twas grace that taught my heart to fear,",
+      "And grace my fears relieved;",
+      "How precious did that grace appear",
+      "The hour I first believed!"
+     ]
+    },
+    {
+     "lines": [
+      "Through many dangers, toils, and snares,",
+      "I have already come;",
+      "’Tis grace hath brought me safe thus far,",
+      "And grace will lead me home."
+     ]
+    },
+    {
+     "lines": [
+      "When we’ve been there ten thousand years,",
+      "Bright shining as the sun,",
+      "We’ve no less days to sing God’s praise",
+      "Than when we first begun."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 191,
+   "songId": "love-divine-all-loves-excelling",
+   "title": "Love Divine, All Loves Excelling",
+   "category": "Jesus Christ",
+   "kind": "hymn",
+   "author": "Charles Wesley",
+   "verses": [
+    {
+     "lines": [
+      "Love divine, all loves excelling,",
+      "Joy of heaven, to earth come down!",
+      "Fix in us Thy humble dwelling;",
+      "All Thy faithful mercies crown.",
+      "Jesus, Thou art all compassion,",
+      "Pure, unbounded love Thou art;",
+      "Visit us with Thy salvation;",
+      "Enter every trembling heart."
+     ]
+    },
+    {
+     "lines": [
+      "Finish then Thy new creation;",
+      "Pure and spotless let us be;",
+      "Let us see Thy great salvation",
+      "Perfectly restored in Thee.",
+      "Changed from glory into glory,",
+      "Till in heaven we take our place,",
+      "Till we cast our crowns before Thee,",
+      "Lost in wonder, love, and praise."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 213,
+   "songId": "jesus-is-coming-again",
+   "title": "Jesus Is Coming Again",
+   "category": "Early Advent",
+   "kind": "hymn",
+   "author": "Jessie E. Strout",
+   "verses": [
+    {
+     "lines": [
+      "Lift up the trumpet, and loud let it ring:",
+      "Jesus is coming again!",
+      "Cheer up, ye pilgrims, be joyful and sing:",
+      "Jesus is coming again!"
+     ]
+    },
+    {
+     "lines": [
+      "Coming again, coming again,",
+      "Jesus is coming again!"
+     ],
+     "isRefrain": true
+    },
+    {
+     "lines": [
+      "Echo it, hilltops; proclaim it, ye plains:",
+      "Jesus is coming again!",
+      "Coming in glory, the Lamb that was slain;",
+      "Jesus is coming again!"
+     ]
+    },
+    {
+     "lines": [
+      "Nations are angry — by this we do know",
+      "Jesus is coming again!",
+      "Knowledge increases; men run to and fro;",
+      "Jesus is coming again!"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 249,
+   "songId": "praise-him-praise-him",
+   "title": "Praise Him! Praise Him!",
+   "category": "Jesus Christ",
+   "kind": "hymn",
+   "author": "Fanny J. Crosby",
+   "verses": [
+    {
+     "lines": [
+      "Praise Him! praise Him! Jesus, our blessed Redeemer!",
+      "Sing, O earth, His wonderful love proclaim!",
+      "Hail Him! hail Him! highest archangels in glory;",
+      "Strength and honor give to His holy name!",
+      "Like a shepherd, Jesus will guard His children;",
+      "In His arms He carries them all day long:"
+     ]
+    },
+    {
+     "lines": [
+      "Praise Him! praise Him! tell of His excellent greatness;",
+      "Praise Him! praise Him! ever in joyful song!"
+     ],
+     "isRefrain": true
+    }
+   ]
+  },
+  {
+   "number": 250,
+   "songId": "o-for-a-thousand-tongues",
+   "title": "O for a Thousand Tongues to Sing",
+   "category": "Jesus Christ",
+   "kind": "hymn",
+   "author": "Charles Wesley",
+   "verses": [
+    {
+     "lines": [
+      "O for a thousand tongues to sing",
+      "My great Redeemer’s praise,",
+      "The glories of my God and King,",
+      "The triumphs of His grace!"
+     ]
+    },
+    {
+     "lines": [
+      "Jesus! the name that charms our fears,",
+      "That bids our sorrows cease;",
+      "’Tis music in the sinner’s ears;",
+      "’Tis life, and health, and peace."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 341,
+   "songId": "to-god-be-the-glory",
+   "title": "To God Be the Glory",
+   "category": "Gospel",
+   "kind": "hymn",
+   "author": "Fanny J. Crosby",
+   "verses": [
+    {
+     "lines": [
+      "To God be the glory, great things He hath done!",
+      "So loved He the world that He gave us His Son,",
+      "Who yielded His life an atonement for sin,",
+      "And opened the life-gate that all may go in."
+     ]
+    },
+    {
+     "lines": [
+      "Praise the Lord, praise the Lord,",
+      "Let the earth hear His voice!",
+      "Praise the Lord, praise the Lord,",
+      "Let the people rejoice!",
+      "O come to the Father through Jesus the Son,",
+      "And give Him the glory, great things He hath done!"
+     ],
+     "isRefrain": true
+    }
+   ]
+  },
+  {
+   "number": 462,
+   "songId": "blessed-assurance",
+   "title": "Blessed Assurance, Jesus Is Mine",
+   "category": "Christian Life",
+   "kind": "hymn",
+   "author": "Fanny J. Crosby",
+   "verses": [
+    {
+     "lines": [
+      "Blessed assurance, Jesus is mine!",
+      "O what a foretaste of glory divine!",
+      "Heir of salvation, purchase of God,",
+      "Born of His Spirit, washed in His blood."
+     ]
+    },
+    {
+     "lines": [
+      "This is my story, this is my song,",
+      "Praising my Savior all the day long;",
+      "This is my story, this is my song,",
+      "Praising my Savior all the day long."
+     ],
+     "isRefrain": true
+    },
+    {
+     "lines": [
+      "Perfect submission, perfect delight,",
+      "Visions of rapture now burst on my sight;",
+      "Angels descending, bring from above",
+      "Echoes of mercy, whispers of love."
+     ]
+    },
+    {
+     "lines": [
+      "Perfect submission, all is at rest,",
+      "I in my Savior am happy and blest;",
+      "Watching and waiting, looking above,",
+      "Filled with His goodness, lost in His love."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 469,
+   "songId": "leaning-on-the-everlasting-arms",
+   "title": "Leaning on the Everlasting Arms",
+   "category": "Christian Life",
+   "kind": "hymn",
+   "author": "Elisha A. Hoffman",
+   "verses": [
+    {
+     "lines": [
+      "What a fellowship, what a joy divine,",
+      "Leaning on the everlasting arms;",
+      "What a blessedness, what a peace is mine,",
+      "Leaning on the everlasting arms."
+     ]
+    },
+    {
+     "lines": [
+      "Leaning, leaning,",
+      "Safe and secure from all alarms;",
+      "Leaning, leaning,",
+      "Leaning on the everlasting arms."
+     ],
+     "isRefrain": true
+    }
+   ]
+  },
+  {
+   "number": 499,
+   "songId": "what-a-friend-we-have-in-jesus",
+   "title": "What a Friend We Have in Jesus",
+   "category": "Christian Life",
+   "kind": "hymn",
+   "author": "Joseph M. Scriven",
+   "verses": [
+    {
+     "lines": [
+      "What a friend we have in Jesus,",
+      "All our sins and griefs to bear!",
+      "What a privilege to carry",
+      "Everything to God in prayer!"
+     ]
+    },
+    {
+     "lines": [
+      "O what peace we often forfeit,",
+      "O what needless pain we bear,",
+      "All because we do not carry",
+      "Everything to God in prayer!"
+     ]
+    },
+    {
+     "lines": [
+      "Have we trials and temptations?",
+      "Is there trouble anywhere?",
+      "We should never be discouraged;",
+      "Take it to the Lord in prayer."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 506,
+   "songId": "a-mighty-fortress",
+   "title": "A Mighty Fortress Is Our God",
+   "category": "Christian Life",
+   "kind": "hymn",
+   "author": "Martin Luther, tr. Frederick H. Hedge",
+   "verses": [
+    {
+     "lines": [
+      "A mighty fortress is our God,",
+      "A bulwark never failing;",
+      "Our helper He amid the flood",
+      "Of mortal ills prevailing."
+     ]
+    },
+    {
+     "lines": [
+      "Did we in our own strength confide,",
+      "Our striving would be losing,",
+      "Were not the right Man on our side,",
+      "The Man of God’s own choosing."
+     ]
+    },
+    {
+     "lines": [
+      "That word above all earthly powers,",
+      "No thanks to them, abideth;",
+      "The Spirit and the gifts are ours",
+      "Through Him who with us sideth."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 524,
+   "songId": "tis-so-sweet-to-trust-in-jesus",
+   "title": "’Tis So Sweet to Trust in Jesus",
+   "category": "Christian Life",
+   "kind": "hymn",
+   "author": "Louisa M. R. Stead",
+   "verses": [
+    {
+     "lines": [
+      "’Tis so sweet to trust in Jesus,",
+      "Just to take Him at His word,",
+      "Just to rest upon His promise,",
+      "Just to know, “Thus saith the Lord.”"
+     ]
+    },
+    {
+     "lines": [
+      "Jesus, Jesus, how I trust Him!",
+      "How I’ve proved Him o’er and o’er!",
+      "Jesus, Jesus, precious Jesus!",
+      "O for grace to trust Him more!"
+     ],
+     "isRefrain": true
+    }
+   ]
+  },
+  {
+   "number": 530,
+   "songId": "it-is-well-with-my-soul",
+   "title": "It Is Well With My Soul",
+   "category": "Christian Life",
+   "kind": "hymn",
+   "author": "Horatio G. Spafford",
+   "verses": [
+    {
+     "lines": [
+      "When peace, like a river, attendeth my way,",
+      "When sorrows like sea billows roll —",
+      "Whatever my lot, Thou hast taught me to say,",
+      "“It is well, it is well with my soul.”"
+     ]
+    },
+    {
+     "lines": [
+      "It is well with my soul,",
+      "It is well, it is well with my soul."
+     ],
+     "isRefrain": true
+    }
+   ]
+  },
+  {
+   "number": 633,
+   "songId": "when-we-all-get-to-heaven",
+   "title": "When We All Get to Heaven",
+   "category": "Early Advent",
+   "kind": "hymn",
+   "author": "Eliza E. Hewitt",
+   "verses": [
+    {
+     "lines": [
+      "Sing the wondrous love of Jesus,",
+      "Sing His mercy and His grace;",
+      "In the mansions bright and blessed",
+      "He’ll prepare for us a place."
+     ]
+    },
+    {
+     "lines": [
+      "When we all get to heaven,",
+      "What a day of rejoicing that will be!",
+      "When we all see Jesus,",
+      "We’ll sing and shout the victory!"
+     ],
+     "isRefrain": true
+    }
+   ]
+  },
+  {
+   "number": 696,
+   "songId": "call-to-worship-psalm-95",
+   "title": "Call to Worship — O Come, Let Us Sing",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 95 (KJV), sample reading",
+   "verses": [
+    {
+     "lines": [
+      "O come, let us sing unto the Lord:",
+      "let us make a joyful noise to the rock of our salvation.",
+      "Let us come before his presence with thanksgiving,",
+      "and make a joyful noise unto him with psalms."
+     ]
+    },
+    {
+     "lines": [
+      "For the Lord is a great God,",
+      "and a great King above all gods.",
+      "O come, let us worship and bow down:",
+      "let us kneel before the Lord our maker."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 697,
+   "songId": "ctw-make-a-joyful-noise",
+   "title": "Call to Worship — Make a Joyful Noise",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 100 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Make a joyful noise unto the Lord, all ye lands.",
+      "Serve the Lord with gladness:",
+      "come before his presence with singing.",
+      "Know ye that the Lord he is God:",
+      "it is he that hath made us, and not we ourselves;",
+      "we are his people, and the sheep of his pasture."
+     ]
+    },
+    {
+     "lines": [
+      "Enter into his gates with thanksgiving,",
+      "and into his courts with praise:",
+      "be thankful unto him, and bless his name.",
+      "For the Lord is good; his mercy is everlasting;",
+      "and his truth endureth to all generations."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 698,
+   "songId": "ctw-this-is-the-day",
+   "title": "Call to Worship — This Is the Day",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 118:24 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "This is the day which the Lord hath made;",
+      "we will rejoice and be glad in it."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 699,
+   "songId": "ctw-holy-temple",
+   "title": "Call to Worship — The Lord Is in His Holy Temple",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Habakkuk 2:20 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "The Lord is in his holy temple:",
+      "let all the earth keep silence before him."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 700,
+   "songId": "ctw-i-was-glad",
+   "title": "Call to Worship — I Was Glad",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 122:1 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "I was glad when they said unto me,",
+      "Let us go into the house of the Lord."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 701,
+   "songId": "ctw-worship-in-beauty-of-holiness",
+   "title": "Call to Worship — In the Beauty of Holiness",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 96:8–9 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Give unto the Lord the glory due unto his name:",
+      "bring an offering, and come into his courts.",
+      "O worship the Lord in the beauty of holiness:",
+      "fear before him, all the earth."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 702,
+   "songId": "ctw-o-magnify-the-lord",
+   "title": "Call to Worship — O Magnify the Lord",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 34:3 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "O magnify the Lord with me,",
+      "and let us exalt his name together."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 703,
+   "songId": "inv-words-of-my-mouth",
+   "title": "Invocation — Let the Words of My Mouth",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 19:14 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Let the words of my mouth,",
+      "and the meditation of my heart,",
+      "be acceptable in thy sight, O Lord,",
+      "my strength, and my redeemer."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 704,
+   "songId": "inv-send-out-thy-light",
+   "title": "Invocation — Send Out Thy Light",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 43:3 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "O send out thy light and thy truth:",
+      "let them lead me;",
+      "let them bring me unto thy holy hill,",
+      "and to thy tabernacles."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 705,
+   "songId": "inv-teach-me-thy-paths",
+   "title": "Invocation — Teach Me Thy Paths",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 25:4–5 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Shew me thy ways, O Lord; teach me thy paths.",
+      "Lead me in thy truth, and teach me:",
+      "for thou art the God of my salvation;",
+      "on thee do I wait all the day."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 706,
+   "songId": "inv-search-me-o-god",
+   "title": "Invocation — Search Me, O God",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 139:23–24 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Search me, O God, and know my heart:",
+      "try me, and know my thoughts:",
+      "and see if there be any wicked way in me,",
+      "and lead me in the way everlasting."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 707,
+   "songId": "off-all-things-come-of-thee",
+   "title": "Offertory — All Things Come of Thee",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "1 Chronicles 29:14 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "But who am I, and what is my people,",
+      "that we should be able to offer so willingly after this sort?",
+      "for all things come of thee,",
+      "and of thine own have we given thee."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 708,
+   "songId": "off-earth-is-the-lords",
+   "title": "Offertory — The Earth Is the Lord’s",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 24:1 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "The earth is the Lord’s, and the fulness thereof;",
+      "the world, and they that dwell therein."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 709,
+   "songId": "off-cheerful-giver",
+   "title": "Offertory — God Loveth a Cheerful Giver",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "2 Corinthians 9:7 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Every man according as he purposeth in his heart, so let him give;",
+      "not grudgingly, or of necessity:",
+      "for God loveth a cheerful giver."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 710,
+   "songId": "off-bring-ye-the-tithes",
+   "title": "Offertory — Bring Ye All the Tithes",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Malachi 3:10 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Bring ye all the tithes into the storehouse,",
+      "that there may be meat in mine house,",
+      "and prove me now herewith, saith the Lord of hosts,",
+      "if I will not open you the windows of heaven,",
+      "and pour you out a blessing,",
+      "that there shall not be room enough to receive it."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 913,
+   "songId": "ben-grace-of-our-lord",
+   "title": "Benediction — The Grace of Our Lord",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "2 Corinthians 13:14 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "The grace of the Lord Jesus Christ,",
+      "and the love of God,",
+      "and the communion of the Holy Ghost,",
+      "be with you all. Amen."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 914,
+   "songId": "ben-him-that-is-able",
+   "title": "Benediction — Now unto Him That Is Able",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Jude 24–25 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Now unto him that is able to keep you from falling,",
+      "and to present you faultless",
+      "before the presence of his glory with exceeding joy,",
+      "to the only wise God our Saviour,",
+      "be glory and majesty, dominion and power,",
+      "both now and ever. Amen."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 915,
+   "songId": "ben-god-of-peace",
+   "title": "Benediction — The God of Peace",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Hebrews 13:20–21 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Now the God of peace, that brought again from the dead our Lord Jesus,",
+      "that great shepherd of the sheep,",
+      "through the blood of the everlasting covenant,",
+      "make you perfect in every good work to do his will,",
+      "working in you that which is wellpleasing in his sight,",
+      "through Jesus Christ; to whom be glory for ever and ever. Amen."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 916,
+   "songId": "ben-peace-of-god",
+   "title": "Benediction — The Peace of God",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Philippians 4:7 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "And the peace of God, which passeth all understanding,",
+      "shall keep your hearts and minds",
+      "through Christ Jesus."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 917,
+   "songId": "ben-god-of-hope",
+   "title": "Benediction — The God of Hope",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Romans 15:13 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "Now the God of hope fill you",
+      "with all joy and peace in believing,",
+      "that ye may abound in hope,",
+      "through the power of the Holy Ghost."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 918,
+   "songId": "ben-the-lord-preserve-thee",
+   "title": "Benediction — The Lord Shall Preserve Thee",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Psalm 121:7–8 (KJV)",
+   "verses": [
+    {
+     "lines": [
+      "The Lord shall preserve thee from all evil:",
+      "he shall preserve thy soul.",
+      "The Lord shall preserve thy going out and thy coming in",
+      "from this time forth, and even for evermore."
+     ]
+    }
+   ]
+  },
+  {
+   "number": 920,
+   "songId": "benediction-numbers-6",
+   "title": "Benediction — The Lord Bless Thee",
+   "category": "Aids to Worship",
+   "kind": "reading",
+   "author": "Numbers 6:24–26 (KJV), sample reading",
+   "verses": [
+    {
+     "lines": [
+      "The Lord bless thee, and keep thee:",
+      "The Lord make his face shine upon thee,",
+      "and be gracious unto thee:",
+      "The Lord lift up his countenance upon thee,",
+      "and give thee peace."
+     ]
+    }
+   ]
+  }
+ ]
+}
