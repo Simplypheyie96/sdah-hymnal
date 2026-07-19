@@ -5,6 +5,15 @@ import { useHymnal } from '../data/hymnal'
 import { KeypadIcon, SearchIcon } from './icons'
 import { NumberPad } from './NumberPad'
 
+/** Strip case and diacritics so a phone keyboard without Yorùbá tone marks
+ *  still finds Mímọ́ by typing "mimo". */
+const fold = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+
 function HymnRow({
   hymn,
   onOpen,
@@ -82,15 +91,16 @@ export function Home({
   }, [hymns])
 
   const results = useMemo(() => {
-    const q = query.trim().toLowerCase()
+    const q = fold(query)
     return hymns.filter((h) => {
       if (category && h.category !== category && h.section !== category) return false
       if (!q) return true
       return (
         h.number.toString().startsWith(q) ||
-        h.title.toLowerCase().includes(q) ||
-        // Yorùbá hymns carry their English name, so either finds the song.
-        (h.altTitle?.toLowerCase().includes(q) ?? false)
+        fold(h.title).includes(q) ||
+        // Yorùbá hymns carry their English name, so either finds the song:
+        // "mimo" and "holy" both reach Mímọ́, Mímọ́, Mímọ́.
+        (h.altTitle ? fold(h.altTitle).includes(q) : false)
       )
     })
   }, [hymns, query, category])
