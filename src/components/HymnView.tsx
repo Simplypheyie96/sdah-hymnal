@@ -12,6 +12,16 @@ import { MidiButton } from './MidiButton'
 import { ShareSheet } from './ShareSheet'
 import { Presenter } from './Presenter'
 
+/**
+ * How many times the tune should be played through: once per verse. A
+ * refrain isn't counted — the tune already covers it, since it is sung after
+ * every verse rather than on its own.
+ */
+export function sungVerseCount(hymn: Hymn): number {
+  const verses = hymn.verses.filter((v) => !v.isRefrain).length
+  return Math.max(1, verses)
+}
+
 /** SDAH number whose MIDI accompanies this entry (tunes are shared across editions). */
 export function midiNumberFor(hymn: Hymn): number | undefined {
   if (hymn.kind !== 'hymn') return undefined
@@ -227,7 +237,9 @@ export function HymnContent({
             </button>
           </div>
 
-          {midiNumberFor(hymn) !== undefined && <MidiButton hymnNumber={midiNumberFor(hymn)!} />}
+          {midiNumberFor(hymn) !== undefined && (
+            <MidiButton hymnNumber={midiNumberFor(hymn)!} verseCount={sungVerseCount(hymn)} />
+          )}
         </div>
       </div>
 
