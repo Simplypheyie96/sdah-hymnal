@@ -115,6 +115,18 @@ body::after {
   background-size: 300px 300px;
 }
 
+/* The same grain, applied locally. The body layers sit at z-60, so anything
+   above them — the splash, the presenter — is otherwise bare of texture. */
+.grain-local::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.42 0 0 0 0 0.43 0 0 0 0 0.44 0 0 0 0.34 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
+}
+
 /* Paper flecks — the sparse dark specks in the reference stock */
 body::before {
   content: "";

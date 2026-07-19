@@ -41,6 +41,16 @@ export default function App() {
   // off the screen.
   const [presenting, setPresenting] = useState(false)
 
+  // On a wide screen both panes are visible at once, so an empty reading pane
+  // is just a hole in the layout. Open the first hymn so there is something to
+  // read the moment the app loads. Only ever fires when nothing is selected,
+  // so it cannot fight a choice the reader has already made.
+  useEffect(() => {
+    if (!ready || !splitView || openSongId || tab !== 'hymns') return
+    const first = hymnsFor(lang)[0]
+    if (first) setOpenSongId(first.songId)
+  }, [ready, splitView, openSongId, tab, lang, hymnsFor])
+
   useEffect(() => {
     if (castTarget) return
     const media = window.matchMedia('(prefers-color-scheme: dark)')
