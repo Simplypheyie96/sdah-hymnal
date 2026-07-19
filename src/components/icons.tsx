@@ -71,6 +71,17 @@ export function ShareIcon({ size = 20, strokeWidth = 1.7, className }: IconProps
   )
 }
 
+export function CastIcon({ size = 19, strokeWidth = 1.7, className }: IconProps) {
+  return (
+    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
+      <path d="M3.5 6.5A2 2 0 0 1 5.5 4.5h13a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-5" />
+      <path d="M3.5 12.5a6 6 0 0 1 6 6" />
+      <path d="M3.5 16.5a2.5 2.5 0 0 1 2.5 2.5" />
+      <circle cx="3.9" cy="19.6" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
 export function KeypadIcon({ size = 19, strokeWidth = 1.7, className }: IconProps) {
   return (
     <svg {...base(size)} strokeWidth={strokeWidth} className={className}>

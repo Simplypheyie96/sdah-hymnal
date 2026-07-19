@@ -9,6 +9,7 @@ import {
   ShareIcon,
 } from './icons'
 import { AudioButton } from './AudioButton'
+import { stopAudio } from '../lib/audio'
 import { ShareSheet } from './ShareSheet'
 import { Presenter } from './Presenter'
 
@@ -53,6 +54,10 @@ export function HymnContent({
 
   // Arrow keys page between hymns — handy on iPad keyboards and desktop.
   // Paused while presenting, so the presenter owns the arrows.
+  // Leaving a hymn — closing it or paging to another — stops its music.
+  // Otherwise the accompaniment carries on under a different set of words.
+  useEffect(() => () => stopAudio(), [hymn.songId])
+
   useEffect(() => {
     if (presentOpen) return
     const onKey = (e: KeyboardEvent) => {
