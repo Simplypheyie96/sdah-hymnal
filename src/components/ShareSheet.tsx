@@ -56,9 +56,10 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   const ctx = canvas.getContext('2d')!
 
   await Promise.all([
-    document.fonts.load('400 90px Anton'),
-    document.fonts.load('600 34px Literata'),
-    document.fonts.load('italic 500 46px Literata'),
+    document.fonts.load('400 240px "Bodoni Moda"'),
+    document.fonts.load('500 58px "EB Garamond"'),
+    document.fonts.load('400 44px "EB Garamond"'),
+    document.fonts.load('italic 400 44px "EB Garamond"'),
   ]).catch(() => {})
 
   const p = PALETTES.find((x) => x.id === paletteId)!
@@ -94,69 +95,70 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
 
   ctx.textAlign = 'center'
 
-  // Brand
-  ctx.fillStyle = ink
-  ctx.font = '600 40px Literata, Georgia, serif'
-  ctx.fillText('Hymnal', W / 2, 150)
+  // The card is composed like a hymnal title page: a struck numeral, the
+  // title beneath it, then the verse set as reading text. Lyrics keep their
+  // original case — uppercasing mangles Yorùbá and Igbo diacritics.
 
   // Eyebrow
   ctx.fillStyle = muted
-  ctx.font = '700 25px -apple-system, system-ui, sans-serif'
-  ctx.fillText('A   H Y M N   O F   W O R S H I P', W / 2, 232)
+  ctx.font = '600 24px -apple-system, system-ui, sans-serif'
+  ctx.fillText('S E V E N T H - D A Y   A D V E N T I S T   H Y M N A L', W / 2, 122)
 
-  // Category pill
-  const cat = hymn.category.toUpperCase()
-  ctx.font = '700 27px -apple-system, system-ui, sans-serif'
-  const catW = ctx.measureText(cat).width + 76
+  // Hero numeral — the app's signature, a hymn-board plate number
   ctx.fillStyle = accent
-  const pillY = 276
-  const pillH = 62
-  ctx.beginPath()
-  ctx.roundRect((W - catW) / 2, pillY, catW, pillH, pillH / 2)
-  ctx.fill()
-  ctx.fillStyle = mono && !dark ? '#f4f4f3' : mono ? '#14161a' : p.bgTop
-  ctx.fillText(cat, W / 2, pillY + 41)
+  ctx.font = '400 240px "Bodoni Moda", Didot, Georgia, serif'
+  ctx.fillText(String(hymn.number), W / 2, 366)
 
-  // Display block: verse lines in bold condensed caps, last line in accent
-  const verse = hymn.verses[verseIndex]
-  const rawLines = verse.lines.map((l) => l.toUpperCase().replace(/[.,;:!]$/, ''))
-  // Fit: shrink the type until the block sits comfortably
-  let fontSize = 96
-  let lines: string[] = []
-  for (; fontSize >= 54; fontSize -= 6) {
-    ctx.font = `400 ${fontSize}px Anton, Impact, sans-serif`
-    lines = rawLines.flatMap((l) => wrapLines(ctx, l, 860))
-    if (lines.length * fontSize * 1.3 <= 560) break
+  // Title
+  ctx.fillStyle = ink
+  ctx.font = '500 58px "EB Garamond", Georgia, serif'
+  const titleLines = wrapLines(ctx, hymn.title, 880)
+  let ty = 452
+  for (const line of titleLines) {
+    ctx.fillText(line, W / 2, ty)
+    ty += 70
   }
-  const lineHeight = fontSize * 1.3
-  const blockTop = 430 + Math.max(0, (560 - lines.length * lineHeight) / 2)
-  ctx.font = `400 ${fontSize}px Anton, Impact, sans-serif`
+
+  // Hairline rule under the title block
+  ctx.strokeStyle = accent
+  ctx.globalAlpha = 0.45
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(W / 2 - 52, ty + 6)
+  ctx.lineTo(W / 2 + 52, ty + 6)
+  ctx.stroke()
+  ctx.globalAlpha = 1
+
+  // Verse — set as reading text, auto-fitted to the remaining space
+  const verse = hymn.verses[verseIndex]
+  const italic = verse.isRefrain ? 'italic ' : ''
+  const top = ty + 70
+  const bottom = H - 230
+  const room = bottom - top
+
+  let fontSize = 52
+  let lines: string[] = []
+  for (; fontSize >= 30; fontSize -= 3) {
+    ctx.font = `${italic}400 ${fontSize}px "EB Garamond", Georgia, serif`
+    lines = verse.lines.flatMap((l) => wrapLines(ctx, l, 860))
+    if (lines.length * fontSize * 1.52 <= room) break
+  }
+  const lineHeight = fontSize * 1.52
+  const blockTop = top + Math.max(0, (room - lines.length * lineHeight) / 2)
+  ctx.font = `${italic}400 ${fontSize}px "EB Garamond", Georgia, serif`
+  ctx.fillStyle = ink
   lines.forEach((line, i) => {
-    ctx.fillStyle = i >= lines.length - 1 ? accent : ink
     ctx.fillText(line, W / 2, blockTop + (i + 1) * lineHeight)
   })
 
-  // Divider
-  ctx.strokeStyle = accent
-  ctx.lineWidth = 5
-  ctx.beginPath()
-  ctx.moveTo(W / 2 - 34, H - 268)
-  ctx.lineTo(W / 2 + 34, H - 268)
-  ctx.stroke()
-
-  // Reference — like a scripture citation
-  ctx.fillStyle = ink
-  ctx.font = 'italic 500 46px Literata, Georgia, serif'
-  ctx.fillText(`Hymn ${hymn.number} — ${hymn.title}`, W / 2, H - 188)
-
-  // Footnote
+  // Footer: verse label, then the wordmark
   ctx.fillStyle = muted
-  ctx.font = '500 28px -apple-system, system-ui, sans-serif'
-  ctx.fillText(
-    `${verseLabel(hymn.verses, verseIndex)} · Seventh-day Adventist Hymnal`,
-    W / 2,
-    H - 118,
-  )
+  ctx.font = '600 25px -apple-system, system-ui, sans-serif'
+  ctx.fillText(verseLabel(hymn.verses, verseIndex).toUpperCase(), W / 2, H - 148)
+
+  ctx.fillStyle = accent
+  ctx.font = '500 40px "EB Garamond", Georgia, serif'
+  ctx.fillText('Hymnal', W / 2, H - 88)
 
   return canvas
 }
