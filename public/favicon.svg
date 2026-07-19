@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hymnal">
-  <!-- Deep ink ground so the mark holds on both light and dark home screens,
-       with the app's warm paper for the pages. Solid shapes, not strokes:
-       a hairline book vanishes at favicon size. -->
+  <!-- A hymnal, not just a book: an open songbook with a note on the page.
+       Deep ink ground so the mark holds on light and dark home screens.
+       Solid shapes throughout — hairlines disappear at favicon size. -->
   <rect width="512" height="512" rx="112" fill="#17191b"/>
 
   <!-- Open book: two pages fanning from a central spine. -->
@@ -10,12 +10,19 @@
     <path d="M264 168c40-28 96-38 148-27a8 8 0 0 1 6 8v190a8 8 0 0 1-10 8c-46-10-96-2-134 22a8 8 0 0 1-10-7V168z"/>
   </g>
 
-  <!-- Spine, and ruled lines that read as text at a glance. -->
+  <!-- Spine. -->
   <rect x="250" y="152" width="12" height="238" rx="6" fill="#8b9195"/>
+
+  <!-- Left page: ruled lines, the words. -->
   <g fill="#c9cdcf">
-    <rect x="128" y="228" width="94" height="12" rx="6"/>
-    <rect x="128" y="272" width="72" height="12" rx="6"/>
-    <rect x="290" y="228" width="94" height="12" rx="6"/>
-    <rect x="290" y="272" width="72" height="12" rx="6"/>
+    <rect x="126" y="232" width="92" height="12" rx="6"/>
+    <rect x="126" y="274" width="66" height="12" rx="6"/>
+  </g>
+
+  <!-- Right page: a quaver, the tune. -->
+  <g fill="#17191b">
+    <rect x="344" y="212" width="11" height="92" rx="5"/>
+    <path d="M355 212c26 10 42 24 44 44 1 12-3 22-11 30 3-16-3-28-16-36-9-6-14-10-17-16v-22z"/>
+    <ellipse cx="326" cy="304" rx="30" ry="23" transform="rotate(-19 326 304)"/>
   </g>
 </svg>
