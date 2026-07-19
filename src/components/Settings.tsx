@@ -23,7 +23,7 @@ const HOW_TO: { title: string; body: string }[] = [
   {
     title: 'Keep it on your phone',
     body:
-      'iPhone or iPad: open the app in Safari, tap the Share button, then “Add to Home Screen”. Android: open it in Chrome, tap the ⋮ menu, then “Install app”. It then opens full screen with its own icon, like any other app, and works without a signal.',
+      'iPhone or iPad: open the app in Safari, tap the Share button, then scroll down the grey list of actions to “Add to Home Screen”. It is often below the fold, and on some phones you have to tap “Edit Actions…” at the bottom of that list to turn it on first. It has to be Safari — from Chrome on an iPhone the option is not offered. Android: open it in Chrome, tap the ⋮ menu, then “Install app”. Either way it then opens full screen with its own icon, like any other app, and works without a signal.',
   },
   {
     title: 'Install it on a Mac or PC',
