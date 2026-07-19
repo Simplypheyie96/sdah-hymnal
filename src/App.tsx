@@ -115,6 +115,12 @@ export default function App() {
   }
 
   // iPad / desktop: split view for the hymns tab
+  // One instance, above both branches. Rendered inside each of them, crossing
+  // the split-view breakpoint would unmount one copy and mount the other,
+  // replaying the opening animation mid-use — the same class of bug as the
+  // presenter tearing itself down.
+  const splash = <Splash ready={ready} />
+
   const presenter =
     presenting && hymnProps ? (
       <Presenter hymn={hymnProps.hymn} onClose={() => setPresenting(false)} />
@@ -123,7 +129,7 @@ export default function App() {
   if (splitView && tab === 'hymns') {
     return (
       <div className="mx-auto flex h-dvh max-w-7xl">
-        <Splash ready={ready} />
+        {splash}
         <aside className="w-[400px] shrink-0 overflow-y-auto border-r border-[var(--line)]">
           <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
         </aside>
@@ -156,7 +162,7 @@ export default function App() {
 
   return (
     <div className="mx-auto min-h-dvh max-w-2xl">
-      <Splash ready={ready} />
+      {splash}
       {tab === 'hymns' && (
         <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
       )}

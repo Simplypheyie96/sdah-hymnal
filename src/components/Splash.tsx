@@ -3,6 +3,27 @@ import { AnimatePresence, motion } from 'motion/react'
 
 const MIN_SPLASH_MS = 4200
 
+// Once per visit, not once per page load.
+//
+// The service worker updates itself on open and reloads the page to hand over
+// the new version. That is the behaviour we want — nobody should have to think
+// about updating a hymnal — but it meant the opening screen played, the page
+// reloaded underneath it, and it played all over again. Four seconds is a nice
+// welcome and a tiresome second helping.
+//
+// sessionStorage, deliberately: it survives the reload and clears when the tab
+// or the installed app is closed, so the next real launch gets the full
+// opening.
+const SEEN_KEY = 'sdah.splashSeen'
+
+function alreadySeen() {
+  try {
+    return sessionStorage.getItem(SEEN_KEY) === '1'
+  } catch {
+    return false // private mode — show it, which is the harmless direction
+  }
+}
+
 const EASE = [0.22, 1, 0.36, 1] as const
 
 // What the hymnal actually contains, said plainly. "1–920" meant nothing to
@@ -24,13 +45,15 @@ const STAFF = [0, 1, 2, 3, 4]
  * a phone that is also parsing the hymn data behind this screen.
  */
 export function Splash({ ready }: { ready: boolean }) {
-  const [minElapsed, setMinElapsed] = useState(false)
+  const [seen] = useState(alreadySeen)
+  const [minElapsed, setMinElapsed] = useState(seen)
   const [fontsReady, setFontsReady] = useState(false)
 
   useEffect(() => {
+    if (seen) return
     const t = window.setTimeout(() => setMinElapsed(true), MIN_SPLASH_MS)
     return () => window.clearTimeout(t)
-  }, [])
+  }, [seen])
 
   // The wordmark is set in Bodoni, which arrives over the network. With
   // `display=swap` it paints in a fallback serif first and then snaps to the
@@ -54,6 +77,15 @@ export function Splash({ ready }: { ready: boolean }) {
   }, [])
 
   const show = !(ready && minElapsed)
+
+  useEffect(() => {
+    if (show) return
+    try {
+      sessionStorage.setItem(SEEN_KEY, '1')
+    } catch {
+      /* nothing to remember it with; the splash simply plays again */
+    }
+  }, [show])
 
   return (
     <AnimatePresence>
