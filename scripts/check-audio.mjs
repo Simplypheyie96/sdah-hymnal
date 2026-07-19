@@ -103,11 +103,11 @@ if (base) {
 // No external host configured, so the files must be in the build itself.
 const missing = []
 for (const n of sample) {
-  const file = fileURLToPath(new URL(`public/audio/${n}.mp3`, root))
+  const file = fileURLToPath(new URL(`media/audio/${n}.mp3`, root))
   try {
     await access(file)
   } catch {
-    missing.push(`public/audio/${n}.mp3`)
+    missing.push(`media/audio/${n}.mp3`)
   }
 }
 
@@ -122,4 +122,4 @@ if (missing.length) {
   )
 }
 
-console.log(`  Audio: ${manifest.length} recordings present in public/audio`)
+console.log(`  Audio: ${manifest.length} recordings present in media/audio`)

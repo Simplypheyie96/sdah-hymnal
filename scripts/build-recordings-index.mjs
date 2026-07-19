@@ -16,7 +16,7 @@
 import { readdir, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 
-const AUDIO_DIR = fileURLToPath(new URL('../public/audio/', import.meta.url))
+const AUDIO_DIR = fileURLToPath(new URL('../media/audio/', import.meta.url))
 const OUT = fileURLToPath(new URL('../public/data/recordings.json', import.meta.url))
 
 const files = await readdir(AUDIO_DIR)

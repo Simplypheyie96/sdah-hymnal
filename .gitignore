@@ -36,8 +36,10 @@ dev-dist
 !.env.example
 .firecrawl/
 
-# Hymn recordings (~1 GB). Too large for git — see public/audio/README.md
-public/audio/*.mp3
+# Hymn recordings (~1 GB). Too large for git, and deliberately outside
+# public/ so they never enter the build — they are served from R2.
+# See media/audio/README.md
+media/audio/*.mp3
 .vercel
 .env*
 
