@@ -1,4 +1,4 @@
-// Rasterises public/favicon.svg into the PNG sizes the manifest and iOS need.
+// Rasterises the marks into the PNG sizes the manifest, iOS and browsers need.
 //
 //   node scripts/build-icons.mjs
 //
@@ -9,10 +9,21 @@ import sharp from 'sharp'
 import pngToIco from 'png-to-ico'
 import { fileURLToPath } from 'node:url'
 
-const SRC = new URL('../public/favicon.svg', import.meta.url)
+// Two drawings, on purpose.
+//
+// icon.svg is the full mark — pages, spine, ruled lines, quaver — and feeds
+// the big raster sizes, where all that detail is legible and wanted.
+//
+// favicon.svg is a simplified version, and it is the one the document links.
+// Browsers prefer an SVG icon when offered one and render it into a 16 or 32
+// pixel box, so pointing them at the detailed drawing produced a smudge no
+// matter how good the PNGs beside it were.
+const SRC = new URL('../public/icon.svg', import.meta.url)
+const SRC_SMALL = new URL('../public/favicon.svg', import.meta.url)
 const out = (name) => new URL(`../public/${name}`, import.meta.url)
 
 const svg = await readFile(SRC)
+const svgSmall = await readFile(SRC_SMALL)
 
 const targets = [
   { name: 'pwa-192x192.png', size: 192 },
@@ -22,8 +33,8 @@ const targets = [
   // look for a raster one, and when they find none they keep showing whatever
   // they cached earlier. That is how Vite's lightning bolt survived long
   // after the project stopped being a fresh scaffold.
-  { name: 'favicon-32x32.png', size: 32 },
-  { name: 'favicon-16x16.png', size: 16 },
+  { name: 'favicon-32x32.png', size: 32, small: true },
+  { name: 'favicon-16x16.png', size: 16, small: true },
   // iOS ignores transparency and squares the corners itself, so the mark is
   // rendered onto its own ground rather than left to the system.
   { name: 'apple-touch-icon.png', size: 180 },
@@ -31,8 +42,8 @@ const targets = [
 
 const INK = { r: 23, g: 25, b: 27, alpha: 1 }
 
-for (const { name, size } of targets) {
-  const png = await sharp(svg, { density: 384 })
+for (const { name, size, small } of targets) {
+  const png = await sharp(small ? svgSmall : svg, { density: 384 })
     .resize(size, size, { fit: 'contain', background: INK })
     .png({ compressionLevel: 9 })
     .toBuffer()
