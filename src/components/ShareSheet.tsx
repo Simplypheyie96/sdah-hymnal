@@ -19,11 +19,17 @@ type Palette = {
   muted: string
 }
 
+// Each palette pairs its own field with an accent drawn from a different
+// part of the wheel, so the four cards never read as variations on one idea.
 const PALETTES: Palette[] = [
-  { id: 'mono', label: 'Paper', bgTop: '#f4f4f3', bgBottom: '#e9eae8', ink: '#191b1d', accent: '#6f7477', muted: '#8b9195' },
-  { id: 'rose', label: 'Rose', bgTop: '#f9e4e0', bgBottom: '#f4d5d2', ink: '#42221f', accent: '#c8553d', muted: '#a97f78' },
-  { id: 'sage', label: 'Sage', bgTop: '#e7efe4', bgBottom: '#d8e5d6', ink: '#22391f', accent: '#c07a3e', muted: '#748a70' },
-  { id: 'sky', label: 'Sky', bgTop: '#e1e9f4', bgBottom: '#d1ddee', ink: '#1c2f4d', accent: '#b98a3e', muted: '#7488a6' },
+  // Warm paper, graphite ink, quiet slate accent.
+  { id: 'mono', label: 'Paper', bgTop: '#f5f4f2', bgBottom: '#e8e7e4', ink: '#1a1c1e', accent: '#5c6469', muted: '#8b9195' },
+  // Blush field, oxblood ink, deep rose accent.
+  { id: 'rose', label: 'Rose', bgTop: '#f9e6e3', bgBottom: '#f2d3d0', ink: '#3f1f21', accent: '#a83b52', muted: '#a87f80' },
+  // Sage field, forest ink, olive-gold accent — the one warm pairing.
+  { id: 'sage', label: 'Sage', bgTop: '#e8efe3', bgBottom: '#d6e4d2', ink: '#1f3a24', accent: '#7d8f3a', muted: '#748a70' },
+  // Cool blue field, navy ink, and a genuinely blue accent.
+  { id: 'sky', label: 'Sky', bgTop: '#e2eaf5', bgBottom: '#cfdcee', ink: '#172b47', accent: '#2f6fb0', muted: '#7488a6' },
 ]
 
 function verseLabel(verses: Verse[], index: number) {

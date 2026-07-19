@@ -49,6 +49,10 @@ export default function App() {
   const fallback = openSongId ? resolve(openSongId, 'en') : undefined
   const displayed = requested ?? fallback
 
+  // When the chosen edition has no counterpart we still show the song, but
+  // the reader says which hymnal it is missing from rather than pretending.
+  const unavailableIn = displayed && !requested ? lang : undefined
+
   // Favourites follow the song, not the edition: hearting a hymn in Yorùbá
   // shows it hearted in English too.
   const favKey = (h: { songId: string; sdahRef?: number; lang: string; number: number }) =>
@@ -67,6 +71,7 @@ export default function App() {
     hymn: displayed,
     lang,
     onLang: setLang,
+    unavailableIn,
     fontScale,
     isFavorite: favorites.includes(favKey(displayed)),
     onToggleFavorite: () => toggleFavorite(favKey(displayed)),

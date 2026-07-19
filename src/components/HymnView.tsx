@@ -22,6 +22,8 @@ export type HymnContentProps = {
   hymn: Hymn
   lang: LangCode
   onLang: (l: LangCode) => void
+  /** Edition the user asked for that has no counterpart for this song. */
+  unavailableIn?: LangCode
   fontScale: number
   isFavorite: boolean
   onToggleFavorite: () => void
@@ -36,6 +38,7 @@ export function HymnContent({
   hymn,
   lang,
   onLang,
+  unavailableIn,
   fontScale,
   isFavorite,
   onToggleFavorite,
@@ -46,6 +49,7 @@ export function HymnContent({
 }: HymnContentProps) {
   const [shareOpen, setShareOpen] = useState(false)
   const [presentOpen, setPresentOpen] = useState(false)
+  const missingFrom = unavailableIn ? LANGS.find((l) => l.code === unavailableIn) : undefined
 
   // Arrow keys page between hymns — handy on iPad keyboards and desktop.
   // Paused while presenting, so the presenter owns the arrows.
@@ -149,6 +153,18 @@ export function HymnContent({
               </button>
             ))}
           </div>
+
+          {/* Say plainly which hymnal lacks this song, rather than silently
+              showing the other language's words as if they were a match. */}
+          {missingFrom && (
+            <p
+              role="status"
+              className="mx-auto mt-5 max-w-xs text-[12.5px] leading-relaxed text-[var(--ink-3)]"
+            >
+              Not in {missingFrom.hymnalTitle} — showing the{' '}
+              {LANGS.find((l) => l.code === hymn.lang)?.label} words.
+            </p>
+          )}
         </header>
 
         <div className="space-y-10">
