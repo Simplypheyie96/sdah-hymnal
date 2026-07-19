@@ -12,10 +12,9 @@
     "someone can see — rather than in an environment variable whose absence is",
     "invisible. scripts/check-audio.mjs enforces it.",
     "",
-    "Currently false: there is no host for the recordings yet, so releases go out",
-    "without them and the app says so plainly. Set this back to true the moment",
-    "VITE_AUDIO_BASE points at a bucket holding the files — that is what stops",
-    "the original bug from returning."
+    "Now true: the 691 recordings live in a Vercel Blob store and VITE_AUDIO_BASE",
+    "points at it. check-audio.mjs samples that URL on every build, so a release",
+    "can no longer ship with the music silently missing."
   ],
-  "expectRecordings": false
+  "expectRecordings": true
 }
