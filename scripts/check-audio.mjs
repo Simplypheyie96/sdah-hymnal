@@ -12,8 +12,10 @@
 // So: if the manifest says a hymn has a recording, this checks the configured
 // audio base can actually produce it, and fails the build if it cannot.
 //
-// Set ALLOW_MISSING_AUDIO=1 to ship deliberately without recordings. That is a
-// decision someone has to make on purpose, which is the whole point.
+// Whether recordings are required is declared in audio.config.json, in version
+// control, so that shipping without them is a visible commit rather than the
+// silent absence of an environment variable. ALLOW_MISSING_AUDIO=1 overrides it
+// for one-off local builds.
 
 import { readFile, access } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
@@ -28,6 +30,24 @@ const fail = (msg) => {
 
 if (process.env.ALLOW_MISSING_AUDIO === '1') {
   console.log('  Audio: check skipped (ALLOW_MISSING_AUDIO=1).')
+  process.exit(0)
+}
+
+let config = { expectRecordings: true }
+try {
+  config = JSON.parse(await readFile(fileURLToPath(new URL('audio.config.json', root)), 'utf8'))
+} catch {
+  /* no config — hold to the safe default and require recordings */
+}
+
+if (config.expectRecordings === false) {
+  // Loud, but not fatal. Someone chose this and wrote it down.
+  console.log(
+    '\n  ! Building WITHOUT hymn recordings (audio.config.json:' +
+      ' expectRecordings = false).\n' +
+      '    The app will show "Recordings unavailable" for every hymn.\n' +
+      '    Set VITE_AUDIO_BASE and flip that flag back to true to restore them.\n',
+  )
   process.exit(0)
 }
 
