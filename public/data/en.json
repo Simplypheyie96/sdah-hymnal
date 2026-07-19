@@ -38,9 +38,119 @@
    "section": "Hymns"
   },
   {
+   "number": 2,
+   "songId": "sdah-2",
+   "title": "All Creatures of Our God and King",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Francis of Assisi circa 1225",
+   "verses": [
+    {
+     "lines": [
+      "All creatures of our God and King Lift up your voice and with us sing,",
+      "Alleluia!",
+      "Alleluia!",
+      "Thou burning sun with golden beam,",
+      "Thou silver moon with softer gleam!",
+      "O praise Him!",
+      "O praise Him!",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!"
+     ]
+    },
+    {
+     "lines": [
+      "Thou rushing wind that art so strong Ye clouds that sail in Heaven along,",
+      "O praise Him!",
+      "Alleluia!",
+      "Thou rising moon, in praise rejoice,",
+      "Ye lights of evening, find a voice!",
+      "O praise Him!",
+      "O praise Him!",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!"
+     ]
+    },
+    {
+     "lines": [
+      "Thou flowing water, pure and clear,",
+      "Make music for thy Lord to hear,",
+      "O praise Him!",
+      "Alleluia!",
+      "Thou fire so masterful and bright,",
+      "That givest man both warmth and light.",
+      "O praise Him!",
+      "O praise Him!",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!"
+     ]
+    },
+    {
+     "lines": [
+      "Dear mother earth, who day by day Unfoldest blessings on our way,",
+      "O praise Him!",
+      "Alleluia!",
+      "The flowers and fruits that in thee grow,",
+      "Let them His glory also show.",
+      "O praise Him!",
+      "O praise Him!",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!"
+     ]
+    },
+    {
+     "lines": [
+      "And all ye men of tender heart,",
+      "Forgiving others, take your part,",
+      "O sing ye!",
+      "Alleluia!",
+      "Ye who long pain and sorrow bear,",
+      "Praise God and on Him cast your care!",
+      "O praise Him!",
+      "O praise Him!",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!"
+     ]
+    },
+    {
+     "lines": [
+      "And thou most kind and gentle Death,",
+      "Waiting to hush our latest breath,",
+      "O praise Him!",
+      "Alleluia!",
+      "Thou leadest home the child of God,",
+      "And Christ our Lord the way hath trod."
+     ]
+    },
+    {
+     "lines": [
+      "Let all things their Creator bless,",
+      "And worship Him in humbleness,",
+      "O praise Him!",
+      "Alleluia!",
+      "Praise, praise the Father, praise the Son,",
+      "And praise the Spirit,",
+      "Three in One!"
+     ]
+    },
+    {
+     "lines": [
+      "Ps 69:34,",
+      "Ps 148"
+     ]
+    }
+   ]
+  },
+  {
    "number": 4,
    "songId": "sdah-4",
-   "title": "Praise My Soul The King Of Heaven",
+   "title": "Praise, My Soul, the King of Heaven",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -102,6 +212,174 @@
     {
      "lines": [
       "Ps 103:1, 145"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 8,
+   "songId": "sdah-8",
+   "title": "We Gather Together",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Anonymous circa 1597",
+   "verses": [
+    {
+     "lines": [
+      "We gather together to ask the Lord's blessing;",
+      "He chastens and hastens His will to make known.",
+      "The wicked oppressing now cease from distressing.",
+      "Sing praises to His Name;",
+      "He forgets not His own."
+     ]
+    },
+    {
+     "lines": [
+      "Beside us to guide us, our God with us joining,",
+      "Ordaining, maintaining His kingdom divine;",
+      "So from the beginning the fight we were winning;",
+      "Thou,",
+      "Lord, were at our side, all glory be Thine!"
+     ]
+    },
+    {
+     "lines": [
+      "We all do extol Thee,",
+      "Thou Leader triumphant,",
+      "And pray that Thou still our Defender will be.",
+      "Let Thy congregation escape tribulation;",
+      "Thy Name be ever praised!",
+      "O Lord, make us free!"
+     ]
+    },
+    {
+     "lines": [
+      "Jn 11:52,",
+      "Jer 10:23-24,",
+      "Jer 30:11,",
+      "Zech 10:8-9,",
+      "Zeph 3:14-20"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 11,
+   "songId": "sdah-11",
+   "title": "The God of Abraham Praise",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Daniel ben Judah, circa 1400",
+   "verses": [
+    {
+     "lines": [
+      "The God of Abr'ham praise,",
+      "Who reigns enthroned above;",
+      "Ancient of everlasting days, and God of Love;",
+      "Jehovah, great I AM! by earth and Heav'n confessed;",
+      "I bow and bless the sacred Name forever blessed."
+     ]
+    },
+    {
+     "lines": [
+      "The God of Abr'ham praise, at Whose supreme command From earth I rise and seek the joys at His right hand;",
+      "I all on earth forsake, its wisdom, fame, and pow'r;",
+      "And Him my only Portion make, my Shield and Tow'r."
+     ]
+    },
+    {
+     "lines": [
+      "The God of Abr'ham praise,",
+      "Whose all sufficient grace Shall guide me all my happy days, in all my ways.",
+      "He calls a worm His friend,",
+      "He calls Himself my God!",
+      "And He shall save me to the end, thro' Jesus' blood."
+     ]
+    },
+    {
+     "lines": [
+      "He by Himself has sworn;",
+      "I on His oath depend,",
+      "I shall, on eagle wings upborne, to Heav'n ascend.",
+      "I shall behold His face;",
+      "I shall His pow'r adore,",
+      "And sing the wonders of His grace forevermore."
+     ]
+    },
+    {
+     "lines": [
+      "Tho' nature's strength decay, and earth and hell withstand,",
+      "To Canaan's bounds I urge my way, at His command.",
+      "The wat'ry deep I pass, with Jesus in my view;",
+      "And thro' the howling wilderness my way pursue."
+     ]
+    },
+    {
+     "lines": [
+      "The goodly land I see, with peace and plenty bless'd;",
+      "A land of sacred liberty, and endless rest.",
+      "There milk and honey flow, and oil and wine abound,",
+      "And trees of life forever grow with mercy crowned."
+     ]
+    },
+    {
+     "lines": [
+      "There dwells the Lord our King, the Lord our righteousness,",
+      "Triumphant o'er the world and sin, the Prince of peace;",
+      "On Sion's sacred height His kingdom still maintains,",
+      "And glorious with His saints in light forever reigns."
+     ]
+    },
+    {
+     "lines": [
+      "He keeps His own secure,",
+      "He guards them by His side,",
+      "Arrays in garments, white and pure,",
+      "His spotless bride:",
+      "With streams of sacred bliss, with groves of living joys -  With all the fruits of Paradise,",
+      "He still supplies."
+     ]
+    },
+    {
+     "lines": [
+      "Before the great Three-One they all exulting stand;",
+      "And tell the wonders He hath done, through all their land:",
+      "The list'ning spheres attend, and swell the growing fame;",
+      "And sing, in songs which never end, the wondrous Name."
+     ]
+    },
+    {
+     "lines": [
+      "The God Who reigns on high the great archangels sing,",
+      "And \"Holy, holy, holy!\" cry,",
+      "\"Almighty King!",
+      "Who was, and is, the same, and evermore shall be:",
+      "Jehovah - Father - great I AM, we worship Thee!\""
+     ]
+    },
+    {
+     "lines": [
+      "Before the Savior's face the ransomed nations bow;",
+      "O'erwhelmed at His almighty grace, forever new:",
+      "He shows His prints of love - they kindle to a flame!",
+      "And sound thro' all the worlds above the slaughtered Lamb."
+     ]
+    },
+    {
+     "lines": [
+      "The whole triumphant host give thanks to God on high;",
+      "\"Hail,",
+      "Father,",
+      "Son, and Holy Ghost,\" they ever cry.",
+      "Hail,",
+      "Abraham's God, and mine! (I join the heav'nly lays,) All might and majesty are Thine, and endless praise."
+     ]
+    },
+    {
+     "lines": [
+      "Ex 3:14-15, 1Chr 29:18"
      ]
     }
    ]
@@ -202,6 +480,73 @@
    ]
   },
   {
+   "number": 45,
+   "songId": "sdah-45",
+   "title": "Open Now Thy Gates of Beauty",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Benjamin Schmolck, 1730",
+   "verses": [
+    {
+     "lines": [
+      "Open now thy gates of beauty,",
+      "Zion, let me enter there,",
+      "Where my soul in joyful duty Waits for Him Who answers prayer.",
+      "Oh, how blessèd is this place,",
+      "Filled with solace, light and grace!"
+     ]
+    },
+    {
+     "lines": [
+      "Lord, my God,",
+      "I come before Thee,",
+      "Come Thou also unto me;",
+      "Where we find Thee and adore Thee,",
+      "There a heav'n on earth must be.",
+      "To my heart, oh, enter Thou,",
+      "Let it be Thy temple now!"
+     ]
+    },
+    {
+     "lines": [
+      "Here Thy praise is gladly chanted,",
+      "Here Thy seed is duly sown;",
+      "Let my soul, where it is planted,",
+      "Bring forth precious sheaves alone,",
+      "So that all I hear may be Fruitful unto life in me."
+     ]
+    },
+    {
+     "lines": [
+      "Thou my faith increase and quicken,",
+      "Let me keep Thy gift divine,",
+      "Howsoe'er temptations thicken;",
+      "May Thy Word still o'er me shine As my guiding star through life,",
+      "As my comfort in my strife."
+     ]
+    },
+    {
+     "lines": [
+      "Speak,",
+      "O God, and I will hear Thee,",
+      "Let Thy will be done indeed;",
+      "May I undisturbed draw near Thee While Thou dost Thy people feed.",
+      "Here of life the fountain flows,",
+      "Here is balm for all our woes."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 100:1-5,",
+      "Ps 118:19-26,",
+      "Is 26:1-4, 1Cor 3:16-17,",
+      "Lk 8:4-15"
+     ]
+    }
+   ]
+  },
+  {
    "number": 50,
    "songId": "sdah-50",
    "title": "Abide With Me",
@@ -293,7 +638,7 @@
   {
    "number": 53,
    "songId": "sdah-53",
-   "title": "All Praise To Thee, My God, This Night",
+   "title": "All Praise to Thee",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -362,6 +707,149 @@
       "Ps 92:1-2,",
       "Ps 4:8,",
       "Ps 91:1-16"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 55,
+   "songId": "sdah-55",
+   "title": "Jesus, Tender Shepherd, Hear Me",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Mary L",
+   "verses": [
+    {
+     "lines": [
+      "Jesus, tender Shepherd, hear me;",
+      "Bless Thy little lamb tonight;",
+      "Through the darkness be Thou near me;",
+      "Watch my sleep till morning light."
+     ]
+    },
+    {
+     "lines": [
+      "All this day thy hand has led me,",
+      "And I thank Thee for Thy care;",
+      "Thou hast clothed me, warmed and fed me,",
+      "Listen to my evening prayer."
+     ]
+    },
+    {
+     "lines": [
+      "Let my sins be all forgiven;",
+      "Bless the friends I love so well;",
+      "Take me, when I die, to heaven,",
+      "Happy there with Thee to dwell."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 63:8,",
+      "Jn 10:11"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 60,
+   "songId": "sdah-60",
+   "title": "Blessed Jesus, at Thy Word",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "verses 1-3, Tobias Clausnitzer, 1663",
+   "verses": [
+    {
+     "lines": [
+      "Blessed Jesus, at Thy Word We are gathered all to hear Thee;",
+      "Let our hearts and souls be stirred Now to seek and love and fear Thee,",
+      "By Thy teachings sweet and holy,",
+      "Drawn from earth to love Thee solely."
+     ]
+    },
+    {
+     "lines": [
+      "All our knowledge, sense, and sight Lie in deepest darkness shrouded,",
+      "Til Thy Spirit breaks our night With the beams of truth unclouded;",
+      "Thou alone to God canst win us;",
+      "Thou must work all good within us."
+     ]
+    },
+    {
+     "lines": [
+      "Glorious Lord,",
+      "Thyself impart!",
+      "Light of light, from God proceeding,",
+      "Open Thou our ears and heart;",
+      "Help us by Thy Spirit's pleading;",
+      "Hear the cry Thy people raises;",
+      "Hear and bless our prayers and praises."
+     ]
+    },
+    {
+     "lines": [
+      "Father,",
+      "Son, and Holy Ghost,",
+      "Praise to Thee and adoration!",
+      "Grant that we Thy Word may trust And obtain true consolation,",
+      "While we here below must wander,",
+      "Till we sing Thy praises yonder."
+     ]
+    },
+    {
+     "lines": [
+      "Jn 6:67-68, 8:31-32,",
+      "Heb 4:12,",
+      "Jn 1:1-5, 8:12, 1Cor 2:14"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 64,
+   "songId": "sdah-64",
+   "title": "Lord, Dismiss Us With Thy Blessing",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "John Fawcett, 1773; verse 3 alt",
+   "verses": [
+    {
+     "lines": [
+      "Lord, dismiss us with Thy blessing;",
+      "Fill our hearts with joy and peace;",
+      "Let us each Thy love possessing,",
+      "Triumph in redeeming grace.",
+      "O refresh us,",
+      "O refresh us,",
+      "Trav'ling through this wilderness."
+     ]
+    },
+    {
+     "lines": [
+      "Thanks we give and adoration For Thy Gospel's joyful sound;",
+      "May the fruits of Thy salvation In our hearts and lives abound.",
+      "Ever faithful, ever faithful,",
+      "To the truth may we be found."
+     ]
+    },
+    {
+     "lines": [
+      "So that when Thy love shall call us,",
+      "Savior, from the world away,",
+      "Fear of death shall not appall us,",
+      "Glad Thy summons to obey.",
+      "May we ever, may we ever,",
+      "Reign with Thee in endless day."
+     ]
+    },
+    {
+     "lines": [
+      "Num 6:22-27, 1Cor 15:54-57,",
+      "Heb 9:15,",
+      "Is 63:9"
      ]
     }
    ]
@@ -576,6 +1064,121 @@
     }
    ],
    "section": "Hymns"
+  },
+  {
+   "number": 116,
+   "songId": "sdah-116",
+   "title": "Of the Father’s Love Begotten",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Aurelius Prudentius Clemens, 5th Century",
+   "verses": [
+    {
+     "lines": [
+      "Of the Father's love begotten Ere the worlds began to be,",
+      "He is Alpha and Omega,",
+      "He the source, the ending He,",
+      "Of the things that are, that have been,",
+      "And that future years shall see,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "At His Word they were created;",
+      "He commanded; it was done:",
+      "Heav'n and earth and depths of ocean In their threefold order one;",
+      "All that grows beneath the shining Of the moon and burning sun,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "He is found in human fashion,",
+      "Death and sorrow here to know,",
+      "That the race of Adam's children,",
+      "Doomed by law to endless woe,",
+      "May not henceforth die and perish In the dreadful gulf below,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "Oh that birth forever blessèd!",
+      "When the virgin, full of grace,",
+      "By the Holy Ghost conceiving,",
+      "Bare the Savior of our race;",
+      "And the Babe, the world's Redeemer,",
+      "First revealed His sacred face,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "O ye heights of heav'n adore Him;",
+      "Angel hosts,",
+      "His praises sing;",
+      "Pow'rs, dominions, bow before Him, and extol our God and King:",
+      "Let no tongue on earth be silent,",
+      "Every voice in concert ring,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "He is here,",
+      "Whom seers in old time Chanted of, while ages ran;",
+      "Whom the writings of the prophets Promised since the world began:",
+      "Then foretold, now manifested, to receive the praise of man,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "Righteous Judge of souls departed,",
+      "Righteous King of them that live,",
+      "On the Father's throne exalted None in might with Thee may strive;",
+      "Who at last in vengeance coming Sinners from Thy face shalt drive,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "Thee let old men,",
+      "Thee let young men,",
+      "Thee let choirs of infants sing;",
+      "Thee the matrons and the virgins,",
+      "And the children answering:",
+      "Let their guileless songs re-echo,",
+      "And the heart its music bring,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "Christ, to Thee with God the Father,",
+      "And,",
+      "O Holy Ghost, to Thee,",
+      "Hymn and chant with high thanksgiving,",
+      "And unwearied praises be:",
+      "Honor, glory, and dominion,",
+      "And eternal victory,",
+      "Evermore and evermore!"
+     ]
+    },
+    {
+     "lines": [
+      "Jn 3:16,",
+      "Acts 13:32-39,",
+      "Rev 1:8,",
+      "Jn 1:1-5,",
+      "Phil 2:5-11,",
+      "Mt 1:20-23, 13:16-17,",
+      "Lk 24:27"
+     ]
+    }
+   ]
   },
   {
    "number": 117,
@@ -797,7 +1400,7 @@
   {
    "number": 122,
    "songId": "sdah-122",
-   "title": "Hark! The Herald Angels Sing",
+   "title": "Hark! the Herald Angels Sing",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -937,6 +1540,311 @@
    ]
   },
   {
+   "number": 124,
+   "songId": "sdah-124",
+   "title": "Away in a Manger",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "stanzas 1,2 anonymous published Philadelphia, 1885",
+   "verses": [
+    {
+     "lines": [
+      "Away in a manger, no crib for a bed,",
+      "The little Lord Jesus laid down His sweet head.",
+      "The stars in the sky looked down where He lay,",
+      "The little Lord Jesus, asleep on the hay."
+     ]
+    },
+    {
+     "lines": [
+      "The cattle are lowing, the Baby awakes,",
+      "But little Lord Jesus, no crying He makes;",
+      "I love Thee,",
+      "Lord Jesus, look down from the sky And stay by my cradle til morning is nigh."
+     ]
+    },
+    {
+     "lines": [
+      "Be near me,",
+      "Lord Jesus,",
+      "I ask Thee to stay Close by me forever, and love me,",
+      "I pray;",
+      "Bless all the dear children in Thy tender care,",
+      "And fit us for Heaven to live with Thee there."
+     ]
+    },
+    {
+     "lines": [
+      "Lk 2:7,",
+      "Lk 18:15-17"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 125,
+   "songId": "sdah-125",
+   "title": "Joy to the World",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Isaac Watts, 1719",
+   "verses": [
+    {
+     "lines": [
+      "Joy to the world, the Lord is come!",
+      "Let earth receive her King;",
+      "Let ev'ry heart prepare Him room,",
+      "And Heav'n and nature sing,",
+      "And Heav'n and nature sing,",
+      "And Heav'n, and Heav'n, and nature sing."
+     ]
+    },
+    {
+     "lines": [
+      "Joy to the earth, the Savior reigns!",
+      "Let men their songs employ;",
+      "While fields and floods, rocks, hills and plains Repeat the sounding joy,",
+      "Repeat the sounding joy,",
+      "Repeat, repeat, the sounding joy."
+     ]
+    },
+    {
+     "lines": [
+      "No more let sins and sorrows grow,",
+      "Nor thorns infest the ground;",
+      "He comes to make His blessings flow Far as the curse is found,",
+      "Far as the curse is found,",
+      "Far as, far as, the curse is found."
+     ]
+    },
+    {
+     "lines": [
+      "He rules the world with truth and grace,",
+      "And makes the nations prove The glories of His righteousness,",
+      "And wonders of His love,",
+      "And wonders of His love,",
+      "And wonders, wonders, of His love."
+     ]
+    },
+    {
+     "lines": [
+      "Lk 2:10,",
+      "Ps 97:1, 98:4-9"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 126,
+   "songId": "sdah-126",
+   "title": "In the Bleak Midwinter",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Christina Georgina Rossetti, 1872, alt",
+   "verses": [
+    {
+     "lines": [
+      "In the bleak midwinter, frosty wind made moan,",
+      "Earth stood hard as iron, water like a stone;",
+      "Snow had fallen, snow on snow, snow on snow on snow,",
+      "In the bleak midwinter, long ago."
+     ]
+    },
+    {
+     "lines": [
+      "Our God,",
+      "Heav'n cannot hold Him, nor earth sustain;",
+      "Heav'n and earth shall flee away when He comes to reign.",
+      "In the bleak midwinter a stable place sufficed The Lord God Almighty,",
+      "Jesus Christ."
+     ]
+    },
+    {
+     "lines": [
+      "Enough for Him, whom cherubim, worship night and day,",
+      "Breastful of milk, and a mangerful of hay;",
+      "Enough for Him, whom angels fall down before,",
+      "Ox and ass and camel which adore."
+     ]
+    },
+    {
+     "lines": [
+      "Angels and archangels may have gathered there,",
+      "Cherubim and seraphim thronged the air;",
+      "But His mother only, in her maiden bliss,",
+      "Worshiped the beloved with a kiss."
+     ]
+    },
+    {
+     "lines": [
+      "What can I give Him, poor as I am?",
+      "If I were a shepherd,",
+      "I would bring a lamb;",
+      "If I were a Wise Man,",
+      "I would do my part;",
+      "Yet what can I give Him: give my heart."
+     ]
+    },
+    {
+     "lines": [
+      "These lyrics are rather obscure, though quite beautiful.",
+      "The earth (which represents all of God's promises to His People,",
+      "Gen 13:14-15,",
+      "Rom 4:13-17,",
+      "Mt 5:5) and the water (which represents Baptism and forgiveness,",
+      "Jn 3:5,",
+      "Eph 5:25-27, 1Pt 3:21) are frozen and lifeless as the Law reigns alone (2Cor 3:6b), with no grace flowing before Christ.",
+      "The Spirit (the wind) works in the world through the condemnation of the Law and the hope for redemption to come (frosty wind made moan,",
+      "Micah 4:10,",
+      "Ez 21:6-7).",
+      "Then Christ humbly comes to melt the icy world in grace.",
+      "This then inspires those saved, who recognize that they have nothing to give to Him, to finally, through His grace, fulfill the greatest commandment (Mt 22:37)."
+     ]
+    },
+    {
+     "lines": [
+      "Lv 26:18-19,",
+      "Job 38:29-30,",
+      "Ps 147:16-20,",
+      "Is 59:11-14, 1Kgs 8:27,",
+      "Lk 2:7-14,",
+      "Ez 36:25-28,",
+      "Pr 23:26,",
+      "Deut 30:6"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 130,
+   "songId": "sdah-130",
+   "title": "It Came Upon the Midnight Clear",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Edmund H",
+   "verses": [
+    {
+     "lines": [
+      "It came upon the midnight clear,",
+      "That glorious song of old,",
+      "From angels bending near the earth,",
+      "To touch their harps of gold;",
+      "\"Peace on the earth, good will to men,",
+      "From Heaven's all gracious King.\"  The world in solemn stillness lay,",
+      "To hear the angels sing."
+     ]
+    },
+    {
+     "lines": [
+      "Still through the cloven skies they come With peaceful wings unfurled,",
+      "And still their heavenly music floats O'er all the weary world;",
+      "Above its sad and lowly plains,",
+      "They bend on hov'ring wing,",
+      "And ever over its Babel sounds The blessèd angels sing."
+     ]
+    },
+    {
+     "lines": [
+      "Yet with the woes of sin and strife The world has suffered long;",
+      "Beneath the angel strain have rolled Two thousand years of wrong;",
+      "And man, at war with man, hears not The love&mdash; song which they bring;",
+      "O hush the noise, ye men of strife And hear the angels sing."
+     ]
+    },
+    {
+     "lines": [
+      "And ye, beneath life's crushing load,",
+      "Whose forms are bending low,",
+      "Who toil along the climbing way With painful steps and slow,",
+      "Look now! for glad and golden hours Come swiftly on the wing.",
+      "O rest beside the weary road,",
+      "And hear the angels sing!"
+     ]
+    },
+    {
+     "lines": [
+      "For lo! the days are hast'ning on,",
+      "By prophet&mdash; bards foretold,",
+      "When with the ever circling years Comes round the age of gold;",
+      "When peace shall over all the earth Its ancient splendors fling,",
+      "And the whole world send back the song Which now the angels sing."
+     ]
+    },
+    {
+     "lines": [
+      "Lk 2:8-14,",
+      "Is 9:1-6,",
+      "Gen 11:9"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 131,
+   "songId": "sdah-131",
+   "title": "Lo, How a Rose E'er Blooming",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "verses 1-2, 15th Century German",
+   "verses": [
+    {
+     "lines": [
+      "Lo, how a Rose e'er blooming from tender stem hath sprung!",
+      "Of Jesse's lineage coming, as men of old have sung.",
+      "It came, a flow'ret bright, amid the cold of winter,",
+      "When half spent was the night."
+     ]
+    },
+    {
+     "lines": [
+      "Isaiah 'twas foretold it, the Rose I have in mind;",
+      "With Mary we behold it, the virgin mother kind.",
+      "To show God's love aright, she bore to men a Savior,",
+      "When half spent was the night."
+     ]
+    },
+    {
+     "lines": [
+      "The shepherds heard the story proclaimed by angels bright,",
+      "How Christ, the Lord of glory was born on earth this night.",
+      "To Bethlehem they sped and in the manger found Him,",
+      "As angel heralds said."
+     ]
+    },
+    {
+     "lines": [
+      "This Flow'r, whose fragrance tender with sweetness fills the air,",
+      "Dispels with glorious splendor the darkness everywhere;",
+      "True Man, yet very God, from sin and death He saves us,",
+      "And lightens ev'ry load."
+     ]
+    },
+    {
+     "lines": [
+      "O Savior,",
+      "Child of Mary, who felt our human woe,",
+      "O Savior,",
+      "King of glory, who dost our weakness know;",
+      "Bring us at length we pray, to the bright courts of Heaven,",
+      "And to the endless day!"
+     ]
+    },
+    {
+     "lines": [
+      "Is 11:1-10,",
+      "Mt 1:20-21,",
+      "Heb 2:14-15,",
+      "Lk 2:1-18"
+     ]
+    }
+   ]
+  },
+  {
    "number": 132,
    "songId": "sdah-132",
    "title": "O Come, All Ye Faithful",
@@ -1038,6 +1946,253 @@
    ]
   },
   {
+   "number": 135,
+   "songId": "sdah-135",
+   "title": "O Little Town of Bethlehem",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Phillips Brooks, 1867",
+   "verses": [
+    {
+     "lines": [
+      "O little town of Bethlehem, how still we see thee lie!",
+      "Above thy deep and dreamless sleep the silent stars go by.",
+      "Yet in thy dark streets shineth the everlasting Light;",
+      "The hopes and fears of all the years are met in thee tonight."
+     ]
+    },
+    {
+     "lines": [
+      "For Christ is born of Mary, and gathered all above,",
+      "While mortals sleep, the angels keep their watch of wond'ring love.",
+      "O morning stars together, proclaim the holy birth,",
+      "And praises sing to God the King, and peace to men on earth!"
+     ]
+    },
+    {
+     "lines": [
+      "How silently, how silently, the wondrous Gift is giv'n;",
+      "So God imparts to human hearts the blessings of His Heav'n.",
+      "No ear may hear His coming, but in this world of sin,",
+      "Where meek souls will receive Him still, the dear Christ enters in."
+     ]
+    },
+    {
+     "lines": [
+      "Where children pure and happy pray to the blessèd Child,",
+      "Where misery cries out to Thee,",
+      "Son of the mother mild;",
+      "Where charity stands watching and faith holds wide the door,",
+      "The dark night wakes, the glory breaks, and Christmas comes once more."
+     ]
+    },
+    {
+     "lines": [
+      "O holy Child of Bethlehem, descend to us, we pray;",
+      "Cast out our sin, and enter in, be born in us today.",
+      "We hear the Christmas angels the great glad tidings tell;",
+      "O come to us, abide with us, our Lord Emmanuel!"
+     ]
+    },
+    {
+     "lines": [
+      "Mic 5:2,",
+      "Lk 2:4-16"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 141,
+   "songId": "sdah-141",
+   "title": "What Child Is This?",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "William Chatterton Dix, 1865",
+   "verses": [
+    {
+     "lines": [
+      "What Child is this who, laid to rest On Mary's lap is sleeping?",
+      "Whom angels greet with anthems sweet,",
+      "While shepherds watch are keeping?",
+      "This, this is Christ the King,",
+      "Whom shepherds guard and angels sing;",
+      "Haste, haste, to bring Him laud,",
+      "The Babe, the Son of Mary."
+     ]
+    },
+    {
+     "lines": [
+      "Why lies He in such mean estate,",
+      "Where ox and ass are feeding?",
+      "Good Christians, fear, for sinners here The silent Word is pleading.",
+      "Nails, spear shall pierce Him through,",
+      "The cross be borne for me, for you.",
+      "Hail, hail the Word made flesh,",
+      "The Babe, the Son of Mary."
+     ]
+    },
+    {
+     "lines": [
+      "So bring Him incense, gold and myrrh,",
+      "Come peasant, king to own Him;",
+      "The King of kings salvation brings,",
+      "Let loving hearts enthrone Him.",
+      "Raise, raise a song on high,",
+      "The virgin sings her lullaby.",
+      "Joy, joy for Christ is born,",
+      "The Babe, the Son of Mary."
+     ]
+    },
+    {
+     "lines": [
+      "Lk 2:7,",
+      "Mt 2:1-11,",
+      "Phil 2:5-8,",
+      "Is 53:1-6"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 142,
+   "songId": "sdah-142",
+   "title": "Angels We Have Heard on High",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "French Carol; Translated by James Chadwick, 1862",
+   "verses": [
+    {
+     "lines": [
+      "Angels we have heard on high Sweetly singing o'er the plains,",
+      "And the mountains in reply Echoing their joyous strains.",
+      "Gloria, in excelsis Deo!",
+      "Gloria, in excelsis Deo!"
+     ]
+    },
+    {
+     "lines": [
+      "Shepherds, why this jubilee?",
+      "Why your joyous strains prolong?",
+      "What the gladsome tidings be Which inspire your heav'nly song?",
+      "Gloria, in excelsis Deo!",
+      "Gloria, in excelsis Deo!"
+     ]
+    },
+    {
+     "lines": [
+      "Come to Bethlehem and see Christ Whose birth the angels sing;",
+      "Come, adore on bended knee,",
+      "Christ the Lord, the newborn King.",
+      "Gloria, in excelsis Deo!",
+      "Gloria, in excelsis Deo!"
+     ]
+    },
+    {
+     "lines": [
+      "See Him in a manger laid,",
+      "Whom the choirs of angels praise;",
+      "Mary,",
+      "Joseph, lend your aid,",
+      "While our hearts in love we raise.",
+      "Gloria, in excelsis Deo!",
+      "Gloria, in excelsis Deo!"
+     ]
+    },
+    {
+     "lines": [
+      "Lk 2:13-14,",
+      "Ps 95:6"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 145,
+   "songId": "sdah-145",
+   "title": "Songs of Thankfulness and Praise",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Christopher Wordsworth, 1862",
+   "verses": [
+    {
+     "lines": [
+      "Songs of thankfulness and praise,",
+      "Jesus,",
+      "Lord, to Thee we raise,",
+      "Manifested by the star To the sages from afar;",
+      "Branch of royal David's stem In Thy birth at Bethlehem;",
+      "Anthems be to Thee addressed,",
+      "God in man made manifest."
+     ]
+    },
+    {
+     "lines": [
+      "Manifest at Jordan's stream,",
+      "Prophet,",
+      "Priest, and King supreme;",
+      "And at Cana, wedding guest,",
+      "In Thy Godhead manifest;",
+      "Manifest in pow'r divine,",
+      "Changing water into wine;",
+      "Anthems be to Thee addressed,",
+      "God in man made manifest."
+     ]
+    },
+    {
+     "lines": [
+      "Manifest in making whole Palsied limbs and fainting soul;",
+      "Manifest in valiant fight,",
+      "Quelling all the devil's might;",
+      "Manifest in gracious will,",
+      "Ever bringing good from ill;",
+      "Anthems be to Thee addressed,",
+      "God in man made manifest."
+     ]
+    },
+    {
+     "lines": [
+      "Sun and moon shall darkened be,",
+      "Stars shall fall, the heav'ns shall flee,",
+      "Christ will then like lightning shine,",
+      "All will see His glorious sign:",
+      "All will then the trumpet hear;",
+      "All will see the Judge appear;",
+      "Thou by all wilt be confessed,",
+      "God in man made manifest."
+     ]
+    },
+    {
+     "lines": [
+      "Grant us grace to see Thee,",
+      "Lord,",
+      "Mirrored in Thy holy Word;",
+      "May we imitate Thee now,",
+      "And be pure, as pure art Thou;",
+      "That we like to Thee may be At Thy great Epiphany;",
+      "And may praise Thee, ever blest,",
+      "God in man made manifest."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 95:2,",
+      "Is 61:1-3, 1 Pt 1:20,",
+      "Mk 1:7-11,",
+      "Lk 3:15-22,",
+      "Jn 2:1-11,",
+      "Mt 11:4-5,",
+      "Lk 7:18-22,",
+      "Rev 19:1-16"
+     ]
+    }
+   ]
+  },
+  {
    "number": 154,
    "songId": "sdah-154",
    "title": "When I Survey the Wondrous Cross",
@@ -1097,9 +2252,131 @@
    ]
   },
   {
+   "number": 156,
+   "songId": "sdah-156",
+   "title": "O Sacred Head Now Wounded",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Bernard of Clairvaux, 1153",
+   "verses": [
+    {
+     "lines": [
+      "O sacred Head, now wounded, with grief and shame weighed down,",
+      "Now scornfully surrounded with thorns,",
+      "Thine only crown;",
+      "O sacred Head, what glory, what bliss till now was Thine!",
+      "Yet, though despised and gory,",
+      "I joy to call Thee mine."
+     ]
+    },
+    {
+     "lines": [
+      "What Thou, my Lord, hast suffered, was all for sinners' gain;",
+      "Mine, mine was the transgression, but Thine the deadly pain.",
+      "Lo, here I fall, my Savior!",
+      "'Tis I deserve Thy place;",
+      "Look on me with Thy favor, vouchsafe to me Thy grace."
+     ]
+    },
+    {
+     "lines": [
+      "Men mock and taunt and jeer Thee,",
+      "Thou noble countenance,",
+      "Though mighty worlds shall fear Thee and flee before Thy glance.",
+      "How art thou pale with anguish, with sore abuse and scorn!",
+      "How doth Thy visage languish that once was bright as morn!"
+     ]
+    },
+    {
+     "lines": [
+      "Now from Thy cheeks has vanished their color once so fair;",
+      "From Thy red lips is banished the splendor that was there.",
+      "Grim death, with cruel rigor, hath robbed Thee of Thy life;",
+      "Thus Thou hast lost Thy vigor,",
+      "Thy strength in this sad strife."
+     ]
+    },
+    {
+     "lines": [
+      "My burden in Thy Passion,",
+      "Lord,",
+      "Thou hast borne for me,",
+      "For it was my transgression which brought this woe on Thee.",
+      "I cast me down before Thee, wrath were my rightful lot;",
+      "Have mercy,",
+      "I implore Thee;",
+      "Redeemer, spurn me not!"
+     ]
+    },
+    {
+     "lines": [
+      "What language shall I borrow to thank Thee, dearest friend,",
+      "For this Thy dying sorrow,",
+      "Thy pity without end?",
+      "O make me Thine forever, and should I fainting be,",
+      "Lord, let me never, never outlive my love to Thee."
+     ]
+    },
+    {
+     "lines": [
+      "My Shepherd, now receive me; my Guardian, own me Thine.",
+      "Great blessings Thou didst give me,",
+      "O source of gifts divine.",
+      "Thy lips have often fed me with words of truth and love;",
+      "Thy Spirit oft hath led me to heavenly joys above."
+     ]
+    },
+    {
+     "lines": [
+      "Here I will stand beside Thee, from Thee I will not part;",
+      "O Savior, do not chide me!",
+      "When breaks Thy loving heart,",
+      "When soul and body languish in death's cold, cruel grasp,",
+      "Then, in Thy deepest anguish,",
+      "Thee in mine arms I'll clasp."
+     ]
+    },
+    {
+     "lines": [
+      "The joy can never be spoken, above all joys beside,",
+      "When in Thy body broken I thus with safety hide.",
+      "O Lord of Life, desiring Thy glory now to see,",
+      "Beside Thy cross expiring,",
+      "I'd breathe my soul to Thee."
+     ]
+    },
+    {
+     "lines": [
+      "My Savior, be Thou near me when death is at my door;",
+      "Then let Thy presence cheer me, forsake me nevermore!",
+      "When soul and body languish, oh, leave me not alone,",
+      "But take away mine anguish by virtue of Thine own!"
+     ]
+    },
+    {
+     "lines": [
+      "Be Thou my consolation, my shield when I must die;",
+      "Remind me of Thy passion when my last hour draws nigh.",
+      "Mine eyes shall then behold Thee, upon Thy cross shall dwell,",
+      "My heart by faith enfolds Thee.",
+      "Who dieth thus dies well."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 22:6-8,",
+      "Is 53:4-5,",
+      "Jn 10:14-15, 10:27-28,",
+      "Heb 12:2"
+     ]
+    }
+   ]
+  },
+  {
    "number": 157,
    "songId": "sdah-157",
-   "title": "Go To Dark Gethsemane",
+   "title": "Go to Dark Gethsemane",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -1149,6 +2426,264 @@
    ]
   },
   {
+   "number": 158,
+   "songId": "sdah-158",
+   "title": "Were You There?",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "African-American Spiritual, before 1899",
+   "verses": [
+    {
+     "lines": [
+      "Were you there when they crucified my Lord?",
+      "Were you there when they crucified my Lord?",
+      "Sometimes it causes me to tremble, tremble, tremble.",
+      "Were you there when they crucified my Lord?"
+     ]
+    },
+    {
+     "lines": [
+      "Were you there when they nailed Him to the tree?",
+      "Were you there when they nailed Him to the tree?",
+      "Sometimes it causes me to tremble, tremble, tremble.",
+      "Were you there when they nailed Him to the tree?"
+     ]
+    },
+    {
+     "lines": [
+      "Were you there when they pierced Him in the side?",
+      "Were you there when they pierced Him in the side?",
+      "Oh!",
+      "Sometimes it causes me to tremble, tremble, tremble.",
+      "Were you there when they pierced Him in the side?"
+     ]
+    },
+    {
+     "lines": [
+      "Were you there when the sun refused to shine?",
+      "Were you there when the sun refused to shine?",
+      "Sometimes it causes me to tremble, tremble, tremble.",
+      "Were you there when the sun refused to shine?"
+     ]
+    },
+    {
+     "lines": [
+      "Were you there when they laid Him in the tomb?",
+      "Were you there when they laid Him in the tomb?",
+      "Sometimes it causes me to tremble, tremble, tremble.",
+      "Were you there when they laid Him in the tomb?"
+     ]
+    },
+    {
+     "lines": [
+      "Were you there when God raised Him from the tomb?",
+      "Were you there when God raised Him from the tomb?",
+      "Oh!",
+      "Sometimes it causes me to tremble, tremble, tremble.",
+      "Were you there when God raised Him from the tomb?"
+     ]
+    },
+    {
+     "lines": [
+      "Mt 27:55-56,",
+      "Jn 19:34,",
+      "Lk 23:44-45, 23:55,",
+      "Mt 28:1-7"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 159,
+   "songId": "sdah-159",
+   "title": "The Old Rugged Cross",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "George Bennard, 1913",
+   "verses": [
+    {
+     "lines": [
+      "On a hill far away stood an old rugged cross,",
+      "The emblem of suff'ring and shame;",
+      "And I love that old cross where the dearest and best For a world of lost sinners was slain.",
+      "So I'll cherish the old rugged cross,",
+      "Till my trophies at last I lay down;",
+      "I will cling to the old rugged cross,",
+      "And exchange it some day for a crown."
+     ]
+    },
+    {
+     "lines": [
+      "O that old rugged cross, so despised by the world,",
+      "Has a wondrous attraction for me;",
+      "For the dear Lamb of God left His glory above To bear it to dark Calvary.",
+      "So I'll cherish the old rugged cross,",
+      "Till my trophies at last I lay down;",
+      "I will cling to the old rugged cross,",
+      "And exchange it some day for a crown."
+     ]
+    },
+    {
+     "lines": [
+      "In that old rugged cross, stained with blood so divine,",
+      "A wondrous beauty I see,",
+      "For 'twas on that old cross Jesus suffered and died,",
+      "To pardon and sanctify me.",
+      "So I'll cherish the old rugged cross,",
+      "Till my trophies at last I lay down;",
+      "I will cling to the old rugged cross,",
+      "And exchange it some day for a crown."
+     ]
+    },
+    {
+     "lines": [
+      "To the old rugged cross I will ever be true;",
+      "Its shame and reproach gladly bear;",
+      "Then He'll call me some day to my home far away,",
+      "Where His glory forever I'll share.",
+      "So I'll cherish the old rugged cross,",
+      "Till my trophies at last I lay down;",
+      "I will cling to the old rugged cross,",
+      "And exchange it some day for a crown."
+     ]
+    },
+    {
+     "lines": [
+      "Gal 6:14,",
+      "Jn 7:7, 2Tim 4:8"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 167,
+   "songId": "sdah-167",
+   "title": "Alleluia! Sing to Jesus!",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "William Chatterton Dix, 1867",
+   "verses": [
+    {
+     "lines": [
+      "Alleluia! sing to Jesus!",
+      "His the scepter,",
+      "His the throne.",
+      "Alleluia!",
+      "His the triumph,",
+      "His the victory alone.",
+      "Hark! the songs of peaceful Zion thunder like a mighty flood.",
+      "Jesus out of every nation has redeemed us by His blood."
+     ]
+    },
+    {
+     "lines": [
+      "Alleluia! not as orphans are we left in sorrow now;",
+      "Alleluia!",
+      "He is near us, faith believes, nor questions how;",
+      "Though the cloud from sight received Him when the forty days were o'er Shall our hearts forget His promise,",
+      "\"I am with you evermore\"?"
+     ]
+    },
+    {
+     "lines": [
+      "Alleluia! bread of angels,",
+      "Thou on earth our food, our stay;",
+      "Alleluia! here the sinful flee to Thee from day to day:",
+      "Intercessor,",
+      "Friend of sinners,",
+      "Earth's Redeemer, plead for me,",
+      "Where the songs of all the sinless sweep across the crystal sea."
+     ]
+    },
+    {
+     "lines": [
+      "Alleluia!",
+      "King eternal,",
+      "Thee the Lord of lords we own;",
+      "Alleluia! born of Mary,",
+      "Earth Thy footstool,",
+      "Heaven Thy throne:",
+      "Thou within the veil hast entered, robed in flesh our great High Priest;",
+      "Thou on earth both priest and victim in the Eucharistic feast."
+     ]
+    },
+    {
+     "lines": [
+      "Is 66:1,",
+      "Rom 15:9,",
+      "Jas 5:13,",
+      "Rev 14:2-3"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 190,
+   "songId": "sdah-190",
+   "title": "Jesus Loves Me",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Anna B",
+   "verses": [
+    {
+     "lines": [
+      "Jesus loves me!",
+      "This I know,",
+      "For the Bible tells me so.",
+      "Little ones to Him belong;",
+      "They are weak, but He is strong.",
+      "Yes,",
+      "Jesus loves me!",
+      "Yes,",
+      "Jesus loves me!",
+      "Yes,",
+      "Jesus loves me!",
+      "The Bible tells me so."
+     ]
+    },
+    {
+     "lines": [
+      "Jesus loves me!",
+      "He who died Heaven's gate to open wide;",
+      "He will wash away my sin,",
+      "Let His little child come in.",
+      "Yes,",
+      "Jesus loves me!",
+      "Yes,",
+      "Jesus loves me!",
+      "Yes,",
+      "Jesus loves me!",
+      "The Bible tells me so."
+     ]
+    },
+    {
+     "lines": [
+      "Jesus loves me!",
+      "He will stay Close beside me all the way;",
+      "Thou hast bled and died for me,",
+      "I will henceforth live for Thee.",
+      "Yes,",
+      "Jesus loves me!",
+      "Yes,",
+      "Jesus loves me!",
+      "Yes,",
+      "Jesus loves me!",
+      "The Bible tells me so."
+     ]
+    },
+    {
+     "lines": [
+      "Eph 3:17-18,",
+      "Jn 15:12-13"
+     ]
+    }
+   ]
+  },
+  {
    "number": 191,
    "songId": "sdah-191",
    "title": "Love Divine, All Loves Excelling",
@@ -1186,7 +2721,7 @@
   {
    "number": 198,
    "songId": "sdah-198",
-   "title": "And Can It Be",
+   "title": "And Can It Be?",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -1261,9 +2796,65 @@
    ]
   },
   {
+   "number": 210,
+   "songId": "sdah-210",
+   "title": "Wake, Awake, for Night Is Flying",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Phillipp Nicolai, 1599",
+   "verses": [
+    {
+     "lines": [
+      "Wake, awake, for night is flying;",
+      "The watchmen on the heights are crying:",
+      "Awake,",
+      "Jerusalem, at last!",
+      "Midnight hears the welcome voices And at the thrilling cry rejoices;",
+      "Come forth, ye virgins, night is past;",
+      "The Bridegroom comes, awake;",
+      "Your lamps with gladness take;",
+      "Alleluia!",
+      "And for His marriage feast prepare For ye must go and meet Him there."
+     ]
+    },
+    {
+     "lines": [
+      "Zion hears the watchmen singing,",
+      "And all her heart with joy is springing;",
+      "She wakes, she rises from her gloom;",
+      "For her Lord comes down all glorious,",
+      "The strong in grace, in truth victorious.",
+      "Her Star is ris'n, her Light is come.",
+      "Ah come,",
+      "Thou blessed One,",
+      "God's own beloved Son:",
+      "Alleluia!",
+      "We follow till the halls we see Where Thou hast bid us sup with Thee"
+     ]
+    },
+    {
+     "lines": [
+      "Now let all the heav'ns adore Thee,",
+      "And saints and angels sing before Thee,",
+      "With harp and cymbal's clearest tone;",
+      "Of one pearl each shining portal,",
+      "Where we are with the choir immortal Of angels round Thy dazzling throne;",
+      "Nor eye hath seen, nor ear hath yet attained to hear What there is ours, but we rejoice and sing to Thee Our hymn of joy eternally."
+     ]
+    },
+    {
+     "lines": [
+      "Mt 25:6,",
+      "Rev 21:2"
+     ]
+    }
+   ]
+  },
+  {
    "number": 211,
    "songId": "sdah-211",
-   "title": "Lo! He Comes With Clouds Descending",
+   "title": "Lo! He Comes",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -1401,6 +2992,137 @@
    "section": "Hymns"
   },
   {
+   "number": 215,
+   "songId": "sdah-215",
+   "title": "The King Shall Come",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Unknown author",
+   "verses": [
+    {
+     "lines": [
+      "The King shall come when morning dawns,",
+      "And light triumphant breaks;",
+      "When beauty gilds the eastern hills,",
+      "And life to joy awakes."
+     ]
+    },
+    {
+     "lines": [
+      "Not as of old a little child To bear, and fight, and die,",
+      "But crowned with glory like the sun That lights the morning sky."
+     ]
+    },
+    {
+     "lines": [
+      "O brighter than the rising morn When He, victorious, rose,",
+      "And left the lonesome place of death,",
+      "Despite the rage of foes."
+     ]
+    },
+    {
+     "lines": [
+      "O brighter than that glorious morn Shall this fair morning be,",
+      "When Christ, our King, in beauty comes,",
+      "And we His face shall see."
+     ]
+    },
+    {
+     "lines": [
+      "The King shall come when morning dawns,",
+      "And earth's dark night is past;",
+      "O haste the rising of that morn,",
+      "The day that aye shall last."
+     ]
+    },
+    {
+     "lines": [
+      "And let the endless bliss begin,",
+      "By weary saints foretold,",
+      "When right shall triumph over wrong,",
+      "And truth shall be extolled."
+     ]
+    },
+    {
+     "lines": [
+      "The King shall come when morning dawns,",
+      "And light and beauty brings:",
+      "Hail,",
+      "Christ the Lord!",
+      "Thy people pray,",
+      "Come quickly,",
+      "King of kings."
+     ]
+    },
+    {
+     "lines": [
+      "Zeph 1:14,",
+      "Rev 22:20"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 216,
+   "songId": "sdah-216",
+   "title": "When the Roll Is Called Up Yonder",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "James Milton Black, 1893",
+   "verses": [
+    {
+     "lines": [
+      "When the trumpet of the Lord shall sound, and time shall be no more,",
+      "And the morning breaks, eternal, bright and fair;",
+      "When the saved of earth shall gather over on the other shore,",
+      "And the roll is called up yonder,",
+      "I'll be there.",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "I'll be there."
+     ]
+    },
+    {
+     "lines": [
+      "On that bright and cloudless morning when the dead in Christ shall rise,",
+      "And the glory of His resurrection share;",
+      "When His chosen ones shall gather to their home beyond the skies,",
+      "And the roll is called up yonder,",
+      "I'll be there.",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "I'll be there."
+     ]
+    },
+    {
+     "lines": [
+      "Let us labor for the Master from the dawn till setting sun,",
+      "Let us talk of all His wondrous love and care;",
+      "Then when all of life is over, and our work on earth is done,",
+      "And the roll is called up yonder,",
+      "I'll be there.",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "When the roll is called up yonder,",
+      "I'll be there."
+     ]
+    },
+    {
+     "lines": [
+      "Dan 12:1-3,",
+      "Rev 20:12-15, 21:26-27, 1Thess 4:13-17"
+     ]
+    }
+   ]
+  },
+  {
    "number": 223,
    "songId": "sdah-223",
    "title": "Crown Him With Many Crowns",
@@ -1493,6 +3215,222 @@
    ]
   },
   {
+   "number": 227,
+   "songId": "sdah-227",
+   "title": "Jesus Shall Reign",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Isaac Watts, 1719",
+   "verses": [
+    {
+     "lines": [
+      "Jesus shall reign where'er the sun Does his successive journeys run;",
+      "His kingdom stretch from shore to shore Till moons shall wax and wane no more."
+     ]
+    },
+    {
+     "lines": [
+      "For Him shall endless prayer be made,",
+      "And praises throng to crown His head;",
+      "His Name, like sweet perfume shall rise With every morning sacrifice."
+     ]
+    },
+    {
+     "lines": [
+      "People and realms of every tongue Dwell on His love with sweetest song;",
+      "And infant voices shall proclaim Their early blessings on His Name."
+     ]
+    },
+    {
+     "lines": [
+      "Blessings abound where'er He reigns;",
+      "The prisoner leaps to lose his chains,",
+      "The weary find eternal rest,",
+      "And all the sons of want are blest."
+     ]
+    },
+    {
+     "lines": [
+      "Where He displays His healing power Death and the curse are known no more;",
+      "In Him the tribes of Adam boast More blessings than their father lost."
+     ]
+    },
+    {
+     "lines": [
+      "Let every creature rise and bring  Peculiar honors to our King,",
+      "Angels descend with songs again,",
+      "And earth repeat the loud Amen."
+     ]
+    },
+    {
+     "lines": [
+      "Zech 9:9-10,",
+      "Ps 72:8,",
+      "Rev 22:3-5, 15:3-4, 1Cor 15:22-28,",
+      "Is 9:6-7,",
+      "Mk 1:34-39"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 229,
+   "songId": "sdah-229",
+   "title": "All Hail the Power of Jesus’ Name",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Edward Perronet, 1780",
+   "verses": [
+    {
+     "lines": [
+      "All hail the pow'r of Jesus' Name!",
+      "Let angels prostrate fall;",
+      "Bring forth the royal diadem, and crown Him Lord of all.",
+      "Bring forth the royal diadem, and crown Him Lord of all."
+     ]
+    },
+    {
+     "lines": [
+      "Let highborn seraphs tune the lyre, and as they tune it, fall Before His face Who tunes their choir, and crown Him Lord of all.",
+      "Before His face Who tunes their choir, and crown Him Lord of all."
+     ]
+    },
+    {
+     "lines": [
+      "Crown Him, ye morning stars of light, who fixed this floating ball;",
+      "Now hail the strength of Israel's might, and crown Him Lord of all.",
+      "Now hail the strength of Israel's might, and crown Him Lord of all."
+     ]
+    },
+    {
+     "lines": [
+      "Crown Him, ye martyrs of your God, who from His altar call;",
+      "Extol the Stem of Jesse's Rod, and crown Him Lord of all.",
+      "Extol the Stem of Jesse's Rod, and crown Him Lord of all."
+     ]
+    },
+    {
+     "lines": [
+      "Ye seed of Israel's chosen race, ye ransomed from the fall,",
+      "Hail Him Who saves you by His grace, and crown Him Lord of all.",
+      "Hail Him Who saves you by His grace, and crown Him Lord of all."
+     ]
+    },
+    {
+     "lines": [
+      "Hail Him, ye heirs of David's line, whom David Lord did call,",
+      "The God incarnate,",
+      "Man divine, and crown Him Lord of all,",
+      "The God incarnate,",
+      "Man divine, and crown Him Lord of all."
+     ]
+    },
+    {
+     "lines": [
+      "Sinners, whose love can ne'er forget the wormwood and the gall,",
+      "Go spread your trophies at His feet, and crown Him Lord of all.",
+      "Go spread your trophies at His feet, and crown Him Lord of all."
+     ]
+    },
+    {
+     "lines": [
+      "Let every tribe and every tongue before Him prostrate fall And shout in universal song the crownèd Lord of all.",
+      "And shout in universal song the crownèd Lord of all."
+     ]
+    },
+    {
+     "lines": [
+      "Phil 2:9-11,",
+      "Rev 5:9-14,",
+      "Heb 2:9,",
+      "Phil 2:9-10,",
+      "Rev 19:16"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 230,
+   "songId": "sdah-230",
+   "title": "All Glory, Laud, and Honor",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Theodulf of Orleans, circa 820",
+   "verses": [
+    {
+     "lines": [
+      "All glory, laud and honor,",
+      "To Thee,",
+      "Redeemer,",
+      "King,",
+      "To Whom the lips of children Made sweet hosannas ring. 1.",
+      "Thou art the King of Israel,",
+      "Thou David's royal Son,",
+      "Who in the Lord's Name com est,",
+      "The King and Blessed One."
+     ]
+    },
+    {
+     "lines": [
+      "All glory, laud and honor,",
+      "To Thee,",
+      "Redeemer,",
+      "King,",
+      "To Whom the lips of children Made sweet hosannas ring. 2.",
+      "The company of angels Are praising Thee on High,",
+      "And mortal men and all  things Created make reply."
+     ]
+    },
+    {
+     "lines": [
+      "All glory, laud and honor,",
+      "To Thee,",
+      "Redeemer,",
+      "King,",
+      "To Whom the lips of children Made sweet hosannas ring. 3.",
+      "The people of the Hebrews With palms before Thee went;",
+      "Our prayer and praise and anthems Before Thee we present."
+     ]
+    },
+    {
+     "lines": [
+      "All glory, laud and honor,",
+      "To Thee,",
+      "Redeemer,",
+      "King,",
+      "To Whom the lips of children Made sweet hosannas ring. 4.",
+      "To Thee, before Thy passion,",
+      "They sang their hymns of praise;",
+      "To Thee, now high exalt ed,",
+      "Our melody we raise."
+     ]
+    },
+    {
+     "lines": [
+      "All glory, laud and honor,",
+      "To Thee,",
+      "Redeemer,",
+      "King,",
+      "To Whom the lips of children Made sweet hosannas ring. 5.",
+      "Thou didst accept their praises;",
+      "Accept the prayers we bring,",
+      "Who in all good delight est,",
+      "Thou good and gracious King."
+     ]
+    },
+    {
+     "lines": [
+      "Mt 21:9,",
+      "Ps 148, 1Tim 1:17,",
+      "Rev 4:8-11"
+     ]
+    }
+   ]
+  },
+  {
    "number": 249,
    "songId": "sdah-249",
    "title": "Praise Him! Praise Him!",
@@ -1546,6 +3484,58 @@
     }
    ],
    "section": "Hymns"
+  },
+  {
+   "number": 257,
+   "songId": "sdah-257",
+   "title": "Come Down, O Love Divine",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Bianco of Siena d",
+   "verses": [
+    {
+     "lines": [
+      "Come down,",
+      "O love divine, seek Thou this soul of mine,",
+      "And visit it with Thine own ardor glowing.",
+      "O Comforter, draw near, within my heart appear,",
+      "And kindle it,",
+      "Thy holy flame bestowing."
+     ]
+    },
+    {
+     "lines": [
+      "O let it freely burn, til earthly passions turn To dust and ashes in its heat consuming;",
+      "And let Thy glorious light shine ever on my sight,",
+      "And clothe me round, the while my path illuming."
+     ]
+    },
+    {
+     "lines": [
+      "Let holy charity mine outward vesture be,",
+      "And lowliness become mine inner clothing;",
+      "True lowliness of heart, which takes the humbler part,",
+      "And o'er its own shortcomings weeps with loathing."
+     ]
+    },
+    {
+     "lines": [
+      "And so the yearning strong, with which the soul will long,",
+      "Shall far outpass the pow'r of human telling;",
+      "For none can guess its grace, till he become the place Wherein the Holy Spirit makes His dwelling."
+     ]
+    },
+    {
+     "lines": [
+      "Acts 2:2-3,",
+      "Rom 5:5,",
+      "Ez 36:26-28,",
+      "Jn 14:16-17,",
+      "Jn 14:26"
+     ]
+    }
+   ]
   },
   {
    "number": 265,
@@ -1650,6 +3640,61 @@
    ]
   },
   {
+   "number": 303,
+   "songId": "sdah-303",
+   "title": "Beneath the Cross of Jesus",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Elizabeth C",
+   "verses": [
+    {
+     "lines": [
+      "Beneath the cross of Jesus I fain would take my stand,",
+      "The shadow of a mighty rock within a weary land;",
+      "A home within the wilderness, a rest upon the way,",
+      "From the burning of the noontide heat, and the burden of the day."
+     ]
+    },
+    {
+     "lines": [
+      "O safe and happy shelter,",
+      "O refuge tried and sweet,",
+      "O trysting place where Heaven's love and Heaven's justice meet!",
+      "As to the holy patriarch that wondrous dream was giv'n,",
+      "So seems my Savior's cross to me, a ladder up to heav'n."
+     ]
+    },
+    {
+     "lines": [
+      "There lies beneath its shadow but on the further side The darkness of an awful grave that gapes both deep and wide And there between us stands the cross two arms outstretched to save A watchman set to guard the way from that eternal grave."
+     ]
+    },
+    {
+     "lines": [
+      "Upon that cross of Jesus mine eye at times can see The very dying form of One Who suffered there for me;",
+      "And from my stricken heart with tears two wonders I confess;",
+      "The wonders of redeeming love and my unworthiness."
+     ]
+    },
+    {
+     "lines": [
+      "I take,",
+      "O cross, thy shadow for my abiding place;",
+      "I ask no other sunshine than the sunshine of His face;",
+      "Content to let the world go by to know no gain or loss,",
+      "My sinful self my only shame, my glory all the cross."
+     ]
+    },
+    {
+     "lines": [
+      "Pr 14:26, 1Cor 1:17-18,",
+      "Gal 6:14"
+     ]
+    }
+   ]
+  },
+  {
    "number": 304,
    "songId": "sdah-304",
    "title": "Faith of Our Fathers",
@@ -1693,9 +3738,71 @@
    ]
   },
   {
+   "number": 318,
+   "songId": "sdah-318",
+   "title": "Whiter Than Snow",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "James Nicholson, 1872",
+   "verses": [
+    {
+     "lines": [
+      "Lord Jesus,",
+      "I long to be perfectly whole;",
+      "I want Thee forever to live in my soul,",
+      "Break down ev'ry idol, cast out ev'ry foe;",
+      "Now wash me and I shall be whiter than snow.",
+      "Whiter than snow, yes, whiter than snow;",
+      "Now wash me, and I shall be whiter than snow."
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus, look down from Thy throne in the skies,",
+      "And help me to make a complete sacrifice;",
+      "I give up myself,  and whatever I know,",
+      "Now wash me and I shall be whiter than snow.",
+      "Whiter than snow, yes, whiter than snow;",
+      "Now wash me, and I shall be whiter than snow."
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus, for this I most humbly entreat,",
+      "I wait, blessed Lord, at Thy crucified feet,",
+      "By faith, for my cleansing,",
+      "I see Thy blood flow,",
+      "Now wash me and I shall be whiter than snow.",
+      "Whiter than snow, yes, whiter than snow;",
+      "Now wash me, and I shall be whiter than snow."
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus,",
+      "Thou seest I patiently wait,",
+      "Come now, and within me a new heart create;",
+      "To those who have sought  Thee,",
+      "Thou never said'st ``No,'' Now wash me and I shall be whiter than snow.",
+      "Whiter than snow, yes, whiter than snow;",
+      "Now wash me, and I shall be whiter than snow."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 51:1-12,",
+      "Is 1:18,",
+      "Heb 13:15,",
+      "Rom 12:1-8"
+     ]
+    }
+   ]
+  },
+  {
    "number": 330,
    "songId": "sdah-330",
-   "title": "Take My Life And Let It Be",
+   "title": "Take My Life and Let It Be",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -1750,7 +3857,7 @@
   {
    "number": 334,
    "songId": "sdah-334",
-   "title": "Come Thou Fount Of Every Blessing",
+   "title": "Come, Thou Fount of Every Blessing",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -1857,9 +3964,102 @@
    "section": "Hymns"
   },
   {
+   "number": 347,
+   "songId": "sdah-347",
+   "title": "Built on the Rock",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Nikolai F",
+   "verses": [
+    {
+     "lines": [
+      "Built on the Rock the church doth stand,",
+      "Even when steeples are falling;",
+      "Crumbled have spires in every land,",
+      "Bells still are chiming and calling;",
+      "Calling the young and old to rest,",
+      "But above all the soul distressed,",
+      "Longing for rest everlasting."
+     ]
+    },
+    {
+     "lines": [
+      "Surely in temples made with hands,",
+      "God, the Most High, is not dwelling;",
+      "High above earth His temple stands,",
+      "All earthly temples excelling;",
+      "Yet He whom heav'ns cannot contain Chose to abide on earth with men,",
+      "Built in our bodies His temple."
+     ]
+    },
+    {
+     "lines": [
+      "We are God's house of living stones,",
+      "Built for His own habitation;",
+      "He through baptismal grace us owns,",
+      "Heirs of His wondrous salvation;",
+      "Were we but two His Name to tell,",
+      "Yet He would deign with us to dwell,",
+      "With all His grace and His favor."
+     ]
+    },
+    {
+     "lines": [
+      "Now we may gather with our King;",
+      "Ev'n in the lowliest dwelling:",
+      "Praises to Him we there may bring,",
+      "His wondrous mercy foretelling;",
+      "Jesus His grace to us accords,",
+      "Spirit and life are all His words,",
+      "His truth doth hallow the temple."
+     ]
+    },
+    {
+     "lines": [
+      "Still we our earthly temples rear,",
+      "That we may herald His praises;",
+      "They are the homes where He draws near And little children embraces,",
+      "Beautiful things in them are said,",
+      "God there with us His cov'nant made,",
+      "Making us heirs of His kingdom."
+     ]
+    },
+    {
+     "lines": [
+      "Here stands the font before our eyes  Telling how God did receive us;",
+      "The altar recalls Christ's sacrifice  And what His table doth give us;",
+      "Here sounds the Word that doth proclaim  Christ yesterday, today, the same,",
+      "Yea, and for aye our Redeemer."
+     ]
+    },
+    {
+     "lines": [
+      "Grant then,",
+      "O God, where'er men roam,",
+      "That, when the church bells are ringing,",
+      "Many in saving faith may come  Where Christ His message is bringing:",
+      "\"I know Mine own,",
+      "Mine own know Me;",
+      "Ye, not the world,",
+      "My face shall see.",
+      "My peace I leave with you.\""
+     ]
+    },
+    {
+     "lines": [
+      "Mt 7:24-25,",
+      "Mt 16:13-18,",
+      "Eph 2:19-22, 1Cor 3:11-16,",
+      "Acts 17:24"
+     ]
+    }
+   ]
+  },
+  {
    "number": 348,
    "songId": "sdah-348",
-   "title": "The Church's One Foundation",
+   "title": "The Church Has One Foundation",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -1945,7 +4145,7 @@
   {
    "number": 350,
    "songId": "sdah-350",
-   "title": "Blest Be The Tie That Binds",
+   "title": "Blest Be the Tie That Binds",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -2005,7 +4205,7 @@
   {
    "number": 359,
    "songId": "sdah-359",
-   "title": "Hark, the Voice of Jesus Calling",
+   "title": "Hark! the Voice of Jesus Calling",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -2088,9 +4288,107 @@
    ]
   },
   {
+   "number": 362,
+   "songId": "sdah-362",
+   "title": "Lift High the Cross",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "George W",
+   "verses": [
+    {
+     "lines": [
+      "Lift high the cross, the love of Christ proclaim,",
+      "Till all the world  adore  His sacred Name. 1.",
+      "Come, brethren, follow where our Captain trod, our King victorious,",
+      "Christ the Son of God."
+     ]
+    },
+    {
+     "lines": [
+      "Lift high the cross, the love of Christ proclaim,",
+      "Till all the world  adore  His sacred Name. 2.",
+      "Led on their way by this triumphant sign,",
+      "The hosts of God in conquering ranks combine."
+     ]
+    },
+    {
+     "lines": [
+      "Lift high the cross, the love of Christ proclaim,",
+      "Till all the world  adore  His sacred Name. 3.",
+      "Each newborn servant of the Crucified Bears on the brow the seal of Him Who died."
+     ]
+    },
+    {
+     "lines": [
+      "Lift high the cross, the love of Christ proclaim,",
+      "Till all the world  adore  His sacred Name. 4.",
+      "This is the sign which Satan's legions fear and angels veil their faces to revere."
+     ]
+    },
+    {
+     "lines": [
+      "Lift high the cross, the love of Christ proclaim,",
+      "Till all the world  adore  His sacred Name. 5.",
+      "Saved by this Cross whereon their Lord was slain, the sons of Adam their lost home regain."
+     ]
+    },
+    {
+     "lines": [
+      "From north and south, from east and west they raise in growing unison their songs of praise.",
+      "Refrain"
+     ]
+    },
+    {
+     "lines": [
+      "O Lord, once lifted on the glorious tree, as thou hast promised, draw the world to thee.",
+      "Refrain"
+     ]
+    },
+    {
+     "lines": [
+      "So shall our song of triumph ever be:",
+      "Praise to the Crucified for victory.",
+      "Refrain"
+     ]
+    },
+    {
+     "lines": [
+      "Let every race and every language tell of him who saves our souls from death and hell.",
+      "Refrain"
+     ]
+    },
+    {
+     "lines": [
+      "From farthest regions let their homage bring, and on his Cross adore their Savior King.",
+      "Refrain"
+     ]
+    },
+    {
+     "lines": [
+      "Set up thy throne, that earth's despair may cease beneath the shadow of its healing peace.",
+      "Refrain"
+     ]
+    },
+    {
+     "lines": [
+      "For thy blest Cross which doth for all atone creation's praises rise before thy throne.",
+      "Refrain"
+     ]
+    },
+    {
+     "lines": [
+      "Is 11:10,",
+      "Rom 8:38-39, 1Tim 1:14,",
+      "Jn 3:16"
+     ]
+    }
+   ]
+  },
+  {
    "number": 382,
    "songId": "sdah-382",
-   "title": "O Day of Rest And Gladness",
+   "title": "O Day of Rest and Gladness",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -2155,9 +4453,104 @@
    ]
   },
   {
+   "number": 408,
+   "songId": "sdah-408",
+   "title": "Lord, Enthroned in Heavenly Splendor",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "George H",
+   "verses": [
+    {
+     "lines": [
+      "Lord, enthroned in heav'nly splendor,",
+      "First begotten from the dead,",
+      "You alone, our strong Defender,",
+      "Now lift up Your people's head.",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!",
+      "Jesus, true and living Bread!",
+      "Jesus, true and living Bread!"
+     ]
+    },
+    {
+     "lines": [
+      "Here our humblest homage pay we,",
+      "Here in loving reference bow;",
+      "Here for faith's discernment pray we,",
+      "Lest we fail to know You now.",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!",
+      "Thou art here, we ask not how.",
+      "Thou art here, we ask not how."
+     ]
+    },
+    {
+     "lines": [
+      "Though the lowliest form doth veil Thee As of old in Bethlehem,",
+      "Here as there Thine angels hail Thee,",
+      "Branch and Flow'r of Jesse's stem.",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!",
+      "We in worship join with them.",
+      "We in worship join with them."
+     ]
+    },
+    {
+     "lines": [
+      "Paschal Lamb,",
+      "Your offering finished Once for all when You were slain,",
+      "In its fullness undiminished Shall forevermore remain.",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!",
+      "Cleansing souls from every stain.",
+      "Cleansing souls from every stain."
+     ]
+    },
+    {
+     "lines": [
+      "Great High Priest of our profession,",
+      "Through the veil Thou wentest in,",
+      "By Thy mighty intercession,",
+      "Grace and peace for us to win.",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!",
+      "Jesus, true and living Bread!",
+      "Jesus, true and living Bread!"
+     ]
+    },
+    {
+     "lines": [
+      "Life imparting heavenly Manna,",
+      "Smitten Rock with streaming side,",
+      "Heaven and earth with loud hosanna Worship You, the Lamb Who died.",
+      "Alleluia!",
+      "Alleluia!",
+      "Alleluia!",
+      "Risen,",
+      "Ascended,",
+      "Glorified!"
+     ]
+    },
+    {
+     "lines": [
+      "Rev 1:5-6,",
+      "Jn 6:47-51,",
+      "Rev 5:11-14, 7:9-17,",
+      "Rom 3:24-25, 1Cor 5:7"
+     ]
+    }
+   ]
+  },
+  {
    "number": 421,
    "songId": "sdah-421",
-   "title": "For All The Saints",
+   "title": "For All the Saints",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -2276,7 +4669,7 @@
   {
    "number": 423,
    "songId": "sdah-423",
-   "title": "Glorious Things of Thee are Spoken",
+   "title": "Glorious Things of Thee Are Spoken",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -2336,9 +4729,155 @@
    ]
   },
   {
+   "number": 429,
+   "songId": "sdah-429",
+   "title": "Jerusalem the Golden",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Bernard of Cluny, 1146",
+   "verses": [
+    {
+     "lines": [
+      "Jerusalem the golden, with milk and honey blest,",
+      "Beneath thy contemplation sink heart and voice oppressed.",
+      "I know not,",
+      "O I know not, what joys await us there,",
+      "What radiancy of glory, what bliss beyond compare."
+     ]
+    },
+    {
+     "lines": [
+      "They stand, those halls of Zion, all jubilant with song,",
+      "And bright with many'an angel, and all the martyr throng;",
+      "The Prince is ever in them, the daylight is serene.",
+      "The pastures of the blessèd are decked in glorious sheen."
+     ]
+    },
+    {
+     "lines": [
+      "There is the throne of David, and there, from care released,",
+      "The shout of them that triumph, the song of them that feast;",
+      "And they are with their Leader, who conquered in the fight,",
+      "And won for them forever their gleaming robes of white."
+     ]
+    },
+    {
+     "lines": [
+      "O sweet and blessèd country, the home of God's elect!",
+      "O sweet and blessèd country, that eager hearts expect!",
+      "Jesus, in mercy bring us to that dear land of rest,",
+      "Who art, with God the Father, and Spirit, ever blessed."
+     ]
+    },
+    {
+     "lines": [
+      "Brief life is here our portion, brief sorrow, short lived care;",
+      "The life that knows no ending, the tearless life, is there.",
+      "O happy retribution!",
+      "Short toil, eternal rest;",
+      "For mortals and for sinners, a mansion with the blest."
+     ]
+    },
+    {
+     "lines": [
+      "That we should look, poor wanderers, to have our home on high!",
+      "That worms should seek for dwellings beyond the starry sky!",
+      "And now we fight the battle, but then shall wear the crown Of full and everlasting, and passionless renown."
+     ]
+    },
+    {
+     "lines": [
+      "And how we watch and struggle, and now we live in hope,",
+      "And Zion in her anguish with Babylon must cope;",
+      "But he whom now we trust in shall then be seen and known,",
+      "And they that know and see Him shall have Him for their own."
+     ]
+    },
+    {
+     "lines": [
+      "For thee,",
+      "O dear, dear country, mine eyes their vigils keep;",
+      "For very love, beholding, thy happy name, they weep:",
+      "The mention of thy glory is unction to the breast,",
+      "And medicine in sickness, and love, and life, and rest."
+     ]
+    },
+    {
+     "lines": [
+      "O one,",
+      "O only mansion!",
+      "O paradise of joy!",
+      "Where tears are ever banished, and smiles have no alloy;",
+      "The cross is all thy splendor, the Crucified thy praise,",
+      "His laud and benediction thy ransomed people raise."
+     ]
+    },
+    {
+     "lines": [
+      "Jerusalem the glorious!",
+      "Glory of the elect!",
+      "O dear and future vision that eager hearts expect!",
+      "E'en now by faith I see thee, e'en here thy walls discern;",
+      "To thee my thoughts are kindled, and strive, and pant, and yearn."
+     ]
+    },
+    {
+     "lines": [
+      "Jerusalem, the only, that look'st from heaven below,",
+      "In thee is all my glory, in me is all my woe!",
+      "And though my body may not, my spirit seeks thee fain,",
+      "Till flesh and earth return me to earth and flesh again."
+     ]
+    },
+    {
+     "lines": [
+      "Jerusalem, exulting on that securest shore,",
+      "I hope thee, wish thee, sing thee, and love thee evermore!",
+      "I ask not for my merit:",
+      "I seek not to deny My merit is destruction, a child of wrath am I."
+     ]
+    },
+    {
+     "lines": [
+      "But yet with faith I venture and hope upon the way,",
+      "For those perennial guerdons I labor night and day.",
+      "The best and dearest Father Who made me, and Who saved,",
+      "Bore with me in defilement, and from defilement laved."
+     ]
+    },
+    {
+     "lines": [
+      "When in His strength I struggle, for very joy I leap;",
+      "When in my sin I totter,",
+      "I weep, or try to weep:",
+      "And grace, sweet grace celestial, shall all its love display,",
+      "And David's royal fountain purge every stain away."
+     ]
+    },
+    {
+     "lines": [
+      "O sweet and blessèd country, shall I e'er see thy face?",
+      "O sweet and blessèd country, shall I e'er win thy grace?",
+      "I have the hope within me to comfort and to bless!",
+      "O shall I e'er win the prize?",
+      "O tell me, tell me,",
+      "Yes!"
+     ]
+    },
+    {
+     "lines": [
+      "Rev 21:18-23, 2Cor 4:17-18,",
+      "Rev 7:9-17,",
+      "Is 60:19-20"
+     ]
+    }
+   ]
+  },
+  {
    "number": 445,
    "songId": "sdah-445",
-   "title": "I'm But A Stranger Here",
+   "title": "I’m But a Stranger Here",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -2454,6 +4993,67 @@
    ]
   },
   {
+   "number": 461,
+   "songId": "sdah-461",
+   "title": "Be Still, My Soul",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Katharina A",
+   "verses": [
+    {
+     "lines": [
+      "Be still, my soul: the Lord is on thy side.",
+      "Bear patiently the cross of grief or pain.",
+      "Leave to thy God to order and provide;",
+      "In every change,",
+      "He faithful will remain.",
+      "Be still, my soul: thy best,  thy heav'nly Friend  Through thorny ways leads to a joyful end."
+     ]
+    },
+    {
+     "lines": [
+      "Be still, my soul: thy God doth undertake  To guide the future, as He has the past.",
+      "Thy hope, thy confidence let nothing shake;",
+      "All now mysterious shall be bright at last.",
+      "Be still, my soul: the waves and winds still know  His voice Who ruled them while He dwelt below."
+     ]
+    },
+    {
+     "lines": [
+      "Be still, my soul: when dearest friends depart,",
+      "And all is darkened in the vale of tears,",
+      "Then shalt thou better know His love,",
+      "His heart,",
+      "Who comes to soothe thy sorrow and thy fears.",
+      "Be still, my soul: thy Jesus can repay  From His own fullness all He takes away."
+     ]
+    },
+    {
+     "lines": [
+      "Be still, my soul: the hour is hast'ning on  When we shall be forever with the Lord.",
+      "When disappointment, grief and fear are gone,",
+      "Sorrow forgot, love's purest joys restored.",
+      "Be still, my soul: when change and tears are past  All safe and blessèd we shall meet at last."
+     ]
+    },
+    {
+     "lines": [
+      "Be still, my soul: begin the song of praise  On earth, believing, to Thy Lord on high;",
+      "Acknowledge Him in all thy words and ways,",
+      "So shall He view thee with a well pleased eye.",
+      "Be still, my soul: the Sun of life divine  Through passing clouds shall but more brightly shine."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 46:10,",
+      "Rom 2:3-5"
+     ]
+    }
+   ]
+  },
+  {
    "number": 462,
    "songId": "sdah-462",
    "title": "Blessed Assurance, Jesus Is Mine",
@@ -2528,7 +5128,7 @@
   {
    "number": 473,
    "songId": "sdah-473",
-   "title": "Nearer, My God, To Thee",
+   "title": "Nearer My God, to Thee",
    "section": "Hymns",
    "category": "",
    "kind": "hymn",
@@ -2761,6 +5361,70 @@
    "section": "Hymns"
   },
   {
+   "number": 504,
+   "songId": "sdah-504",
+   "title": "Lord Jesus, Think on Me",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Synesius of Cyrene, circa 430",
+   "verses": [
+    {
+     "lines": [
+      "Lord Jesus, think on me And purge away my sin;",
+      "From earthborn passions set me free And make me pure within."
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus, think on me,",
+      "With many'a care oppressed;",
+      "Let me Thy loving servant be And taste Thy promised rest."
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus, think on me Amid the battle's strife;",
+      "In all my pain and misery Be Thou my Health and Life."
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus, think on me Nor let me go astray;",
+      "Through darkness and perplexity Point Thou the heav'nly way."
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus, think on me When floods the tempest high;",
+      "When on doth rush the enemy,",
+      "O Savior, be Thou nigh!"
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus, think on me That, when the flood is past,",
+      "I may th'eternal brightness see And share Thy joy at last."
+     ]
+    },
+    {
+     "lines": [
+      "Lord Jesus, think on me That I may sing above To Father,",
+      "Spirit, and to Thee The strains of praise and love."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 51:6-12,",
+      "Heb 4:15-16,",
+      "Ps 119:133,",
+      "Lk 23:42-43,",
+      "Mt 5:21-37"
+     ]
+    }
+   ]
+  },
+  {
    "number": 506,
    "songId": "sdah-506",
    "title": "A Mighty Fortress Is Our God",
@@ -2796,6 +5460,147 @@
    "section": "Hymns"
   },
   {
+   "number": 509,
+   "songId": "sdah-509",
+   "title": "How Firm a Foundation",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "John Rippon, 1787",
+   "verses": [
+    {
+     "lines": [
+      "How firm a foundation, ye saints of the Lord,",
+      "Is laid for your faith in His excellent Word!",
+      "What more can He say than to you He hath said,",
+      "You, who unto Jesus for refuge have fled?"
+     ]
+    },
+    {
+     "lines": [
+      "In every condition, in sickness, in health;",
+      "In poverty's vale, or abounding in wealth;",
+      "At home and abroad, on the land, on the sea,",
+      "As thy days demand, shall thy strength ever be."
+     ]
+    },
+    {
+     "lines": [
+      "Fear not,",
+      "I am with thee,",
+      "O be not dismayed,",
+      "For I am thy God and will still give thee aid;",
+      "I'll strengthen and help thee, and cause thee to stand Upheld by My righteous, omnipotent hand."
+     ]
+    },
+    {
+     "lines": [
+      "When through the deep waters I call thee to go,",
+      "The rivers of woe shall not thee overflow;",
+      "For I will be with thee, thy troubles to bless,",
+      "And sanctify to thee thy deepest distress."
+     ]
+    },
+    {
+     "lines": [
+      "When through fiery trials thy pathways shall lie,",
+      "My grace, all sufficient, shall be thy supply;",
+      "The flame shall not hurt thee;",
+      "I only design Thy dross to consume, and thy gold to refine."
+     ]
+    },
+    {
+     "lines": [
+      "Even down to old age all My people shall prove My sovereign, eternal, unchangeable love;",
+      "And when hoary hairs shall their temples adorn,",
+      "Like lambs they shall still in My bosom be borne."
+     ]
+    },
+    {
+     "lines": [
+      "The soul that on Jesus has leaned for repose,",
+      "I will not,",
+      "I will not desert to its foes;",
+      "That soul, though all hell should endeavor to shake,",
+      "I'll never, no never, no never forsake."
+     ]
+    },
+    {
+     "lines": [
+      "2Tim 2:19,",
+      "Heb 13:5,",
+      "Is 41:10, 43:2-5,",
+      "Lk 3:15-17, 6:47-49"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 511,
+   "songId": "sdah-511",
+   "title": "I Know Whom I Have Believed",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Daniel Webster Whittle (a",
+   "verses": [
+    {
+     "lines": [
+      "I know not why God's wondrous grace To me He hath made known,",
+      "Nor why, unworthy,",
+      "Christ in love Redeemed me for His own.",
+      "But I know Whom I have believèd,",
+      "And am persuaded that He is able To keep that which I've committed Unto Him against that day."
+     ]
+    },
+    {
+     "lines": [
+      "I know not how this saving faith To me He did impart,",
+      "Nor how believing in His Word Wrought peace within my heart.",
+      "But I know Whom I have believèd,",
+      "And am persuaded that He is able To keep that which I've committed Unto Him against that day."
+     ]
+    },
+    {
+     "lines": [
+      "I know not how the Spirit moves,",
+      "Convincing us of sin,",
+      "Revealing Jesus through the Word,",
+      "Creating faith in Him.",
+      "But I know Whom I have believèd,",
+      "And am persuaded that He is able To keep that which I've committed Unto Him against that day."
+     ]
+    },
+    {
+     "lines": [
+      "I know not what of good or ill May be reserved for me,",
+      "Of weary ways or golden days,",
+      "Before His face I see.",
+      "But I know Whom I have believèd,",
+      "And am persuaded that He is able To keep that which I've committed Unto Him against that day."
+     ]
+    },
+    {
+     "lines": [
+      "I know not when my Lord may come,",
+      "At night or noonday fair,",
+      "Nor if I walk the vale with Him,",
+      "Or meet Him in the air.",
+      "But I know Whom I have believèd,",
+      "And am persuaded that He is able To keep that which I've committed Unto Him against that day."
+     ]
+    },
+    {
+     "lines": [
+      "2Tim 1:12,",
+      "Phil 3:8-11,",
+      "Jn 14:5-11,",
+      "Jn 17:3"
+     ]
+    }
+   ]
+  },
+  {
    "number": 524,
    "songId": "sdah-524",
    "title": "’Tis So Sweet to Trust in Jesus",
@@ -2824,6 +5629,61 @@
    "section": "Hymns"
   },
   {
+   "number": 529,
+   "songId": "sdah-529",
+   "title": "Under His Wings",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "William Orcutt Cushing, 1896",
+   "verses": [
+    {
+     "lines": [
+      "Under His wings I am safely abiding,",
+      "Though the  night deepens and tempests are wild,",
+      "Still I can trust Him;",
+      "I know He will keep me,",
+      "He has redeemed me, and I am His child.",
+      "Under His wings, under His wings,",
+      "Who from His love can sever?",
+      "Under His wings my soul shall abide,",
+      "Safely abide forever."
+     ]
+    },
+    {
+     "lines": [
+      "Under His wings, what a refuge in sorrow!",
+      "How the  heart yearningly turns to His rest!",
+      "Often when earth has no balm for my healing,",
+      "There I find comfort, and there I am blessed.",
+      "Under His wings, under His wings,",
+      "Who from His love can sever?",
+      "Under His wings my soul shall abide,",
+      "Safely abide forever."
+     ]
+    },
+    {
+     "lines": [
+      "Under His wings, oh, what precious enjoyment!",
+      "There will I hide till life's trials are o'er;",
+      "Sheltered, protected, no evil can harm me,",
+      "Resting in Jesus,",
+      "I'm safe evermore.",
+      "Under His wings, under His wings,",
+      "Who from His love can sever?",
+      "Under His wings my soul shall abide,",
+      "Safely abide forever."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 17:7-9,",
+      "Mt 11:28"
+     ]
+    }
+   ]
+  },
+  {
    "number": 530,
    "songId": "sdah-530",
    "title": "It Is Well With My Soul",
@@ -2848,6 +5708,79 @@
     }
    ],
    "section": "Hymns"
+  },
+  {
+   "number": 537,
+   "songId": "sdah-537",
+   "title": "He Leadeth Me",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Joseph H",
+   "verses": [
+    {
+     "lines": [
+      "He leadeth me,",
+      "O blessèd thought!",
+      "O words with heav'nly comfort fraught!",
+      "Whate'er I do, where'er I be Still 'tis God's hand that leadeth me.",
+      "He leadeth me,",
+      "He leadeth me,",
+      "By His own hand He leadeth me;",
+      "His faithful follow'r I would be,",
+      "For by His hand He leadeth me."
+     ]
+    },
+    {
+     "lines": [
+      "Sometimes mid scenes of deepest gloom,",
+      "Sometimes where Eden's bowers bloom,",
+      "By waters still, ov'r troubled sea,",
+      "Still 'tis His hand that leadeth me.",
+      "He leadeth me,",
+      "He leadeth me,",
+      "By His own hand He leadeth me;",
+      "His faithful follow'r I would be,",
+      "For by His hand He leadeth me."
+     ]
+    },
+    {
+     "lines": [
+      "Lord,",
+      "I would place my hand in Thine,",
+      "Nor ever murmur nor repine;",
+      "Content, whatever lot I see,",
+      "Since 'tis my God that leadeth me.",
+      "He leadeth me,",
+      "He leadeth me,",
+      "By His own hand He leadeth me;",
+      "His faithful follow'r I would be,",
+      "For by His hand He leadeth me."
+     ]
+    },
+    {
+     "lines": [
+      "And when my task on earth is done,",
+      "When by Thy grace the vict'ry's won,",
+      "E'en death's cold wave I will not flee,",
+      "Since God through Jordan leadeth me.",
+      "He leadeth me,",
+      "He leadeth me,",
+      "By His own hand He leadeth me;",
+      "His faithful follow'r I would be,",
+      "For by His hand He leadeth me."
+     ]
+    },
+    {
+     "lines": [
+      "Ps 23:1-3, 31:3,",
+      "Jn 16:13,",
+      "Mt 6:13,",
+      "Mk 1:16-20,",
+      "Jn 1:43-51"
+     ]
+    }
+   ]
   },
   {
    "number": 538,
@@ -3006,6 +5939,72 @@
    ]
   },
   {
+   "number": 547,
+   "songId": "sdah-547",
+   "title": "Be Thou My Vision",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Attr",
+   "verses": [
+    {
+     "lines": [
+      "Be Thou my Vision,",
+      "O Lord of my heart;",
+      "Naught be all else to me, save that Thou art.",
+      "Thou my best Thought, by day or by night,",
+      "Waking or sleeping,",
+      "Thy presence my light."
+     ]
+    },
+    {
+     "lines": [
+      "Be Thou my Wisdom, and Thou my true Word;",
+      "I ever with Thee and Thou with me,",
+      "Lord;",
+      "Thou my great Father, and I Thy true son;",
+      "Thou in me dwelling, and I with Thee one."
+     ]
+    },
+    {
+     "lines": [
+      "Be Thou my battle Shield,",
+      "Sword for the fight;",
+      "Be Thou my Dignity,",
+      "Thou my Delight;",
+      "Thou my soul's Shelter,",
+      "Thou my high Tower:",
+      "Raise Thou me heav'nward,",
+      "O Pow'r of my pow'r."
+     ]
+    },
+    {
+     "lines": [
+      "Riches I heed not, nor man's empty praise,",
+      "Thou mine Inheritance, now and always:",
+      "Thou and Thou only, be first in my heart,",
+      "High King of Heaven, my Treasure Thou art."
+     ]
+    },
+    {
+     "lines": [
+      "High King of Heaven, my victory won,",
+      "May I reach Heav'ns joys,",
+      "O bright Heaven's Sun!",
+      "Heart of my own heart, whatever befall,",
+      "Still be my Vision,",
+      "O Ruler of all."
+     ]
+    },
+    {
+     "lines": [
+      "Jn 16:13,",
+      "Num 12:6"
+     ]
+    }
+   ]
+  },
+  {
    "number": 559,
    "songId": "sdah-559",
    "title": "Now Thank We All Our God",
@@ -3047,6 +6046,165 @@
    ]
   },
   {
+   "number": 565,
+   "songId": "sdah-565",
+   "title": "For the Beauty of the Earth",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Folliot S",
+   "verses": [
+    {
+     "lines": [
+      "For the beauty of the earth For the glory of the skies,",
+      "For the love which from our birth Over and around us lies.",
+      "Lord of all, to Thee we raise,",
+      "This our hymn of grateful praise."
+     ]
+    },
+    {
+     "lines": [
+      "For the beauty of each hour,",
+      "Of the day and of the night,",
+      "Hill and vale, and tree and flow'r,",
+      "Sun and moon, and stars of light.",
+      "Lord of all, to Thee we raise,",
+      "This our hymn of grateful praise."
+     ]
+    },
+    {
+     "lines": [
+      "For the joy of ear and eye,",
+      "For the heart and mind's delight,",
+      "For the mystic harmony Linking sense to sound and sight.",
+      "Lord of all, to Thee we raise,",
+      "This our hymn of grateful praise."
+     ]
+    },
+    {
+     "lines": [
+      "For the joy of human love,",
+      "Brother, sister, parent, child,",
+      "Friends on earth and friends above,",
+      "For all gentle thoughts and mild.",
+      "Lord of all, to Thee we raise,",
+      "This our hymn of grateful praise."
+     ]
+    },
+    {
+     "lines": [
+      "For Thy Church, that evermore Lifteth holy hands above,",
+      "Off'ring up on every shore Her pure sacrifice of love.",
+      "Lord of all, to Thee we raise,",
+      "This our hymn of grateful praise."
+     ]
+    },
+    {
+     "lines": [
+      "For the martyrs' crown of light,",
+      "For Thy prophets' eagle eye,",
+      "For Thy bold confessors' might,",
+      "For the lips of infancy."
+     ]
+    },
+    {
+     "lines": [
+      "For Thy virgins' robes of snow,",
+      "For Thy maiden mother mild,",
+      "For Thyself, with hearts aglow,",
+      "Jesu,",
+      "Victim undefiled."
+     ]
+    },
+    {
+     "lines": [
+      "For each perfect gift of Thine,",
+      "To our race so freely given,",
+      "Graces human and divine,",
+      "Flowers of earth and buds of Heaven."
+     ]
+    },
+    {
+     "lines": [
+      "Is 6:3,",
+      "Ps 95:1-6,",
+      "Ps 33:1-6"
+     ]
+    }
+   ]
+  },
+  {
+   "number": 569,
+   "songId": "sdah-569",
+   "title": "Pass Me Not, O Gentle Savior",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "Fanny J",
+   "verses": [
+    {
+     "lines": [
+      "Pass me not,",
+      "O gentle Savior,",
+      "Hear my humble cry;",
+      "While on others Thou art calling,",
+      "Do not pass me by.",
+      "Savior,",
+      "Savior,",
+      "Hear my humble cry;",
+      "While on others Thou art calling,",
+      "Do not pass me by."
+     ]
+    },
+    {
+     "lines": [
+      "Let me at Thy throne of mercy Find a sweet relief,",
+      "Kneeling there in deep contrition;",
+      "Help my unbelief.",
+      "Savior,",
+      "Savior,",
+      "Hear my humble cry;",
+      "While on others Thou art calling,",
+      "Do not pass me by."
+     ]
+    },
+    {
+     "lines": [
+      "3,",
+      "Trusting only in Thy merit,",
+      "Would I seek Thy face;",
+      "Heal my wounded, broken spirit,",
+      "Save me by Thy grace.",
+      "Savior,",
+      "Savior,",
+      "Hear my humble cry;",
+      "While on others Thou art calling,",
+      "Do not pass me by."
+     ]
+    },
+    {
+     "lines": [
+      "Thou the Spring of all my comfort,",
+      "More than life to me,",
+      "Whom have I on earth beside Thee?",
+      "Whom in Heav'n but Thee?",
+      "Savior,",
+      "Savior,",
+      "Hear my humble cry;",
+      "While on others Thou art calling,",
+      "Do not pass me by."
+     ]
+    },
+    {
+     "lines": [
+      "Mt 20:30-34,",
+      "Gen 18:1-5,",
+      "Mk 9:21-25"
+     ]
+    }
+   ]
+  },
+  {
    "number": 633,
    "songId": "sdah-633",
    "title": "When We All Get to Heaven",
@@ -3073,6 +6231,61 @@
     }
    ],
    "section": "Hymns"
+  },
+  {
+   "number": 662,
+   "songId": "sdah-662",
+   "title": "Let All Mortal Flesh Keep Silence",
+   "section": "Hymns",
+   "category": "",
+   "kind": "hymn",
+   "author": "from Liturgy of St",
+   "verses": [
+    {
+     "lines": [
+      "Let all mortal flesh keep silence,",
+      "And with fear and trembling stand;",
+      "Ponder nothing earthly minded,",
+      "For with blessing in His hand,",
+      "Christ our God to earth descendeth,",
+      "Our full homage to demand."
+     ]
+    },
+    {
+     "lines": [
+      "King of kings, yet born of Mary,",
+      "As of old on earth He stood,",
+      "Lord of lords, in human vesture,",
+      "In the body and the blood;",
+      "He will give to all the faithful His own self for heav'nly food."
+     ]
+    },
+    {
+     "lines": [
+      "Rank on rank the host of heaven Spreads its vanguard on the way,",
+      "As the Light of light descendeth From the realms of endless day,",
+      "That the pow'rs of hell may vanish As the darkness clears away."
+     ]
+    },
+    {
+     "lines": [
+      "At His feet the six wingèd seraph,",
+      "Cherubim with sleepless eye,",
+      "Veil their faces to the presence,",
+      "As with ceaseless voice they cry:",
+      "Alleluia,",
+      "Alleluia Alleluia,",
+      "Lord Most High!"
+     ]
+    },
+    {
+     "lines": [
+      "Hab 2:20,",
+      "Acts 1:10-11, 1Thess 4:16-17, 1Cor 11:23-26,",
+      "Lk 2:8-15"
+     ]
+    }
+   ]
   },
   {
    "number": 670,

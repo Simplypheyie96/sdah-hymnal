@@ -98,12 +98,29 @@ const pd = parseOpenHymnal(xml)
 const yoruba = JSON.parse(await readFile(YORUBA, 'utf8'))
 const existing = JSON.parse(await readFile(OUT, 'utf8'))
 
-// Verified SDAH number ↔ English title pairs, lowest number wins on ties.
+// SDAH number ↔ English title pairs. The hymnal's own numerical index covers
+// all 695 hymns; the Yorùbá cross-references fill in alternate titles the
+// index doesn't list under. Lowest number wins on ties.
 const sdahByTitle = new Map()
+const addTitle = (title, number) => {
+  const k = key(title)
+  if (!k) return
+  if (!sdahByTitle.has(k) || number < sdahByTitle.get(k)) sdahByTitle.set(k, number)
+}
+
+let officialTitle = new Map()
+try {
+  const index = JSON.parse(await readFile(new URL('../public/data/sdah-index.json', import.meta.url), 'utf8'))
+  for (const [n, title] of Object.entries(index.titles)) {
+    addTitle(title, Number(n))
+    officialTitle.set(Number(n), title)
+  }
+} catch {
+  console.warn('sdah-index.json missing — run scripts/build-sdah-index.mjs for full coverage')
+}
+
 for (const h of yoruba.hymns) {
-  if (!h.sdahRef || !h.altTitle) continue
-  const k = key(h.altTitle)
-  if (!sdahByTitle.has(k) || h.sdahRef < sdahByTitle.get(k)) sdahByTitle.set(k, h.sdahRef)
+  if (h.sdahRef && h.altTitle) addTitle(h.altTitle, h.sdahRef)
 }
 
 const taken = new Set(existing.hymns.map((h) => h.number))
@@ -118,7 +135,8 @@ for (const h of pd) {
   added.push({
     number,
     songId: `sdah-${number}`,
-    title: h.title,
+    // Prefer the hymnal's own wording so the app matches the printed book.
+    title: officialTitle.get(number) ?? h.title,
     section: sectionFor(number),
     category: '',
     kind: number <= 695 ? 'hymn' : 'reading',
@@ -127,7 +145,14 @@ for (const h of pd) {
   })
 }
 
-const hymns = [...existing.hymns, ...added].sort((a, b) => a.number - b.number)
+const hymns = [...existing.hymns, ...added]
+  .map((h) => {
+    // Imported entries (no topical category) take the hymnal's own wording,
+    // including ones added by an earlier run before the index existed.
+    const official = officialTitle.get(h.number)
+    return !h.category && official ? { ...h, title: official } : h
+  })
+  .sort((a, b) => a.number - b.number)
 await writeFile(OUT, JSON.stringify({ ...existing, hymns }, null, 1) + '\n')
 
 console.log(`Open Hymnal: ${pd.length} public-domain hymns parsed`)
