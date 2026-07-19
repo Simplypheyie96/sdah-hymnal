@@ -12,9 +12,18 @@
     "someone can see — rather than in an environment variable whose absence is",
     "invisible. scripts/check-audio.mjs enforces it.",
     "",
-    "Now true: the 691 recordings live in a Vercel Blob store and VITE_AUDIO_BASE",
-    "points at it. check-audio.mjs samples that URL on every build, so a release",
-    "can no longer ship with the music silently missing."
+    "Now true: the 691 recordings live in a Cloudflare R2 bucket and",
+    "VITE_AUDIO_BASE points at it. check-audio.mjs samples that URL on every",
+    "build, so a release can no longer ship with the music silently missing.",
+    "",
+    "R2 rather than Vercel Blob because the library is 1.0 GB and Blob's free",
+    "tier is 1 GB — it did not fit in its own allowance, and going over stops",
+    "the store serving for thirty days. R2 allows 10 GB and charges nothing for",
+    "egress, which is the right shape for a file people stream repeatedly.",
+    "",
+    "The bucket needs a CORS rule allowing this site to read it. Playback would",
+    "work without one, but the fetch that saves a recording for offline use is",
+    "blocked cross-origin, so the app would quietly stop working without signal."
   ],
   "expectRecordings": true
 }
