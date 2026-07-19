@@ -5,7 +5,6 @@ import { useHymnal } from '../data/hymnal'
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
 // ⚠️ Fill these in: your Buy Me a Coffee page and portfolio URL.
-const COFFEE_URL = 'https://buymeacoffee.com/YOUR-USERNAME'
 const PORTFOLIO_URL = 'https://YOUR-PORTFOLIO-LINK'
 export type AccentChoice = 'mono' | 'sage' | 'rose' | 'sky'
 
@@ -151,25 +150,6 @@ export function Settings({
                 Amazing grace! how sweet the sound…
               </p>
             </div>
-          </div>
-        </Section>
-      </div>
-
-      <div className="rise-in" style={{ animationDelay: '180ms' }}>
-        <Section title="Support this project">
-          <div className="px-5 py-5">
-            <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
-              This hymnal is free and always will be. If it blesses your worship, you can
-              buy me a coffee.
-            </p>
-            <a
-              href={COFFEE_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-4 block w-full rounded-2xl bg-[var(--accent)] px-5 py-3.5 text-center text-[14.5px] font-semibold text-[var(--accent-contrast)] transition-opacity hover:opacity-90"
-            >
-              ☕ Buy me a coffee
-            </a>
           </div>
         </Section>
       </div>
