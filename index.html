@@ -18,6 +18,36 @@
       rel="stylesheet"
     />
     <title>Hymnal — Seventh-day Adventist Hymns &amp; Readings</title>
+    <script>
+      // Theme before first paint.
+      //
+      // React sets `dark` and `data-accent` from effects, which run *after*
+      // the browser has already painted. On a phone in dark mode that meant a
+      // full-screen flash of light paper at every launch, right as the splash
+      // came up. Same for the accent colour. Reading localStorage here costs
+      // nothing and removes the flash entirely.
+      //
+      // Kept deliberately in sync with useLocalStorage's JSON encoding and the
+      // 'sdah.theme' / 'sdah.accent' keys in App.tsx.
+      ;(function () {
+        try {
+          var read = function (k) {
+            var raw = localStorage.getItem(k)
+            return raw === null ? null : JSON.parse(raw)
+          }
+          var theme = read('sdah.theme') || 'system'
+          var accent = read('sdah.accent') || 'mono'
+          var dark =
+            theme === 'dark' ||
+            (theme === 'system' &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+          if (dark) document.documentElement.classList.add('dark')
+          if (accent !== 'mono') document.documentElement.dataset.accent = accent
+        } catch (e) {
+          /* private mode or storage disabled — the effects still catch up */
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
