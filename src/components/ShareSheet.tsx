@@ -2,6 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import type { Hymn, Verse } from '../data/hymns'
 
+// Where to get the app, printed on every shared card. Change this one line
+// when a real domain replaces the Vercel address.
+const APP_URL = 'sdah-hymnal.vercel.app'
+
 const W = 1080
 const H = 1350
 
@@ -140,7 +144,7 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   const verse = hymn.verses[verseIndex]
   const italic = verse.isRefrain ? 'italic ' : ''
   const top = ty + 62
-  const bottom = H - 190
+  const bottom = H - 214 // room for the wordmark and the link beneath it
   const room = bottom - top
 
   let fontSize = 78
@@ -158,14 +162,20 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
     ctx.fillText(line, W / 2, blockTop + (i + 1) * lineHeight)
   })
 
-  // Footer: verse label, then the wordmark
+  // Footer: verse label, the wordmark, then where to get the app — a shared
+  // card is the main way people will hear about it, so it has to carry a way
+  // back. APP_URL is the one line to change when a real domain is in place.
   ctx.fillStyle = muted
   ctx.font = '600 25px -apple-system, system-ui, sans-serif'
-  ctx.fillText(verseLabel(hymn.verses, verseIndex).toUpperCase(), W / 2, H - 148)
+  ctx.fillText(verseLabel(hymn.verses, verseIndex).toUpperCase(), W / 2, H - 172)
 
   ctx.fillStyle = accent
   ctx.font = '500 40px "EB Garamond", Georgia, serif'
-  ctx.fillText('Hymnal', W / 2, H - 88)
+  ctx.fillText('Hymnal', W / 2, H - 116)
+
+  ctx.fillStyle = muted
+  ctx.font = '500 26px -apple-system, system-ui, sans-serif'
+  ctx.fillText(APP_URL, W / 2, H - 70)
 
   return canvas
 }

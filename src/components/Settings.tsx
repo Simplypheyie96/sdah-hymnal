@@ -242,22 +242,37 @@ export function Settings({
             <div className="px-5 py-5">
               <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
                 <span className="font-semibold text-[var(--ink)]">Putting it on a TV.</span>{' '}
-                {canCastHere
-                  ? 'Open a hymn, tap the screen icon, then Cast — pick your Chromecast or smart TV and the words appear on it while this phone stays the remote.'
-                  : 'Open a hymn and tap the screen icon to fill this screen, then mirror it to the TV.'}
+                Open a hymn and tap the screen icon. How it reaches the television
+                depends on the device — both routes are below, since people share
+                phones and read this on whichever is to hand.
               </p>
-              {!canCastHere && (
-                <p className="mt-3 text-[13px] leading-relaxed text-[var(--ink-3)]">
-                  On iPhone and iPad, casting from a web app isn’t possible — Apple only
-                  allows it from its own apps, so no website can offer a Cast button on
-                  these devices. Use{' '}
-                  <span className="text-[var(--ink-2)]">
-                    Control Centre → Screen Mirroring
-                  </span>{' '}
-                  instead: pick your Apple TV or AirPlay screen, then open the hymn and tap
-                  the screen icon. AirPlay carries the music across with the words.
-                </p>
-              )}
+
+              <div className="mt-4 space-y-3">
+                <div className="hairline rounded-2xl px-4 py-3">
+                  <p className="text-[12.5px] font-semibold text-[var(--accent-ink)]">
+                    Android, Chrome, Edge {canCastHere && '· this device'}
+                  </p>
+                  <p className="mt-1 text-[13px] leading-relaxed text-[var(--ink-2)]">
+                    Tap <span className="font-semibold">Cast</span> in the presenter and
+                    pick your Chromecast or smart TV. The television shows the words and
+                    the phone stays the remote.
+                  </p>
+                </div>
+
+                <div className="hairline rounded-2xl px-4 py-3">
+                  <p className="text-[12.5px] font-semibold text-[var(--accent-ink)]">
+                    iPhone, iPad {!canCastHere && '· this device'}
+                  </p>
+                  <p className="mt-1 text-[13px] leading-relaxed text-[var(--ink-2)]">
+                    There is no Cast button here, and no app can add one — Apple allows
+                    casting only from its own apps, so no website can offer it on iPhone
+                    or iPad. Use{' '}
+                    <span className="font-semibold">Control Centre → Screen Mirroring</span>,
+                    pick your Apple TV or AirPlay screen, then open the hymn and tap the
+                    screen icon. AirPlay carries the music across with the words.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </Section>
