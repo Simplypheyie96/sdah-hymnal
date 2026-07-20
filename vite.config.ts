@@ -16,6 +16,14 @@ export default defineConfig({
         short_name: 'Hymnal',
         description:
           'The Seventh-day Adventist Hymnal: hymns and scripture readings 1–920, with music playback and projection for church and home worship.',
+        // A stable identity for the installed app, independent of the launch
+        // URL — so a cast link (?present=…) can never be mistaken for a second,
+        // separate app when Android decides what is already installed.
+        id: '/',
+        start_url: '/',
+        scope: '/',
+        lang: 'en',
+        categories: ['books', 'education', 'lifestyle'],
         theme_color: '#f2f3f3',
         background_color: '#f2f3f3',
         display: 'standalone',

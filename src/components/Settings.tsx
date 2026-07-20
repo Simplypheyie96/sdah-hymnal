@@ -3,6 +3,7 @@ import { LANGS } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { useOnline } from '../hooks/useOnline'
 import { canCast } from '../lib/present'
+import { InstallControls } from './Install'
 
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
@@ -208,6 +209,12 @@ export function Settings({
               </p>
             </div>
           </div>
+        </Section>
+      </div>
+
+      <div className="rise-in" style={{ animationDelay: '160ms' }}>
+        <Section title="Install">
+          <InstallControls />
         </Section>
       </div>
 

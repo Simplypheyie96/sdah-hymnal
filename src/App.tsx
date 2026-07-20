@@ -10,6 +10,7 @@ import { Settings, type AccentChoice, type ThemeChoice } from './components/Sett
 import { HymnContent, HymnOverlay } from './components/HymnView'
 import { Presenter } from './components/Presenter'
 import { Splash } from './components/Splash'
+import { InstallBanner } from './components/Install'
 import { TabBar, type Tab } from './components/TabBar'
 import { BookIcon } from './components/icons'
 import { ReceiverScreen } from './components/ReceiverScreen'
@@ -179,6 +180,10 @@ export default function App() {
       )}
 
       <TabBar tab={tab} onChange={setTab} />
+
+      {/* Only on the Hymns tab: elsewhere it would float over unrelated
+          content, and the nudge belongs where a first-time reader lands. */}
+      {tab === 'hymns' && <InstallBanner />}
 
       <AnimatePresence>{presenter}</AnimatePresence>
 

@@ -135,3 +135,23 @@ export function MusicOffIcon({ size = 20, strokeWidth = 1.7, className }: IconPr
     </svg>
   )
 }
+
+// A down arrow settling into a tray — the mirror of ShareIcon's arrow-out-of-a-
+// tray, so "install" reads as the opposite gesture to "share".
+export function InstallIcon({ size = 20, strokeWidth = 1.7, className }: IconProps) {
+  return (
+    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
+      <path d="M12 3.5v10.5" />
+      <path d="m8 10 4 4 4-4" />
+      <path d="M5.5 15.5v3a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3" />
+    </svg>
+  )
+}
+
+export function CheckIcon({ size = 20, strokeWidth = 1.9, className }: IconProps) {
+  return (
+    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
+      <path d="m5 12.5 4.5 4.5L19 7" />
+    </svg>
+  )
+}
