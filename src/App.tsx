@@ -11,6 +11,7 @@ import { HymnContent, HymnOverlay } from './components/HymnView'
 import { Presenter } from './components/Presenter'
 import { Splash } from './components/Splash'
 import { InstallBanner } from './components/Install'
+import { SpeedLab } from './components/SpeedLab'
 import { TabBar, type Tab } from './components/TabBar'
 import { BookIcon } from './components/icons'
 import { ReceiverScreen } from './components/ReceiverScreen'
@@ -111,6 +112,12 @@ export default function App() {
   }
 
   // The television's copy shows the hymn and nothing else.
+  // Scratch screen for choosing a speed control — /?lab=speed. Unlinked, and
+  // it goes once a design is picked.
+  if (new URLSearchParams(window.location.search).get('lab') === 'speed') {
+    return <SpeedLab />
+  }
+
   if (castTarget) {
     return <ReceiverScreen songId={castTarget.songId} lang={castTarget.lang} />
   }
