@@ -1,10 +1,14 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 import type { Availability } from '../lib/audio'
 import {
+  RATES,
   getAudioState,
   pauseAudio,
   playHymn,
   recordingAvailability,
+  setRate,
+  stepRate,
   subscribeAudio,
 } from '../lib/audio'
 import { useOnline } from '../hooks/useOnline'
@@ -98,14 +102,29 @@ export function AudioButton({
   const loading = status === 'loading' || available === null
   const progress = mine && state.duration > 0 ? state.position / state.duration : 0
 
+  // The control is a circle at rest and a capsule while the music runs: play,
+  // then a step down, the current speed, a step up. Expanding only while
+  // playing keeps the words clear the rest of the time, and means the speed is
+  // never something to go hunting for at the moment it is wanted.
+  const expanded = mine && (playing || status === 'paused')
+
+  const stage = variant === 'stage'
+  const stepSkin = stage
+    ? 'text-[#c7ccd0] hover:bg-white/10 disabled:opacity-25'
+    : 'text-[var(--ink-2)] hover:bg-[var(--accent)]/12 disabled:opacity-30'
+
   return (
-    <div className="relative">
+    <motion.div
+      layout
+      transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative flex items-center rounded-full ${expanded ? (stage ? 'bg-white/5' : 'glass hairline shadow-[var(--shadow-float)]') : ''}`}
+    >
       {/* Progress ring, drawn only while this hymn is the one playing. */}
-      {mine && (playing || status === 'paused') && state.duration > 0 && (
+      {expanded && state.duration > 0 && (
         <svg
           aria-hidden
           viewBox="0 0 52 52"
-          className="pointer-events-none absolute inset-0 h-[52px] w-[52px] -rotate-90"
+          className="pointer-events-none absolute left-0 top-0 h-[52px] w-[52px] -rotate-90"
         >
           <circle
             cx="26"
@@ -113,7 +132,7 @@ export function AudioButton({
             r="24"
             fill="none"
             strokeWidth="2"
-            className={variant === 'stage' ? 'stroke-white/15' : 'stroke-[var(--line-strong)]'}
+            className={stage ? 'stroke-white/15' : 'stroke-[var(--line-strong)]'}
           />
           <circle
             cx="26"
@@ -125,7 +144,7 @@ export function AudioButton({
             pathLength={1}
             strokeDasharray={1}
             strokeDashoffset={1 - progress}
-            className={variant === 'stage' ? 'stroke-white/80' : 'stroke-[var(--accent)]'}
+            className={stage ? 'stroke-white/80' : 'stroke-[var(--accent)]'}
           />
         </svg>
       )}
@@ -139,7 +158,7 @@ export function AudioButton({
         disabled={loading}
         aria-label={playing ? 'Pause accompaniment' : 'Play accompaniment'}
         title={playing ? 'Pause' : 'Play the hymn'}
-        className={`flex h-[52px] w-[52px] items-center justify-center rounded-full transition-colors ${skin}`}
+        className={`flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-full transition-colors ${expanded ? (stage ? 'text-[#c7ccd0]' : 'text-[var(--ink-2)]') : skin}`}
       >
         {loading ? (
           <span
@@ -153,6 +172,61 @@ export function AudioButton({
         )}
       </button>
 
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            key="rate"
+            initial={{ opacity: 0, width: 0 }}
+            animate={{ opacity: 1, width: 'auto' }}
+            exit={{ opacity: 0, width: 0 }}
+            transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center overflow-hidden"
+          >
+            <button
+              onClick={() => stepRate(-1)}
+              disabled={state.rate <= RATES[0]}
+              aria-label="Play slower"
+              title="Slower"
+              className={`flex h-9 w-8 items-center justify-center rounded-full text-[19px] leading-none transition-colors sm:w-9 ${stepSkin}`}
+            >
+              −
+            </button>
+
+            {/* Tapping the reading returns to the recorded tempo — the one
+                speed people want back most often, and otherwise several taps
+                away from either end. */}
+            <button
+              onClick={() => setRate(1)}
+              disabled={state.rate === 1}
+              aria-label={`Playing at ${state.rate} times speed${state.rate === 1 ? '' : ' — tap for normal'}`}
+              title={state.rate === 1 ? 'Recorded tempo' : 'Back to normal speed'}
+              className={`w-[38px] text-center text-[12.5px] font-semibold tabular-nums transition-colors sm:w-[42px] ${
+                state.rate === 1
+                  ? stage
+                    ? 'text-[#7a8187]'
+                    : 'text-[var(--ink-3)]'
+                  : stage
+                    ? 'text-white'
+                    : 'text-[var(--accent-ink)]'
+              }`}
+            >
+              {state.rate}×
+            </button>
+
+            <button
+              onClick={() => stepRate(1)}
+              disabled={state.rate >= RATES[RATES.length - 1]}
+              aria-label="Play faster"
+              title="Faster"
+              className={`mr-0.5 flex h-9 w-8 items-center justify-center rounded-full text-[19px] leading-none transition-colors sm:mr-1 sm:w-9 ${stepSkin}`}
+            >
+              +
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {mine && (playing || status === 'paused') && state.duration > 0 && (
         <span
           className={`pointer-events-none absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10.5px] tabular-nums ${
@@ -162,6 +236,6 @@ export function AudioButton({
           {mmss(state.position)} / {mmss(state.duration)}
         </span>
       )}
-    </div>
+    </motion.div>
   )
 }

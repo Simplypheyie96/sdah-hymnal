@@ -158,7 +158,7 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
           >
             <ChevronLeftIcon />
           </button>
-          <span className="w-24 text-center text-[13px] tracking-wide text-[#7a8187]">
+          <span className="hidden w-24 text-center text-[13px] tracking-wide text-[#7a8187] sm:block">
             tap / arrows
           </span>
           {recordingNumberFor(hymn) !== undefined && (

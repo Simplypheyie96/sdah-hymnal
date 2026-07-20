@@ -23,7 +23,7 @@ export type AudioState = {
 }
 
 let el: HTMLAudioElement | null = null
-let state: AudioState = { status: 'idle', hymnNumber: null, position: 0, duration: 0, rate: 1 }
+let state: AudioState = { status: 'idle', hymnNumber: null, position: 0, duration: 0, rate: storedRate() }
 const listeners = new Set<() => void>()
 
 function setState(next: Partial<AudioState>) {
@@ -91,7 +91,22 @@ function ensureElement(): HTMLAudioElement {
  */
 export const RATES = [0.8, 0.9, 1, 1.1, 1.25] as const
 
-let rate = 1
+const RATE_KEY = 'sdah.rate'
+
+// Remembered across visits: someone who needs the accompaniment slower
+// generally needs it slower every week, and re-setting it each time would be
+// its own small indignity. Safe to persist because it is never hidden — the
+// current speed is on screen the whole time the music plays.
+function storedRate(): number {
+  try {
+    const raw = Number(localStorage.getItem(RATE_KEY))
+    return RATES.includes(raw as (typeof RATES)[number]) ? raw : 1
+  } catch {
+    return 1
+  }
+}
+
+let rate = storedRate()
 
 type PitchPreserving = HTMLAudioElement & {
   preservesPitch?: boolean
@@ -108,7 +123,19 @@ function applyRate(audio: HTMLAudioElement) {
 export function setRate(next: number): void {
   rate = Math.min(2, Math.max(0.5, next))
   if (el) applyRate(el)
+  try {
+    localStorage.setItem(RATE_KEY, String(rate))
+  } catch {
+    /* private mode — the speed simply resets next visit */
+  }
   setState({ rate })
+}
+
+/** One step along RATES, clamped at both ends. */
+export function stepRate(direction: 1 | -1): void {
+  const i = RATES.indexOf(rate as (typeof RATES)[number])
+  const from = i === -1 ? RATES.indexOf(1 as (typeof RATES)[number]) : i
+  setRate(RATES[Math.min(RATES.length - 1, Math.max(0, from + direction))])
 }
 
 export function getRate(): number {

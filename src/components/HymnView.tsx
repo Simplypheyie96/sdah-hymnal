@@ -222,24 +222,24 @@ export function HymnContent({
 
       {/* Floating controls: previous / next hymn + accompaniment */}
       <div className="sticky bottom-0 z-20 mt-auto flex justify-center pb-[max(env(safe-area-inset-bottom),20px)] pt-3 pointer-events-none">
-        <div className="flex items-center gap-3 pointer-events-auto">
+        <div className="flex items-center gap-2 pointer-events-auto sm:gap-3">
           <div className="glass hairline flex items-center rounded-full px-1.5 py-1.5 shadow-[var(--shadow-float)]">
             <button
               onClick={() => prev && onNavigate(prev)}
               disabled={!prev}
               aria-label="Previous hymn"
-              className="flex h-10 w-12 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)] disabled:opacity-30 disabled:hover:bg-transparent"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)] disabled:opacity-30 disabled:hover:bg-transparent sm:w-12"
             >
               <ChevronLeftIcon size={20} />
             </button>
-            <span className="font-lyrics w-16 text-center text-[15px] font-[350] tabular-nums text-[var(--ink-2)]">
+            <span className="font-lyrics w-12 text-center text-[15px] font-[350] tabular-nums text-[var(--ink-2)] sm:w-16">
               {hymn.number}
             </span>
             <button
               onClick={() => next && onNavigate(next)}
               disabled={!next}
               aria-label="Next hymn"
-              className="flex h-10 w-12 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)] disabled:opacity-30 disabled:hover:bg-transparent"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)] disabled:opacity-30 disabled:hover:bg-transparent sm:w-12"
             >
               <ChevronRightIcon size={20} />
             </button>
