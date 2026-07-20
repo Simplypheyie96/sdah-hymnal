@@ -22,6 +22,11 @@ export type InstallPlatform = 'ios' | 'chromium' | 'other'
 // is no install button for the rest of the visit. Capturing it here, the
 // moment this module loads, means it is waiting whenever a component asks.
 let deferredPrompt: BeforeInstallPromptEvent | null = null
+// The tab that triggers an install does not itself become standalone — it
+// stays an ordinary browser tab — so display-mode alone would keep reporting
+// "not installed" right after a successful install. `appinstalled` is the only
+// signal that the current tab gets, so we remember it.
+let installedThisTab = false
 const listeners = new Set<() => void>()
 const notify = () => listeners.forEach((l) => l())
 
@@ -35,6 +40,7 @@ if (typeof window !== 'undefined') {
   })
   window.addEventListener('appinstalled', () => {
     deferredPrompt = null
+    installedThisTab = true
     notify()
   })
 }
@@ -42,6 +48,7 @@ if (typeof window !== 'undefined') {
 function isInstalled(): boolean {
   if (typeof window === 'undefined') return false
   return (
+    installedThisTab ||
     window.matchMedia?.('(display-mode: standalone)').matches ||
     // iOS Safari predates display-mode and flags an installed app this way.
     (navigator as Navigator & { standalone?: boolean }).standalone === true
@@ -52,9 +59,10 @@ function detectPlatform(): InstallPlatform {
   if (typeof navigator === 'undefined') return 'other'
   const ua = navigator.userAgent
   // iPadOS 13+ masquerades as a Mac; a touch-capable "Mac" gives it away.
+  // (navigator.platform would say the same, but it is deprecated.)
   const iOS =
     /iphone|ipad|ipod/i.test(ua) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)
   if (iOS) return 'ios'
   return deferredPrompt || /android/i.test(ua) ? 'chromium' : 'other'
 }
@@ -94,12 +102,18 @@ export function useInstall(): InstallState {
 
   const promptInstall = async () => {
     if (!deferredPrompt) return 'unavailable' as const
-    await deferredPrompt.prompt()
-    const { outcome } = await deferredPrompt.userChoice
-    // The event is single-use; drop it so the button retires either way.
-    deferredPrompt = null
-    notify()
-    return outcome
+    try {
+      await deferredPrompt.prompt()
+      const { outcome } = await deferredPrompt.userChoice
+      return outcome
+    } catch {
+      // prompt() throws if it is already open or the user gesture was lost.
+      return 'unavailable' as const
+    } finally {
+      // Single-use either way; drop it so the button retires.
+      deferredPrompt = null
+      notify()
+    }
   }
 
   return { installed, canPrompt, platform, promptInstall }

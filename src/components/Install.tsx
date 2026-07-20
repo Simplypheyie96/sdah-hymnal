@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useInstall } from '../hooks/useInstall'
 import { useLocalStorage } from '../hooks/useLocalStorage'
@@ -14,6 +14,15 @@ const DISMISS_KEY = 'sdah.installNudge.dismissed'
 
 /** The iPhone/iPad walkthrough, shown as a bottom sheet. */
 export function IosInstallSheet({ onClose }: { onClose: () => void }) {
+  // A dialog should close on Escape, not only on a tap outside it.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+
   const steps: { n: number; body: ReactNode }[] = [
     {
       n: 1,
