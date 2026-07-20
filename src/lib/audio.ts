@@ -89,7 +89,7 @@ function ensureElement(): HTMLAudioElement {
  * The range is deliberately narrow. Past roughly a quarter either way the
  * pitch correction starts to smear and an organ stops sounding like one.
  */
-export const RATES = [0.8, 0.9, 1, 1.1, 1.25] as const
+export const RATES = [0.7, 0.8, 0.9, 1, 1.1, 1.25, 1.5, 2] as const
 
 const RATE_KEY = 'sdah.rate'
 
@@ -207,6 +207,30 @@ export async function recordingAvailability(hymnNumber: number): Promise<Availab
 // serving offline copies as blobs avoids the problem entirely.
 const AUDIO_CACHE = 'hymn-audio'
 const MAX_CACHED = 120
+
+/**
+ * Drop recordings saved from a host we no longer use.
+ *
+ * Downloads are keyed by their full URL, so moving the library — Vercel Blob
+ * to R2 — orphaned every copy anyone had saved. They are never read again,
+ * because the app now asks for a different address, but they sit on the phone
+ * taking up to a couple of hundred megabytes and nothing ever clears them.
+ *
+ * Runs once on load and says nothing. The hymns themselves are unaffected:
+ * they simply download again from the new host the next time they are played.
+ */
+async function forgetMovedRecordings(): Promise<void> {
+  if (!('caches' in globalThis)) return
+  try {
+    const cache = await caches.open(AUDIO_CACHE)
+    const stale = (await cache.keys()).filter((req) => !req.url.startsWith(AUDIO_BASE))
+    await Promise.all(stale.map((req) => cache.delete(req)))
+  } catch {
+    /* storage unavailable — the stale copies are inert either way */
+  }
+}
+
+void forgetMovedRecordings()
 
 /** The object URL currently in use, revoked when we move on. */
 let objectUrl: string | null = null
