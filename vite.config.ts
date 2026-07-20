@@ -20,7 +20,12 @@ export default defineConfig({
         // URL — so a cast link (?present=…) can never be mistaken for a second,
         // separate app when Android decides what is already installed.
         id: '/',
-        start_url: '/',
+        // The launch URL carries a marker so an installed app can be told
+        // apart from a browser visit. Custom analytics events are a paid
+        // feature, but page paths are not, so the query string is what makes
+        // "opened from the home screen" countable at all. `id` stays '/', so
+        // this does not make the installed app look like a different one.
+        start_url: '/?source=installed',
         scope: '/',
         lang: 'en',
         categories: ['books', 'education', 'lifestyle'],
