@@ -45,3 +45,4 @@ media/audio/*.mp3
 
 # Video capture frames
 .video/
+.promo/
