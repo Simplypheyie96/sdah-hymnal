@@ -222,7 +222,7 @@ export function HymnContent({
 
       {/* Floating controls: previous / next hymn + accompaniment */}
       <div className="sticky bottom-0 z-20 mt-auto flex justify-center pb-[max(env(safe-area-inset-bottom),20px)] pt-3 pointer-events-none">
-        <div className="flex items-center gap-2 pointer-events-auto sm:gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 pointer-events-auto sm:gap-x-3">
           <div className="glass hairline flex items-center rounded-full px-1.5 py-1.5 shadow-[var(--shadow-float)]">
             <button
               onClick={() => prev && onNavigate(prev)}
@@ -232,7 +232,7 @@ export function HymnContent({
             >
               <ChevronLeftIcon size={20} />
             </button>
-            <span className="font-lyrics hidden w-12 text-center text-[15px] font-[350] tabular-nums text-[var(--ink-2)] sm:block sm:w-16">
+            <span className="font-lyrics w-11 text-center text-[15px] font-[350] tabular-nums text-[var(--ink-2)] sm:w-16">
               {hymn.number}
             </span>
             <button
