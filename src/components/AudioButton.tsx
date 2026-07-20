@@ -188,7 +188,7 @@ export function AudioButton({
               disabled={state.rate <= RATES[0]}
               aria-label="Play slower"
               title="Slower"
-              className={`flex h-9 w-8 items-center justify-center rounded-full text-[19px] leading-none transition-colors sm:w-9 ${stepSkin}`}
+              className={`flex h-11 w-11 items-center justify-center rounded-full text-[20px] leading-none transition-colors ${stepSkin}`}
             >
               −
             </button>
@@ -201,7 +201,7 @@ export function AudioButton({
               disabled={state.rate === 1}
               aria-label={`Playing at ${state.rate} times speed${state.rate === 1 ? '' : ' — tap for normal'}`}
               title={state.rate === 1 ? 'Recorded tempo' : 'Back to normal speed'}
-              className={`w-[38px] text-center text-[12.5px] font-semibold tabular-nums transition-colors sm:w-[42px] ${
+              className={`h-11 w-11 text-center text-[12.5px] font-semibold tabular-nums transition-colors ${
                 state.rate === 1
                   ? stage
                     ? 'text-[#7a8187]'
@@ -219,7 +219,7 @@ export function AudioButton({
               disabled={state.rate >= RATES[RATES.length - 1]}
               aria-label="Play faster"
               title="Faster"
-              className={`mr-0.5 flex h-9 w-8 items-center justify-center rounded-full text-[19px] leading-none transition-colors sm:mr-1 sm:w-9 ${stepSkin}`}
+              className={`mr-0.5 flex h-11 w-11 items-center justify-center rounded-full text-[20px] leading-none transition-colors sm:mr-1 ${stepSkin}`}
             >
               +
             </button>

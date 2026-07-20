@@ -232,7 +232,7 @@ export function HymnContent({
             >
               <ChevronLeftIcon size={20} />
             </button>
-            <span className="font-lyrics w-12 text-center text-[15px] font-[350] tabular-nums text-[var(--ink-2)] sm:w-16">
+            <span className="font-lyrics hidden w-12 text-center text-[15px] font-[350] tabular-nums text-[var(--ink-2)] sm:block sm:w-16">
               {hymn.number}
             </span>
             <button
