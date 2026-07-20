@@ -124,21 +124,26 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   ctx.fillRect(0, 0, W, cardH)
 
   // Paper grain, tinted with the ink tone — density held as the card grows.
+  // The tint is set once; per-dot opacity comes from globalAlpha (a number), so
+  // the grain stays varied without building an rgba() string tens of thousands
+  // of times per card.
   const [ir, ig, ib] = [
     parseInt(ink.slice(1, 3), 16),
     parseInt(ink.slice(3, 5), 16),
     parseInt(ink.slice(5, 7), 16),
   ]
   const grainScale = cardH / H
+  ctx.fillStyle = `rgb(${ir},${ig},${ib})`
   for (let i = 0; i < 26000 * grainScale; i++) {
-    ctx.fillStyle = `rgba(${ir},${ig},${ib},${Math.random() * 0.05})`
+    ctx.globalAlpha = Math.random() * 0.05
     ctx.fillRect(Math.random() * W, Math.random() * cardH, 1.5, 1.5)
   }
   for (let i = 0; i < 120 * grainScale; i++) {
-    ctx.fillStyle = `rgba(${ir},${ig},${ib},${0.08 + Math.random() * 0.1})`
+    ctx.globalAlpha = 0.08 + Math.random() * 0.1
     const s = 1.5 + Math.random() * 2.5
     ctx.fillRect(Math.random() * W, Math.random() * cardH, s, s)
   }
+  ctx.globalAlpha = 1 // reset so the type below paints fully opaque
 
   // The card is composed like a hymnal title page: a struck numeral, the
   // title beneath it, then the verse set as reading text. Lyrics keep their
