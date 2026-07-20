@@ -166,6 +166,34 @@ const titleCard = async (name, opts, hold = 2.4) => {
   seq.push({ file, hold })
   console.log(`  ${file}  card`)
 }
+// A feature beat: the real screen dropped onto dark paper as a rounded, inset
+// device shot with one line of benefit beneath it — an app-store frame, not a
+// tutorial step. Flagged `zoom` so the stitch gives it a slow push-in.
+const featureShot = async (name, caption, hold = 2.6) => {
+  const file = `${String(seq.length).padStart(2, '0')}-${name}.png`
+  const shotW = Math.round(PW * 0.82)
+  const resized = await sharp(await page.screenshot()).resize(shotW).toBuffer()
+  const { height: shotH } = await sharp(resized).metadata()
+  const mask = Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${shotW}" height="${shotH}"><rect width="${shotW}" height="${shotH}" rx="40" ry="40"/></svg>`,
+  )
+  const rounded = await sharp(resized).composite([{ input: mask, blend: 'dest-in' }]).png().toBuffer()
+  const top = 160
+  const overlay = `<svg xmlns="http://www.w3.org/2000/svg" width="${PW}" height="${PH}">
+    <rect x="${PW / 2 - 46}" y="${top + shotH + 74}" width="92" height="3" rx="1.5" fill="${ACCENT}" opacity="0.75"/>
+    <text x="${PW / 2}" y="${top + shotH + 152}" text-anchor="middle" fill="${PAPER}"
+      font-family="EB Garamond, Georgia, serif" font-size="64" font-weight="600">${esc(caption)}</text>
+  </svg>`
+  await sharp({ create: { width: PW, height: PH, channels: 4, background: INK } })
+    .composite([
+      { input: rounded, top, left: Math.round((PW - shotW) / 2) },
+      { input: Buffer.from(overlay), top: 0, left: 0 },
+    ])
+    .png()
+    .toFile(`${DIR}${file}`)
+  seq.push({ file, hold, zoom: true })
+  console.log(`  ${file}  feature`)
+}
 const tap = async (sel, { timeout = 6000 } = {}) => {
   try {
     await page.locator(sel).first().click({ timeout, force: true })
@@ -195,11 +223,11 @@ console.log(`Recording ${BASE}\n`)
 await titleCard('intro', {
   eyebrow: 'SEVENTH-DAY ADVENTIST',
   title: ['Hymnal'],
-  sub: ['The whole hymnal, on your phone', '1–920 · English & Yorùbá'],
+  sub: ['Every hymn, in your pocket'],
   mark: true,
-}, 3.2)
+}, 3.0)
 
-// ——— The app, opening on Home with the install nudge ———
+// ——— Feature montage: real screens as framed, moving app-store shots ———
 await page.goto(BASE, { waitUntil: 'networkidle' })
 await wait(1200)
 // Nudge the browser's install offer so the banner is on screen.
@@ -210,15 +238,12 @@ await page.evaluate(() => {
   window.dispatchEvent(e)
 })
 await wait(900)
-await shot('home', 3.0)
+await featureShot('home', '920 hymns & readings', 2.8)
 
-// ——— Finding a hymn ———
-await titleCard('c-find', { title: ['Find any hymn'], sub: ['a title, a number,', 'or a line you half-remember'] }, 2.2)
 await fillSearch('streams of mercy')
 await wait(1100)
-await shot('search', 3.2)
+await featureShot('search', 'Find any hymn in seconds', 2.6)
 
-// ——— Reading + music ———
 await fillSearch('')
 await tap('button[aria-label="Open number keypad"]')
 await wait(500)
@@ -227,38 +252,30 @@ for (const d of ['3', '0', '0']) {
   await wait(180)
 }
 await tap('button:has-text("Open 300")')
-await wait(1500)
-await shot('hymn', 2.8)
-
-await titleCard('c-music', { title: ['Every verse, sung'], sub: ['plays the whole hymn —', 'then works offline'] }, 2.2)
+await wait(1400)
 await tap('button[aria-label="Play accompaniment"]')
-await wait(3200)
-await shot('playing', 3.0)
+await wait(3000)
+await featureShot('playing', 'Every verse, sung', 2.8)
 
-// ——— Yorùbá ———
-await titleCard('c-lang', { title: ['English & Yorùbá'], sub: ['the same hymn,', 'the right number'] }, 2.2)
-// The open hymn is an overlay above a still-mounted Home, so two "Yorùbá"
-// chips exist; the reader's is the last one. Partial match, too, since the
-// label's diacritic would slip past text-is().
+// The open hymn overlays a still-mounted Home, so two "Yorùbá" chips exist —
+// the reader's is the last. Partial match dodges the label's diacritic.
 await page.locator('button:has-text("Yor")').last().click({ timeout: 6000 }).catch(() => console.log('  (skipped: yoruba chip)'))
-await wait(1700)
-await shot('yoruba', 2.8)
+await wait(1600)
+await featureShot('yoruba', 'English & Yorùbá', 2.6)
 
-// ——— Projection ———
-await titleCard('c-project', { title: ['And on the big screen'], sub: ['project it for church,', 'one verse at a time'] }, 2.0)
 await tap('button[aria-label="Present on screen"]')
-await wait(1800)
-await shot('present', 3.0)
+await wait(1700)
+await featureShot('present', 'Project it for church', 2.6)
 await page.keyboard.press('Escape').catch(() => {})
-await wait(700)
+await wait(500)
 
 // ——— Outro: the ask ———
 await titleCard('outro', {
-  eyebrow: 'NO APP STORE',
-  title: ['Open it.', 'Add to your phone.'],
+  eyebrow: 'FREE — NO APP STORE',
+  title: ['Get it on', 'your phone'],
   link: 'sdahymnal.vercel.app',
-  sub: ['Free · Works offline'],
-}, 4.2)
+  sub: ['Open the link — install in a tap'],
+}, 4.4)
 
 await browser.close()
 
@@ -302,7 +319,7 @@ await run(FFMPEG, [
   `[0:v]fade=t=in:st=0:d=0.8,fade=t=out:st=${vOut}:d=1.2[v];` +
     `${bed},afade=t=in:st=0:d=1.5,afade=t=out:st=${aOut}:d=2.5[a]`,
   '-map', '[v]', '-map', '[a]',
-  '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-c:a', 'aac', '-b:a', '192k',
+  '-c:v', 'libx264', '-preset', 'medium', '-crf', '20', '-c:a', 'aac', '-b:a', '192k',
   '-shortest', '-movflags', '+faststart', OUT,
 ])
 
