@@ -20,12 +20,16 @@ export default defineConfig({
         // URL — so a cast link (?present=…) can never be mistaken for a second,
         // separate app when Android decides what is already installed.
         id: '/',
-        // The launch URL carries a marker so an installed app can be told
-        // apart from a browser visit. Custom analytics events are a paid
-        // feature, but page paths are not, so the query string is what makes
-        // "opened from the home screen" countable at all. `id` stays '/', so
-        // this does not make the installed app look like a different one.
-        start_url: '/?source=installed',
+        // A real path, not a query string, so that opening the app from the
+        // home screen is countable. Analytics groups visits by pathname; query
+        // strings only surface in the UTM panel, which is a paid feature, so a
+        // marker in the query string would have been invisible.
+        //
+        // vercel.json rewrites this to index.html, and the service worker
+        // falls back to the same document offline. `id` stays '/', so the
+        // installed app is still recognised as this app rather than a second
+        // one.
+        start_url: '/installed',
         scope: '/',
         lang: 'en',
         categories: ['books', 'education', 'lifestyle'],
