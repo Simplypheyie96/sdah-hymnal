@@ -168,13 +168,12 @@ export function InstallBanner() {
 
 /**
  * The install control in Settings — the deliberate, always-available route, as
- * opposed to the banner's one-time offer. Adapts to the device: a real button
- * where the browser allows one, the iPhone walkthrough where it does not, and a
- * quiet confirmation once the app is already installed.
+ * opposed to the banner's one-time offer. A one-tap button where the browser
+ * allows one, a quiet confirmation once installed, and otherwise just the value
+ * of installing; the per-platform steps live beside it in Settings.
  */
 export function InstallControls() {
-  const { installed, canPrompt, platform, promptInstall } = useInstall()
-  const [sheet, setSheet] = useState(false)
+  const { installed, canPrompt, promptInstall } = useInstall()
 
   if (installed) {
     return (
@@ -203,28 +202,14 @@ export function InstallControls() {
         </div>
       </div>
 
-      {canPrompt ? (
+      {canPrompt && (
         <button
           onClick={() => void promptInstall()}
           className="mt-4 w-full rounded-full bg-[var(--accent)] py-2.5 text-[13px] font-semibold text-[var(--accent-contrast)]"
         >
           Install app
         </button>
-      ) : platform === 'ios' ? (
-        <button
-          onClick={() => setSheet(true)}
-          className="mt-4 w-full rounded-full bg-[var(--accent)] py-2.5 text-[13px] font-semibold text-[var(--accent-contrast)]"
-        >
-          Show me how
-        </button>
-      ) : (
-        <p className="mt-3 text-[12.5px] leading-relaxed text-[var(--ink-3)]">
-          Open your browser&rsquo;s menu and choose &ldquo;Install app&rdquo; or &ldquo;Add to Home
-          Screen&rdquo;. The steps for each device are just below.
-        </p>
       )}
-
-      <AnimatePresence>{sheet && <IosInstallSheet onClose={() => setSheet(false)} />}</AnimatePresence>
     </div>
   )
 }

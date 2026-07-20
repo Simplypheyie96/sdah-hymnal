@@ -54,12 +54,16 @@ export function HymnContent({
 }: HymnContentProps) {
   const [shareOpen, setShareOpen] = useState(false)
   const missingFrom = unavailableIn ? LANGS.find((l) => l.code === unavailableIn) : undefined
+  // The recording that accompanies this hymn — the same SDAH number in either
+  // edition, undefined for readings.
+  const recordingNumber = recordingNumberFor(hymn)
 
-  // Arrow keys page between hymns — handy on iPad keyboards and desktop.
-  // Paused while presenting, so the presenter owns the arrows.
-  // Leaving a hymn — closing it or paging to another — stops its music.
-  // Otherwise the accompaniment carries on under a different set of words.
-  useEffect(() => () => stopAudio(), [hymn.songId])
+  // Leaving a hymn stops its music; switching only the language does not.
+  // Both editions of a hymn share one recording, so this is keyed on that
+  // recording rather than the songId: English<->Yorùbá on the same hymn plays
+  // straight through, while paging to another hymn (a new number) or closing
+  // the reader (unmount) still stops it.
+  useEffect(() => () => stopAudio(), [recordingNumber])
 
   useEffect(() => {
     if (presenting) return
@@ -241,9 +245,7 @@ export function HymnContent({
             </button>
           </div>
 
-          {recordingNumberFor(hymn) !== undefined && (
-            <AudioButton hymnNumber={recordingNumberFor(hymn)!} />
-          )}
+          {recordingNumber !== undefined && <AudioButton hymnNumber={recordingNumber} />}
         </div>
       </div>
 

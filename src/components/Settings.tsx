@@ -7,7 +7,6 @@ import { InstallControls } from './Install'
 
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
-// ⚠️ Fill these in: your Buy Me a Coffee page and portfolio URL.
 const PORTFOLIO_URL = 'https://simplypheyie.is-a.dev/'
 export type AccentChoice = 'mono' | 'sage' | 'rose' | 'sky'
 
@@ -18,48 +17,53 @@ const ACCENTS: { id: AccentChoice; label: string; swatch: string }[] = [
   { id: 'sky', label: 'Sky', swatch: 'linear-gradient(135deg, #dce6f2 50%, #1f3a5f 50%)' },
 ]
 
-// Kept here rather than in a separate help screen: people look for this once,
-// in Settings, and never again.
+// Install steps, one platform per row so a reader finds their own without
+// wading through the others. The device you are on can usually install in a
+// tap from the button above these — this is the fallback, and the reference.
+const INSTALL_HELP: { title: string; body: string }[] = [
+  {
+    title: 'iPhone & iPad',
+    body: 'In Safari, tap the Share button, then “Add to Home Screen”. It has to be Safari — Chrome on an iPhone does not offer it.',
+  },
+  {
+    title: 'Android',
+    body: 'In Chrome, tap the ⋮ menu, then “Install app”.',
+  },
+  {
+    title: 'Mac',
+    body: 'Safari: File → “Add to Dock”. Chrome or Edge: the install icon at the right of the address bar.',
+  },
+  {
+    title: 'Windows',
+    body: 'In Chrome or Edge, click the install icon at the right of the address bar.',
+  },
+]
+
+// Using the app — one short answer each.
 const HOW_TO: { title: string; body: string }[] = [
   {
-    title: 'Keep it on your phone',
-    body:
-      'iPhone or iPad: open the app in Safari, tap the Share button, then scroll down the grey list of actions to “Add to Home Screen”. It is often below the fold, and on some phones you have to tap “Edit Actions…” at the bottom of that list to turn it on first. It has to be Safari — from Chrome on an iPhone the option is not offered. Android: open it in Chrome, tap the ⋮ menu, then “Install app”. Either way it then opens full screen with its own icon, like any other app, and works without a signal.',
-  },
-  {
-    title: 'Install it on a Mac or PC',
-    body:
-      'Mac: in Safari, choose File then “Add to Dock”. In Chrome or Edge, click the install icon at the right of the address bar. Windows is the same in Chrome or Edge. It opens in its own window without browser tabs or an address bar, which is what you want when the screen is going out to a projector.',
-  },
-  {
     title: 'Find a hymn',
-    body:
-      'Type a title, a number, or a line you half remember — “streams of mercy” finds 334. Tap No. for a keypad if you already know the number. The chips below the search box filter by section: Worship, Jesus Christ, Call to Worship, Benedictions and the rest.',
+    body: 'Type a title, a number, or a half-remembered line — “streams of mercy” finds 334. Tap No. for a keypad. The chips below the search box filter by section.',
   },
   {
     title: 'English and Yorùbá',
-    body:
-      'Switch hymnals from the buttons under the title, or inside a hymn to see the same song in the other language. Yorùbá hymns are searchable by their English names too. If a hymn is not in one hymnal, the app says so rather than showing the wrong words.',
+    body: 'Switch hymnals under the title, or from inside a hymn. Yorùbá hymns are searchable by their English names too. If a hymn is in only one hymnal, the app says so.',
   },
   {
-    title: 'Save the ones you sing often',
-    body:
-      'Tap the heart on any hymn and it appears under Favourites. A hymn hearted in one language stays hearted in the other.',
+    title: 'Save your favourites',
+    body: 'Tap the heart on any hymn to keep it under Favourites. Hearted in one language, it stays hearted in the other.',
   },
   {
     title: 'Make it easier to read',
-    body:
-      'Above: Light, System or Dark, four colour themes, and a lyrics size slider. Larger text helps when the phone is on a music stand.',
+    body: 'Under Appearance: light or dark, four colour themes, and a lyrics-size slider. Larger text helps when the phone is on a music stand.',
   },
   {
     title: 'Play the music',
-    body:
-      'Open a hymn and press play. The recording covers every verse. It downloads the first time you play it and then works offline, so play the hymns you need before Sabbath. A ring around the button shows how far through it is.',
+    body: 'Open a hymn and press play — the recording covers every verse. It downloads the first time, then works offline, so play what you need before Sabbath.',
   },
   {
     title: 'Share a verse',
-    body:
-      'Tap the share icon in a hymn, choose which verse and one of four colours, then send the picture to WhatsApp, Instagram or anywhere else. “Copy text” sends the words as plain text instead.',
+    body: 'Tap share in a hymn, choose a verse and a colour, and send the picture anywhere. “Copy text” sends the plain words instead.',
   },
 ]
 
@@ -73,6 +77,25 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
         {children}
       </div>
     </section>
+  )
+}
+
+// A single accordion row. `group` gives the browser an exclusive set — opening
+// one closes any other row sharing the same group, so only one stands open.
+function Disclosure({ group, title, body }: { group: string; title: string; body: string }) {
+  return (
+    <details name={group} className="group">
+      <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 [&::-webkit-details-marker]:hidden">
+        <span className="text-[14.5px] font-medium">{title}</span>
+        <span
+          aria-hidden
+          className="text-[var(--ink-3)] transition-transform duration-200 group-open:rotate-45"
+        >
+          +
+        </span>
+      </summary>
+      <p className="px-5 pb-5 text-[13.5px] leading-relaxed text-[var(--ink-2)]">{body}</p>
+    </details>
   )
 }
 
@@ -213,8 +236,13 @@ export function Settings({
       </div>
 
       <div className="rise-in" style={{ animationDelay: '160ms' }}>
-        <Section title="Install">
+        <Section title="Install the app">
           <InstallControls />
+          <div className="divide-y divide-[var(--line)] border-t border-[var(--line)]">
+            {INSTALL_HELP.map((item) => (
+              <Disclosure key={item.title} group="install-help" title={item.title} body={item.body} />
+            ))}
+          </div>
         </Section>
       </div>
 
@@ -222,66 +250,46 @@ export function Settings({
         <Section title="How to use it">
           <div className="divide-y divide-[var(--line)]">
             {HOW_TO.map((item) => (
-              <details key={item.title} className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between px-5 py-4 [&::-webkit-details-marker]:hidden">
-                  <span className="text-[14.5px] font-medium">{item.title}</span>
-                  <span
-                    aria-hidden
-                    className="text-[var(--ink-3)] transition-transform duration-200 group-open:rotate-45"
-                  >
-                    +
-                  </span>
-                </summary>
-                <p className="px-5 pb-5 text-[13.5px] leading-relaxed text-[var(--ink-2)]">
-                  {item.body}
-                </p>
-              </details>
+              <Disclosure key={item.title} group="howto" title={item.title} body={item.body} />
             ))}
           </div>
         </Section>
       </div>
 
       <div className="rise-in" style={{ animationDelay: '240ms' }}>
-        <Section title="For churches & home worship">
+        <Section title="Projecting & TV">
           <div className="divide-y divide-[var(--line)]">
             <div className="px-5 py-5">
               <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
-                Projecting for your congregation? Open any hymn or call to worship and tap
-                the screen icon — it fills the display verse by verse, made for church
-                projectors. Arrow keys or a presentation clicker advance the lines.
+                Open any hymn or reading and tap the screen icon — it fills the display verse by
+                verse, made for church projectors. Arrow keys or a presentation clicker advance
+                the lines.
               </p>
             </div>
             <div className="px-5 py-5">
-              <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
-                <span className="font-semibold text-[var(--ink)]">Putting it on a TV.</span>{' '}
-                Open a hymn and tap the screen icon. How it reaches the television
-                depends on the device — both routes are below, since people share
-                phones and read this on whichever is to hand.
+              <p className="text-[13px] leading-relaxed text-[var(--ink-3)]">
+                Sending it to a television depends on the device — both are below, since people
+                pass phones around.
               </p>
-
               <div className="mt-4 space-y-3">
                 <div className="hairline rounded-2xl px-4 py-3">
                   <p className="text-[12.5px] font-semibold text-[var(--accent-ink)]">
                     Android, Chrome, Edge {canCastHere && '· this device'}
                   </p>
                   <p className="mt-1 text-[13px] leading-relaxed text-[var(--ink-2)]">
-                    Tap <span className="font-semibold">Cast</span> in the presenter and
-                    pick your Chromecast or smart TV. The television shows the words and
-                    the phone stays the remote.
+                    Tap <span className="font-semibold">Cast</span> in the presenter and pick your
+                    Chromecast or smart TV. The phone stays the remote.
                   </p>
                 </div>
-
                 <div className="hairline rounded-2xl px-4 py-3">
                   <p className="text-[12.5px] font-semibold text-[var(--accent-ink)]">
                     iPhone, iPad {!canCastHere && '· this device'}
                   </p>
                   <p className="mt-1 text-[13px] leading-relaxed text-[var(--ink-2)]">
-                    There is no Cast button here, and no app can add one — Apple allows
-                    casting only from its own apps, so no website can offer it on iPhone
-                    or iPad. Use{' '}
-                    <span className="font-semibold">Control Centre → Screen Mirroring</span>,
-                    pick your Apple TV or AirPlay screen, then open the hymn and tap the
-                    screen icon. AirPlay carries the music across with the words.
+                    Apple allows casting only from its own apps, so there is no Cast button here.
+                    Use <span className="font-semibold">Control Centre → Screen Mirroring</span>,
+                    pick your Apple TV, then open the hymn and tap the screen icon. AirPlay carries
+                    the music across too.
                   </p>
                 </div>
               </div>
@@ -300,98 +308,119 @@ export function Settings({
                 }`}
                 aria-hidden
               />
-              {online ? 'Connected' : 'No connection'} — all 920 hymns and readings work
-              either way. The words, search, favourites, and projection need no signal
-              once the app has been opened once.
+              {online ? 'Connected' : 'No connection'} — all 920 hymns and readings work either
+              way. Words, search, favourites, and projection need no signal once the app has been
+              opened once.
             </p>
             <p className="mt-3 text-[13px] leading-relaxed text-[var(--ink-3)]">
-              Recordings are the exception: each one downloads the first time you play it,
-              and then stays available offline. Play the hymns you need before Sabbath and
-              they will be there without a signal.
+              Recordings are the exception: each downloads the first time you play it, then stays
+              available offline. Play the hymns you need before Sabbath.
             </p>
           </div>
         </Section>
       </div>
 
-      <div className="rise-in" style={{ animationDelay: '320ms' }}>
+      <div className="rise-in" style={{ animationDelay: '300ms' }}>
         <Section title="About">
+          <div className="px-5 py-5">
+            <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
+              The Seventh-day Adventist Hymnal — the 695 hymns <em>and</em> the calls to worship,
+              invocations, scripture readings, and benedictions through No. 920 that most hymnal
+              apps leave out — in English and Yorùbá.
+            </p>
+            <p className="mt-3 text-[13px] leading-relaxed text-[var(--ink-3)]">
+              Built with love by an Adventist, for Adventists.{' '}
+              <a href="mailto:ajayifey@gmail.com" className="underline decoration-[var(--line-strong)] underline-offset-2 text-[var(--ink-2)]">
+                Contact me
+              </a>
+              {' · '}
+              <a
+                href={PORTFOLIO_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="underline decoration-[var(--line-strong)] underline-offset-2 text-[var(--ink-2)]"
+              >
+                Portfolio ↗
+              </a>
+            </p>
+          </div>
+        </Section>
+      </div>
+
+      <div className="rise-in" style={{ animationDelay: '330ms' }}>
+        <Section title="Credits">
           <div className="divide-y divide-[var(--line)]">
-            <div className="px-5 py-5">
-              <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
-                The Seventh-day Adventist Hymnal — the 695 hymns <em>and</em> the calls to
-                worship, invocations, scripture readings, and benedictions through No. 920
-                that most hymnal apps leave out — in English and Yorùbá.
-              </p>
-              <p className="mt-3 text-[13px] leading-relaxed text-[var(--ink-3)]">
-                Built with love by an Adventist, for Adventists.{' '}
-                <a href="mailto:ajayifey@gmail.com" className="underline decoration-[var(--line-strong)] underline-offset-2 text-[var(--ink-2)]">
-                  Contact me
-                </a>
-                {' · '}
-                <a
-                  href={PORTFOLIO_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="underline decoration-[var(--line-strong)] underline-offset-2 text-[var(--ink-2)]"
-                >
-                  Portfolio ↗
-                </a>
+            {editionCredits.map((c) => (
+              <div key={c.url} className="px-5 py-4">
+                <p className="text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+                  {c.hymnalTitle} text from{' '}
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline decoration-[var(--line-strong)] underline-offset-2 text-[var(--ink)]"
+                  >
+                    {c.name}
+                  </a>
+                  {c.author ? ` by ${c.author}` : ''} — used under the {c.license} licence with
+                  thanks.
+                </p>
+              </div>
+            ))}
+            <div className="px-5 py-4">
+              <p className="text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+                The responsive readings quote several Bible translations, as the printed hymnal
+                does — NIV, NKJV, NASB, RSV, NEB, TEV, the Jerusalem Bible, the New Jewish Version,
+                and the King James Version. Each reading names its source; all rights belong to
+                their publishers.
               </p>
             </div>
-            <div className="px-5 py-5">
-              <p className="eyebrow text-[var(--ink-3)]">Credits &amp; notices</p>
-              <ul className="mt-3 space-y-2 text-[12.5px] leading-relaxed text-[var(--ink-3)]">
-                <li>
-                  An independent, unofficial app. Not published by, affiliated with, or
-                  endorsed by the General Conference of Seventh-day Adventists or its
-                  publishing houses.
-                </li>
-                <li>
-                  Hymn and reading texts remain the property of their respective copyright
-                  holders, including the Review &amp; Herald Publishing Association for the
-                  Seventh-day Adventist Hymnal. Provided here free of charge as a worship
-                  aid for people who own the printed hymnal. Rights holders may reach me at
-                  the address above with any concern and I will respond promptly.
-                </li>
-                <li>
-                  The responsive readings quote several Bible translations, as the
-                  printed hymnal does — NIV, NKJV, NASB, RSV, NEB, TEV, the Jerusalem
-                  Bible, the New Jewish Version, and the King James Version. Each
-                  reading names its own source, and all rights in those translations
-                  belong to their publishers.
-                </li>
-                <li>
-                  Hymn recordings are provided for worship use and remain the property
-                  of their performers and publishers.
-                </li>
-                <li>
-                  This app collects nothing. No accounts, no analytics, no tracking.
-                  Your favourites and settings are stored only on your own device, and
-                  nothing you do here is sent anywhere.
-                </li>
-                <li>
-                  Igbo and Hausa are not yet included. Abụ Ọtụtọ, the Igbo
-                  Adventist hymnal, exists only inside a closed Android app; no
-                  Hausa Adventist hymnal appears to have been digitised at all.
-                  If you hold either text — or your conference does — please get
-                  in touch and it will be added and credited.
-                </li>
-                {editionCredits.map((c) => (
-                  <li key={c.url}>
-                    {c.hymnalTitle} text from{' '}
-                    <a
-                      href={c.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline decoration-[var(--line-strong)] underline-offset-2 text-[var(--ink-2)]"
-                    >
-                      {c.name}
-                    </a>
-                    {c.author ? ` by ${c.author}` : ''} — used under the {c.license} licence
-                    with thanks.
-                  </li>
-                ))}
-              </ul>
+            <div className="px-5 py-4">
+              <p className="text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+                Hymn recordings are provided for worship use and remain the property of their
+                performers and publishers.
+              </p>
+            </div>
+            <div className="px-5 py-4">
+              <p className="text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+                <span className="font-semibold text-[var(--ink)]">Help add a language.</span> Igbo
+                and Hausa are not here yet. If you hold either Adventist hymnal — or your conference
+                does — please get in touch and it will be added and credited.
+              </p>
+            </div>
+          </div>
+        </Section>
+      </div>
+
+      <div className="rise-in" style={{ animationDelay: '360ms' }}>
+        <Section title="Disclaimer">
+          <div className="px-5 py-5">
+            <p className="text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+              An independent, unofficial app. It is not published by, affiliated with, or endorsed
+              by the General Conference of Seventh-day Adventists or its publishing houses.
+            </p>
+          </div>
+        </Section>
+      </div>
+
+      <div className="rise-in" style={{ animationDelay: '390ms' }}>
+        <Section title="Copyright & privacy">
+          <div className="divide-y divide-[var(--line)]">
+            <div className="px-5 py-4">
+              <p className="eyebrow text-[var(--ink-3)]">Copyright</p>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+                Hymn and reading texts remain the property of their copyright holders, including the
+                Review &amp; Herald Publishing Association. This app is a free worship aid for people
+                who own the printed hymnal. Rights holders can reach me at the address above with any
+                concern and I will respond promptly.
+              </p>
+            </div>
+            <div className="px-5 py-4">
+              <p className="eyebrow text-[var(--ink-3)]">Privacy</p>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+                This app collects nothing — no accounts, no analytics, no tracking. Your favourites
+                and settings stay on your own device, and nothing you do here is sent anywhere.
+              </p>
             </div>
           </div>
         </Section>
