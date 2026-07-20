@@ -89,7 +89,13 @@ function ensureElement(): HTMLAudioElement {
  * The range is deliberately narrow. Past roughly a quarter either way the
  * pitch correction starts to smear and an organ stops sounding like one.
  */
-export const RATES = [0.7, 0.8, 0.9, 1, 1.1, 1.25, 1.5, 2] as const
+// Eight steps, deliberately uneven, because the two halves are used for
+// different things. Below 1 the tenths are where a congregation that cannot
+// keep up gets help, and a tenth is about the smallest change anyone hears as
+// a different tempo rather than a wobble. Above 1 nobody is singing along —
+// that end is for running through a hymn quickly — so it moves in quarters and
+// reaches double in four presses instead of ten.
+export const RATES = [0.7, 0.8, 0.9, 1, 1.25, 1.5, 1.75, 2] as const
 
 const RATE_KEY = 'sdah.rate'
 
