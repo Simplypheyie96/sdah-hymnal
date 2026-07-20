@@ -17,7 +17,8 @@ node scripts/record-promo.mjs [url] [soundtrack.mp3]
 
 - `url` — the site to record. Defaults to `https://sdahymnal.vercel.app`.
 - `soundtrack.mp3` — a hymn recording to lay under the picture. Omit it and a
-  soft placeholder drone is generated instead, so the timing can be judged.
+  soft instrumental is generated instead — a slow hymn cadence in G, reverbed
+  and low-passed to sit far back — so the film is complete without one.
 
 Requires **ffmpeg** on `PATH` (or set `FFMPEG` to a binary). The finished file
 lands at `docs/promo.mp4`; working frames go to `.promo/` (gitignored).
@@ -55,8 +56,8 @@ Two notes on getting the file:
 - A recording belongs to its **performers and publishers**. Clear the rights
   before publishing a promo built on one, or use a public-domain instrumental.
 
-The committed `docs/promo.mp4` currently carries the **placeholder drone** —
-running the command above with a hymn replaces it in place.
+The committed `docs/promo.mp4` carries the **generated instrumental** — running
+the command above with a hymn replaces it in place.
 
 ## Sharing
 

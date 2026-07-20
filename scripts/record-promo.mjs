@@ -98,6 +98,43 @@ async function card(file, { eyebrow, title = [], sub = [], link, mark = false } 
   await sharp(Buffer.from(svg)).png().toFile(`${DIR}${file}`)
 }
 
+// A soft instrumental bed, generated rather than fetched — the recordings live
+// in R2, and a promo built on one needs its rights cleared anyway. A slow
+// I–vi–IV–V hymn cadence in G, each chord a few pure tones under a gentle
+// swell; reverb and a low-pass are added at the mux so it sits warm and far
+// back. Pass a real recording as the soundtrack argument to replace it.
+async function buildBed(total) {
+  const prog = [
+    [196.0, 246.94, 293.66], // G
+    [164.81, 196.0, 246.94], // Em
+    [130.81, 164.81, 196.0], // C
+    [146.83, 185.0, 220.0], //  D
+    [196.0, 246.94, 293.66], // G
+    [130.81, 164.81, 196.0], // C
+    [146.83, 185.0, 220.0], //  D
+    [196.0, 246.94, 293.66], // G
+  ]
+  const dur = total / prog.length
+  const clips = []
+  for (const [i, chord] of prog.entries()) {
+    const f = `${DIR}bed-${String(i).padStart(2, '0')}.wav`
+    const ins = chord.flatMap((hz) => ['-f', 'lavfi', '-i', `sine=frequency=${hz}:duration=${dur.toFixed(3)}`])
+    const mix = chord.map((_, k) => `[${k}]`).join('')
+    await run(FFMPEG, [
+      '-y', ...ins,
+      '-filter_complex',
+      `${mix}amix=inputs=${chord.length},afade=t=in:st=0:d=0.9,afade=t=out:st=${(dur - 1.1).toFixed(2)}:d=1.1,volume=2.4`,
+      f,
+    ])
+    clips.push(f)
+  }
+  const list = `${DIR}bed.txt`
+  await writeFile(list, clips.map((c) => `file '${c.replace(/\\/g, '/')}'`).join('\n') + '\n')
+  const bed = `${DIR}bed.wav`
+  await run(FFMPEG, ['-y', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', bed])
+  return bed
+}
+
 await rm(DIR, { recursive: true, force: true })
 await mkdir(DIR, { recursive: true })
 
@@ -158,7 +195,7 @@ console.log(`Recording ${BASE}\n`)
 await titleCard('intro', {
   eyebrow: 'SEVENTH-DAY ADVENTIST',
   title: ['Hymnal'],
-  sub: ['Hymns & readings, 1–920', 'English & Yorùbá'],
+  sub: ['The whole hymnal, on your phone', '1–920 · English & Yorùbá'],
   mark: true,
 }, 3.2)
 
@@ -208,7 +245,7 @@ await wait(1700)
 await shot('yoruba', 2.8)
 
 // ——— Projection ———
-await titleCard('c-project', { title: ['For the whole church'], sub: ['project it on the screen,', 'one verse at a time'] }, 2.2)
+await titleCard('c-project', { title: ['And on the big screen'], sub: ['project it for church,', 'one verse at a time'] }, 2.0)
 await tap('button[aria-label="Present on screen"]')
 await wait(1800)
 await shot('present', 3.0)
@@ -251,14 +288,11 @@ await run(FFMPEG, ['-y', '-f', 'concat', '-safe', '0', '-i', listFile, '-c', 'co
 
 // The soundtrack: the given hymn, or a soft generated drone the length of the
 // film. Faded under a gentle fade-in and fade-out of the picture itself.
-const inputs = SOUNDTRACK
-  ? ['-i', SOUNDTRACK]
-  : ['-f', 'lavfi', '-i', `sine=frequency=196:duration=${total}`,
-     '-f', 'lavfi', '-i', `sine=frequency=246.94:duration=${total}`,
-     '-f', 'lavfi', '-i', `sine=frequency=293.66:duration=${total}`]
+const track = SOUNDTRACK ?? (await buildBed(total))
+const inputs = ['-i', track]
 const bed = SOUNDTRACK
   ? `[1:a]volume=0.9`
-  : `[1:a][2:a][3:a]amix=inputs=3,tremolo=f=0.12:d=0.4,lowpass=f=850,aecho=0.8:0.88:900:0.25,volume=0.6`
+  : `[1:a]aecho=0.8:0.9:1100:0.3,lowpass=f=1100,volume=0.85`
 const vOut = Math.max(0, total - 1.2).toFixed(2)
 const aOut = Math.max(0, total - 2.5).toFixed(2)
 
