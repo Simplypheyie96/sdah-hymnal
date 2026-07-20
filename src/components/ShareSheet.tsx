@@ -327,10 +327,13 @@ export function ShareSheet({ hymn, onDismiss }: { hymn: Hymn; onDismiss: () => v
           </span>
         </div>
 
-        {/* Preview */}
-        <div className="hairline mt-4 min-h-0 flex-1 overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">
+        {/* Preview — the image shows at full width and the box scrolls, so a
+            tall card (the long readings) can be read top to bottom without
+            resizing the sheet or pushing the buttons off screen. overscroll-
+            contain keeps that scroll from dragging the sheet or the page. */}
+        <div className="hairline mt-4 min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl shadow-[var(--shadow-soft)]">
           {imgUrl ? (
-            <img src={imgUrl} alt="Share card preview" className="block h-full w-full object-contain" />
+            <img src={imgUrl} alt="Share card preview" className="block h-auto w-full" />
           ) : (
             <div className="aspect-[4/5] w-full animate-pulse bg-[var(--paper-raised)]" />
           )}
