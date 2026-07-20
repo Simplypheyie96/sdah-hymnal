@@ -147,6 +147,9 @@ const fillSearch = async (text) => {
       /* try the next */
     }
   }
+  // Resilient by design, like tap(): a stubborn field should not abort an
+  // otherwise-good recording. Note it and carry on.
+  console.log(`  (skipped: search input for "${text}")`)
 }
 
 console.log(`Recording ${BASE}\n`)
@@ -240,7 +243,9 @@ for (const [i, s] of seq.entries()) {
   clips.push(clip)
 }
 const listFile = `${DIR}clips.txt`
-await writeFile(listFile, clips.map((c) => `file '${c}'`).join('\n') + '\n')
+// Forward slashes: ffmpeg's concat demuxer cannot parse the backslashes a
+// Windows path would carry.
+await writeFile(listFile, clips.map((c) => `file '${c.replace(/\\/g, '/')}'`).join('\n') + '\n')
 const montage = `${DIR}montage.mp4`
 await run(FFMPEG, ['-y', '-f', 'concat', '-safe', '0', '-i', listFile, '-c', 'copy', montage])
 
@@ -267,7 +272,7 @@ await run(FFMPEG, [
   '-shortest', '-movflags', '+faststart', OUT,
 ])
 
-const { stdout } = await run(FFMPEG.replace(/ffmpeg$/, 'ffprobe'), [
+const { stdout } = await run(FFMPEG.replace(/ffmpeg(\.exe)?$/i, 'ffprobe$1'), [
   '-v', 'error', '-show_entries', 'format=duration,size', '-of', 'default=nw=1', OUT,
 ]).catch(() => ({ stdout: '' }))
 console.log(`\n${OUT}\n${stdout.trim()}  (${total.toFixed(1)}s of frames)`)
