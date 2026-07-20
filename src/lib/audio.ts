@@ -13,6 +13,8 @@ export type AudioStatus = 'idle' | 'loading' | 'playing' | 'paused' | 'unavailab
 
 export type AudioState = {
   status: AudioStatus
+  /** Playback speed, 1 = as recorded. */
+  rate: number
   /** SDAH number the state refers to (null when idle). */
   hymnNumber: number | null
   /** Seconds elapsed and total, for the progress readout. */
@@ -21,7 +23,7 @@ export type AudioState = {
 }
 
 let el: HTMLAudioElement | null = null
-let state: AudioState = { status: 'idle', hymnNumber: null, position: 0, duration: 0 }
+let state: AudioState = { status: 'idle', hymnNumber: null, position: 0, duration: 0, rate: 1 }
 const listeners = new Set<() => void>()
 
 function setState(next: Partial<AudioState>) {
@@ -54,6 +56,7 @@ function ensureElement(): HTMLAudioElement {
   if (el) return el
   el = new Audio()
   el.preload = 'none'
+  applyRate(el)
 
   el.addEventListener('playing', () => setState({ status: 'playing' }))
   el.addEventListener('pause', () => {
@@ -73,6 +76,43 @@ function ensureElement(): HTMLAudioElement {
   })
 
   return el
+}
+
+/**
+ * Speed, with the key held.
+ *
+ * A congregation sings to this, so the pitch must not move when the tempo
+ * does — slowing a recording the naive way drops it flat and nobody can
+ * follow. Browsers will resample to preserve pitch when asked; Safari still
+ * wants the prefixed name, and older engines want neither.
+ *
+ * The range is deliberately narrow. Past roughly a quarter either way the
+ * pitch correction starts to smear and an organ stops sounding like one.
+ */
+export const RATES = [0.8, 0.9, 1, 1.1, 1.25] as const
+
+let rate = 1
+
+type PitchPreserving = HTMLAudioElement & {
+  preservesPitch?: boolean
+  webkitPreservesPitch?: boolean
+}
+
+function applyRate(audio: HTMLAudioElement) {
+  const a = audio as PitchPreserving
+  a.preservesPitch = true
+  a.webkitPreservesPitch = true
+  audio.playbackRate = rate
+}
+
+export function setRate(next: number): void {
+  rate = Math.min(2, Math.max(0.5, next))
+  if (el) applyRate(el)
+  setState({ rate })
+}
+
+export function getRate(): number {
+  return rate
 }
 
 /**
@@ -204,6 +244,7 @@ export async function playHymn(hymnNumber: number): Promise<void> {
     void storeRecording(url)
   }
   audio.currentTime = 0
+  applyRate(audio) // assigning src resets playbackRate to 1
 
   try {
     await audio.play()

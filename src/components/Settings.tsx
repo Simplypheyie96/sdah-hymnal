@@ -23,7 +23,12 @@ const ACCENTS: { id: AccentChoice; label: string; swatch: string }[] = [
 const INSTALL_HELP: { title: string; body: string }[] = [
   {
     title: 'iPhone & iPad',
-    body: 'In Safari, tap the Share button, then “Add to Home Screen”. It has to be Safari — Chrome on an iPhone does not offer it.',
+    // The option is not where people expect it: it sits down in the grey
+    // action list, usually below the fold, and on some phones it has to be
+    // switched on under "Edit Actions…" before it appears at all. Saying only
+    // "tap Share, then Add to Home Screen" sends readers looking for something
+    // they cannot see, and they conclude the app will not install.
+    body: 'In Safari, tap the Share button, then scroll down the grey list of actions to “Add to Home Screen”. It is often below the fold, and on some phones you have to tap “Edit Actions…” at the bottom of that list to turn it on first. It has to be Safari — Chrome on an iPhone does not offer it.',
   },
   {
     title: 'Android',
