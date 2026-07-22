@@ -62,7 +62,7 @@ function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number
 async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, dark: boolean) {
   const canvas = document.createElement('canvas')
   canvas.width = W
-  canvas.height = H
+  canvas.height = H // the default; a verse too long for it grows the card below
   const ctx = canvas.getContext('2d')!
 
   await Promise.all([
@@ -80,30 +80,70 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   const accent = mono && dark ? '#9aa1a6' : p.accent
   const muted = mono && dark ? '#71787d' : p.muted
 
+  // ——— Measure before painting, so the card can grow for a verse that would
+  // otherwise run off the bottom. The lyrics are never cropped; a long reading
+  // (some are 40+ lines) simply produces a taller card, footer and all.
+
+  // Title block — its height sets where the verse begins.
+  ctx.font = '600 54px "EB Garamond", Georgia, serif'
+  const titleLines = wrapLines(ctx, hymn.title, 880)
+  const titleEnd = 336 + titleLines.length * 64
+  const top = titleEnd + 62
+
+  // Auto-fit the verse to the standard card, down to a floor that survives the
+  // compression social apps apply. If it still overflows at the floor, keep the
+  // floor size and grow the card rather than letting it collide with the footer.
+  const verse = hymn.verses[verseIndex]
+  const italic = verse.isRefrain ? 'italic ' : ''
+  const FLOOR = 34
+  const standardRoom = H - 214 - top // 214: room for the wordmark and link beneath
+  let fontSize = 78
+  for (; fontSize > FLOOR; fontSize -= 2) {
+    ctx.font = `${italic}500 ${fontSize}px "EB Garamond", Georgia, serif`
+    const test = verse.lines.flatMap((l) => wrapLines(ctx, l, 900))
+    if (test.length * fontSize * 1.42 <= standardRoom) break
+  }
+  ctx.font = `${italic}500 ${fontSize}px "EB Garamond", Georgia, serif`
+  const lines = verse.lines.flatMap((l) => wrapLines(ctx, l, 900))
+  const lineHeight = fontSize * 1.42
+  const verseHeight = lines.length * lineHeight
+
+  // Grow only when needed — a normal hymn keeps the standard 4:5 card.
+  const cardH = verseHeight <= standardRoom ? H : Math.ceil(top + verseHeight + 214)
+  if (cardH !== canvas.height) canvas.height = cardH // resizing clears the ctx state
+  const room = cardH - 214 - top
+
+  // ——— Paint, at the settled height ———
+  ctx.textAlign = 'center'
+
   // Soft gradient field
-  const grad = ctx.createLinearGradient(0, 0, 0, H)
+  const grad = ctx.createLinearGradient(0, 0, 0, cardH)
   grad.addColorStop(0, bgTop)
   grad.addColorStop(1, bgBottom)
   ctx.fillStyle = grad
-  ctx.fillRect(0, 0, W, H)
+  ctx.fillRect(0, 0, W, cardH)
 
-  // Paper grain, tinted with the ink tone
+  // Paper grain, tinted with the ink tone — density held as the card grows.
+  // The tint is set once; per-dot opacity comes from globalAlpha (a number), so
+  // the grain stays varied without building an rgba() string tens of thousands
+  // of times per card.
   const [ir, ig, ib] = [
     parseInt(ink.slice(1, 3), 16),
     parseInt(ink.slice(3, 5), 16),
     parseInt(ink.slice(5, 7), 16),
   ]
-  for (let i = 0; i < 26000; i++) {
-    ctx.fillStyle = `rgba(${ir},${ig},${ib},${Math.random() * 0.05})`
-    ctx.fillRect(Math.random() * W, Math.random() * H, 1.5, 1.5)
+  const grainScale = cardH / H
+  ctx.fillStyle = `rgb(${ir},${ig},${ib})`
+  for (let i = 0; i < 26000 * grainScale; i++) {
+    ctx.globalAlpha = Math.random() * 0.05
+    ctx.fillRect(Math.random() * W, Math.random() * cardH, 1.5, 1.5)
   }
-  for (let i = 0; i < 120; i++) {
-    ctx.fillStyle = `rgba(${ir},${ig},${ib},${0.08 + Math.random() * 0.1})`
+  for (let i = 0; i < 120 * grainScale; i++) {
+    ctx.globalAlpha = 0.08 + Math.random() * 0.1
     const s = 1.5 + Math.random() * 2.5
-    ctx.fillRect(Math.random() * W, Math.random() * H, s, s)
+    ctx.fillRect(Math.random() * W, Math.random() * cardH, s, s)
   }
-
-  ctx.textAlign = 'center'
+  ctx.globalAlpha = 1 // reset so the type below paints fully opaque
 
   // The card is composed like a hymnal title page: a struck numeral, the
   // title beneath it, then the verse set as reading text. Lyrics keep their
@@ -122,7 +162,6 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   // Title
   ctx.fillStyle = ink
   ctx.font = '600 54px "EB Garamond", Georgia, serif'
-  const titleLines = wrapLines(ctx, hymn.title, 880)
   let ty = 336
   for (const line of titleLines) {
     ctx.fillText(line, W / 2, ty)
@@ -139,23 +178,8 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   ctx.stroke()
   ctx.globalAlpha = 1
 
-  // Verse — the hero. Auto-fitted to fill the space that remains, set at a
-  // weight that survives the compression social apps apply to images.
-  const verse = hymn.verses[verseIndex]
-  const italic = verse.isRefrain ? 'italic ' : ''
-  const top = ty + 62
-  const bottom = H - 214 // room for the wordmark and the link beneath it
-  const room = bottom - top
-
-  let fontSize = 78
-  let lines: string[] = []
-  for (; fontSize >= 34; fontSize -= 2) {
-    ctx.font = `${italic}500 ${fontSize}px "EB Garamond", Georgia, serif`
-    lines = verse.lines.flatMap((l) => wrapLines(ctx, l, 900))
-    if (lines.length * fontSize * 1.42 <= room) break
-  }
-  const lineHeight = fontSize * 1.42
-  const blockTop = top + Math.max(0, (room - lines.length * lineHeight) / 2)
+  // Verse — the hero, centered in the room it has (which it fills on a grown card).
+  const blockTop = top + Math.max(0, (room - verseHeight) / 2)
   ctx.font = `${italic}500 ${fontSize}px "EB Garamond", Georgia, serif`
   ctx.fillStyle = ink
   lines.forEach((line, i) => {
@@ -167,15 +191,15 @@ async function drawCard(hymn: Hymn, verseIndex: number, paletteId: PaletteId, da
   // back. APP_URL is the one line to change when a real domain is in place.
   ctx.fillStyle = muted
   ctx.font = '600 25px -apple-system, system-ui, sans-serif'
-  ctx.fillText(verseLabel(hymn.verses, verseIndex).toUpperCase(), W / 2, H - 172)
+  ctx.fillText(verseLabel(hymn.verses, verseIndex).toUpperCase(), W / 2, cardH - 172)
 
   ctx.fillStyle = accent
   ctx.font = '500 40px "EB Garamond", Georgia, serif'
-  ctx.fillText('Hymnal', W / 2, H - 116)
+  ctx.fillText('Hymnal', W / 2, cardH - 116)
 
   ctx.fillStyle = muted
   ctx.font = '500 26px -apple-system, system-ui, sans-serif'
-  ctx.fillText(APP_URL, W / 2, H - 70)
+  ctx.fillText(APP_URL, W / 2, cardH - 70)
 
   return canvas
 }
@@ -303,10 +327,13 @@ export function ShareSheet({ hymn, onDismiss }: { hymn: Hymn; onDismiss: () => v
           </span>
         </div>
 
-        {/* Preview */}
-        <div className="hairline mt-4 min-h-0 flex-1 overflow-hidden rounded-2xl shadow-[var(--shadow-soft)]">
+        {/* Preview — the image shows at full width and the box scrolls, so a
+            tall card (the long readings) can be read top to bottom without
+            resizing the sheet or pushing the buttons off screen. overscroll-
+            contain keeps that scroll from dragging the sheet or the page. */}
+        <div className="hairline mt-4 min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl shadow-[var(--shadow-soft)]">
           {imgUrl ? (
-            <img src={imgUrl} alt="Share card preview" className="block h-full w-full object-contain" />
+            <img src={imgUrl} alt="Share card preview" className="block h-auto w-full" />
           ) : (
             <div className="aspect-[4/5] w-full animate-pulse bg-[var(--paper-raised)]" />
           )}
