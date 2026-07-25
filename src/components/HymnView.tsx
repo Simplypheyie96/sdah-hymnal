@@ -11,6 +11,7 @@ import {
 import { AudioButton } from './AudioButton'
 import { stopAudio } from '../lib/audio'
 import { ShareSheet } from './ShareSheet'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 
 /** SDAH number whose recording accompanies this entry (shared across editions). */
 export function recordingNumberFor(hymn: Hymn): number | undefined {
@@ -54,6 +55,9 @@ export function HymnContent({
 }: HymnContentProps) {
   const [shareOpen, setShareOpen] = useState(false)
   const missingFrom = unavailableIn ? LANGS.find((l) => l.code === unavailableIn) : undefined
+  // Grow the floating controls from a tablet width up — phone-sized buttons
+  // look lost on an iPad. Phones (below 768px) keep the compact chrome.
+  const big = useMediaQuery('(min-width: 768px)')
   // The recording that accompanies this hymn — the same SDAH number in either
   // edition, undefined for readings.
   const recordingNumber = recordingNumberFor(hymn)
@@ -85,39 +89,39 @@ export function HymnContent({
             <button
               onClick={onClose}
               aria-label="Back"
-              className="glass hairline pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[var(--ink-2)] shadow-[var(--shadow-soft)] transition-all duration-200 hover:text-[var(--ink)] active:scale-95"
+              className="glass hairline pointer-events-auto flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[var(--ink-2)] shadow-[var(--shadow-soft)] transition-all duration-200 hover:text-[var(--ink)] active:scale-95 md:h-[52px] md:w-[52px]"
             >
-              <ChevronLeftIcon />
+              <ChevronLeftIcon size={big ? 25 : 22} />
             </button>
           ) : (
-            <div className="h-11 w-11 shrink-0" />
+            <div className="h-11 w-11 shrink-0 md:h-[52px] md:w-[52px]" />
           )}
 
-          <div className="glass hairline pointer-events-auto flex items-center gap-0.5 rounded-full p-1 shadow-[var(--shadow-soft)]">
+          <div className="glass hairline pointer-events-auto flex items-center gap-0.5 rounded-full p-1 shadow-[var(--shadow-soft)] md:gap-1 md:p-1.5">
             <button
               onClick={onPresent}
               aria-label="Present on screen"
               title="Project this hymn for the congregation"
-              className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--accent)]/12 hover:text-[var(--accent-ink)]"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--accent)]/12 hover:text-[var(--accent-ink)] md:h-11 md:w-11"
             >
-              <PresentIcon />
+              <PresentIcon size={big ? 23 : 20} />
             </button>
             <button
               onClick={() => setShareOpen(true)}
               aria-label="Share"
-              className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--accent)]/12 hover:text-[var(--accent-ink)]"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--accent)]/12 hover:text-[var(--accent-ink)] md:h-11 md:w-11"
             >
-              <ShareIcon />
+              <ShareIcon size={big ? 23 : 20} />
             </button>
             <button
               onClick={onToggleFavorite}
               aria-label={isFavorite ? 'Remove from favourites' : 'Add to favourites'}
               aria-pressed={isFavorite}
-              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 hover:bg-[var(--accent)]/12 ${
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 hover:bg-[var(--accent)]/12 md:h-11 md:w-11 ${
                 isFavorite ? 'text-[var(--accent-ink)]' : 'text-[var(--ink-2)]'
               }`}
             >
-              <HeartIcon filled={isFavorite} />
+              <HeartIcon filled={isFavorite} size={big ? 25 : 22} />
             </button>
           </div>
         </div>
@@ -223,25 +227,25 @@ export function HymnContent({
       {/* Floating controls: previous / next hymn + accompaniment */}
       <div className="sticky bottom-0 z-20 mt-auto flex justify-center pb-[max(env(safe-area-inset-bottom),20px)] pt-3 pointer-events-none">
         <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 pointer-events-auto sm:gap-x-3">
-          <div className="glass hairline flex items-center rounded-full px-1.5 py-1.5 shadow-[var(--shadow-float)]">
+          <div className="glass hairline flex items-center rounded-full px-1.5 py-1.5 shadow-[var(--shadow-float)] md:px-2 md:py-2">
             <button
               onClick={() => prev && onNavigate(prev)}
               disabled={!prev}
               aria-label="Previous hymn"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)] disabled:opacity-30 disabled:hover:bg-transparent sm:w-12"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)] disabled:opacity-30 disabled:hover:bg-transparent sm:w-12 md:h-12 md:w-14"
             >
-              <ChevronLeftIcon size={20} />
+              <ChevronLeftIcon size={big ? 24 : 20} />
             </button>
-            <span className="font-lyrics w-11 text-center text-[15px] font-[350] tabular-nums text-[var(--ink-2)] sm:w-16">
+            <span className="font-lyrics w-11 text-center text-[15px] font-[350] tabular-nums text-[var(--ink-2)] sm:w-16 md:text-[17px]">
               {hymn.number}
             </span>
             <button
               onClick={() => next && onNavigate(next)}
               disabled={!next}
               aria-label="Next hymn"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)] disabled:opacity-30 disabled:hover:bg-transparent sm:w-12"
+              className="flex h-10 w-10 items-center justify-center rounded-full text-[var(--ink-2)] transition-colors hover:bg-[var(--paper-raised)] hover:text-[var(--ink)] disabled:opacity-30 disabled:hover:bg-transparent sm:w-12 md:h-12 md:w-14"
             >
-              <ChevronRightIcon size={20} />
+              <ChevronRightIcon size={big ? 24 : 20} />
             </button>
           </div>
 
