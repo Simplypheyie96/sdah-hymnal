@@ -97,6 +97,15 @@ export default function App() {
   const toggleFavorite = (songId: string) =>
     setFavorites((p) => (p.includes(songId) ? p.filter((x) => x !== songId) : [...p, songId]))
 
+  // Switching tabs closes any open hymn, so the reader lands on the tab they
+  // tapped rather than a hymn overlaying it. This matters in split view, where
+  // the hymns tab auto-opens the first hymn (below): without this, that hymn
+  // carried over as a full-screen overlay on Favourites and Settings.
+  const changeTab = (t: Tab) => {
+    if (t !== tab) setOpenSongId(null)
+    setTab(t)
+  }
+
   const hymnProps = displayed && {
     hymn: displayed,
     lang,
@@ -155,7 +164,7 @@ export default function App() {
             </div>
           )}
         </main>
-        <TabBar tab={tab} onChange={setTab} dock="left" />
+        <TabBar tab={tab} onChange={changeTab} dock="left" />
         <AnimatePresence>{presenter}</AnimatePresence>
       </div>
     )
@@ -179,7 +188,7 @@ export default function App() {
         />
       )}
 
-      <TabBar tab={tab} onChange={setTab} />
+      <TabBar tab={tab} onChange={changeTab} />
 
       {/* Only on the Hymns tab: elsewhere it would float over unrelated
           content, and the nudge belongs where a first-time reader lands. */}
