@@ -192,18 +192,25 @@ export async function recordingAvailability(hymnNumber: number): Promise<Availab
   if (await cachedResponse(url)) return 'ready'
 
   const recorded = await loadManifest()
-  // An empty manifest means it could not be loaded; fall back to trying, so a
-  // manifest problem never suppresses music that is actually there.
+  // A loaded manifest is authoritative about what was ever recorded. An empty
+  // one means it could not be loaded; fall through, so a manifest problem never
+  // suppresses music that is actually there.
   if (recorded.size > 0 && !recorded.has(hymnNumber)) return 'none'
 
+  // Recorded, not yet downloaded: it plays if we can reach the network.
   if (!navigator.onLine) return 'offline'
 
-  try {
-    const res = await fetch(url, { method: 'HEAD' })
-    return res.ok ? 'ready' : 'unreachable'
-  } catch {
-    return navigator.onLine ? 'unreachable' : 'offline'
-  }
+  // Online and recorded — assume playable and let the media element be the
+  // judge. We deliberately do NOT probe the file with a cross-origin HEAD
+  // first. The recordings are served from an r2.dev public URL, which
+  // Cloudflare rate-limits and does not intend for production; that probe fails
+  // intermittently — most often on the very first request after the app opens —
+  // and a single transient failure was enough to mark a hymn 'unreachable' and
+  // hide its play button, taking the whole library down with it. Playback
+  // itself uses a plain <audio src>, which needs no CORS and tolerates a slow
+  // or flaky host far better; a genuine hosting failure still surfaces through
+  // the element's own error event, which shows 'Playback failed'.
+  return 'ready'
 }
 
 // Recordings are cached by hand rather than by the service worker. A media

@@ -5,6 +5,10 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Honour the port handed to us by the environment (the preview harness
+  // assigns one via PORT). Falls back to Vite's usual 5173 for a plain
+  // `npm run dev`.
+  server: { port: Number(process.env.PORT) || 5173 },
   plugins: [
     react(),
     tailwindcss(),
