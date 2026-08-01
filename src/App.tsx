@@ -11,6 +11,8 @@ import { HymnContent, HymnOverlay } from './components/HymnView'
 import { Presenter } from './components/Presenter'
 import { Splash } from './components/Splash'
 import { InstallBanner } from './components/Install'
+import { UpdatePrompt } from './components/UpdatePrompt'
+import { useAppUpdate } from './hooks/useAppUpdate'
 import { TabBar, type Tab } from './components/TabBar'
 import { BookIcon } from './components/icons'
 import { ReceiverScreen } from './components/ReceiverScreen'
@@ -33,6 +35,11 @@ export default function App() {
   const [fontScale, setFontScale] = useLocalStorage<number>('sdah.fontScale', 1)
   const [favorites, setFavorites] = useLocalStorage<string[]>('sdah.favorites.v2', [])
   const splitView = useMediaQuery('(min-width: 900px)')
+
+  // Surfaces the Refresh nudge when a newer build is waiting. Called here, above
+  // the two layout branches, so the worker registers once regardless of which
+  // branch renders.
+  const { needRefresh, refresh } = useAppUpdate()
 
   // Presenting lives up here rather than inside the hymn view because going
   // fullscreen changes the viewport, which can flip `splitView` and swap the
@@ -165,6 +172,7 @@ export default function App() {
           )}
         </main>
         <TabBar tab={tab} onChange={changeTab} dock="left" />
+        <UpdatePrompt show={needRefresh} onRefresh={refresh} />
         <AnimatePresence>{presenter}</AnimatePresence>
       </div>
     )
@@ -193,6 +201,8 @@ export default function App() {
       {/* Only on the Hymns tab: elsewhere it would float over unrelated
           content, and the nudge belongs where a first-time reader lands. */}
       {tab === 'hymns' && <InstallBanner />}
+
+      <UpdatePrompt show={needRefresh} onRefresh={refresh} />
 
       <AnimatePresence>{presenter}</AnimatePresence>
 
