@@ -174,18 +174,20 @@ body::before {
   font-variation-settings: "opsz" 36, "wght" 600;
 }
 
-/* The index sets its numbers small and quiet — the size, and the low contrast,
-   where didone hairlines fare worst. Give the list its own sturdier low optical
-   size and extra weight (more again in dark mode) so a glance down the index
-   never lands on the wrong number. The paired-class specificity keeps these
-   ahead of the .dark .numeral step above. */
-.numeral.numeral-list {
-  font-weight: 600;
-  font-variation-settings: "opsz" 16, "wght" 620;
+/* The index's numbers must never be misread — a hairline didone "4" was reading
+   as a "1" at list size, worst in dark mode. Set the list in the UI face with
+   tabular lining figures instead: even strokes, an unmistakable 1 and 4, dead
+   legible small. (The row's title is already this face, so the number now sits
+   with it rather than as a lone serif flourish.) The big reader numeral on the
+   hymn page keeps Bodoni, where its size and the title beside it leave no room
+   to misread. */
+.numeral-list {
+  font-family: var(--font-ui);
+  font-weight: 550;
+  font-variant-numeric: tabular-nums lining-nums;
 }
-.dark .numeral.numeral-list {
-  font-weight: 700;
-  font-variation-settings: "opsz" 16, "wght" 700;
+.dark .numeral-list {
+  font-weight: 620;
 }
 
 /* Titles: old-style serif, a touch of weight, generous but not loud. */

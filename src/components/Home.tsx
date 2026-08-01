@@ -50,7 +50,7 @@ function HymnRow({
       style={{ animationDelay: `${Math.min(index * 45, 400)}ms` }}
     >
       <span
-        className={`numeral numeral-list w-12 shrink-0 text-right text-[23px] transition-colors duration-200 ${
+        className={`numeral-list w-12 shrink-0 text-right text-[22px] transition-colors duration-200 ${
           active ? 'text-[var(--accent-ink)]' : 'text-[var(--ink-2)] group-hover:text-[var(--accent-ink)]'
         }`}
       >
