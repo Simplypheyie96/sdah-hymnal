@@ -7,12 +7,13 @@
   /* Lyrics and titles: a liturgical old-style face with the Latin Extended
      coverage Yorùbá (ẹ ọ ṣ + tone marks) and Igbo (ị ọ ụ) need. */
   --font-serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
-  /* Numerals only: a high-contrast didone, like an engraved hymn-board plate.
-     The fallbacks are sturdy text serifs, not more hairline didones — so if the
-     webfont can't load (e.g. offline) the numbers stay legible instead of
-     thinning to nothing. Digits are diacritic-free, so this face is safe in
-     every edition. */
-  --font-numeral: "Bodoni Moda", "Iowan Old Style", "Palatino", Georgia, serif;
+  /* Numerals: the reading serif rather than a high-contrast didone. Bodoni's
+     hairlines vanished at a glance — thinnest large and in dark mode — and no
+     weight or optical-size tuning could rescue them, so numbers are now set in
+     the even-stroked Garamond that carries the titles. It shares the lyrics
+     face's Latin coverage and stays legible at every size. Sturdy text serifs
+     back it up if the webfont can't load (e.g. offline). */
+  --font-numeral: "EB Garamond", "Iowan Old Style", "Palatino", Georgia, serif;
 }
 
 :root {
@@ -152,26 +153,20 @@ body::before {
 }
 
 /* ——— The hymnal's own typographic voice ———
-   Numerals are set like the numbers on a church hymn board: a didone, tabular
-   so they never jitter while paging. But Bodoni's hairlines can vanish at a
-   glance — people were misreading numbers, worse light-on-dark — so we hold a
-   medium weight and pin a mid optical size rather than letting the big numeral
-   fall into Bodoni's most extreme display cut. Tracking is eased off the old
-   -0.035em too, so adjacent digits stop crowding. font-weight is set alongside
-   font-variation-settings so the non-variable fallbacks thicken as well. */
+   Numerals are set in the reading serif with lining, tabular figures: aligned
+   like a hymn-board plate and steady so they never jitter while paging. Its
+   even strokes stay whole at any size — the didone this replaced had hairlines
+   that thinned to nothing, worst large and in dark mode. A step heavier in dark
+   mode offsets how light strokes read lighter on dark paper. */
 .numeral {
   font-family: var(--font-numeral);
   font-weight: 500;
-  font-variation-settings: "opsz" 36, "wght" 500;
   font-variant-numeric: tabular-nums lining-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.005em;
 }
 
-/* Dark mode thins strokes further — light on dark reads lighter than dark on
-   light at the same weight — so step the numerals up to compensate. */
 .dark .numeral {
   font-weight: 600;
-  font-variation-settings: "opsz" 36, "wght" 600;
 }
 
 /* The index's numbers must never be misread — a hairline didone "4" was reading

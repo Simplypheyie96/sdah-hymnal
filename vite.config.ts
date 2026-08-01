@@ -13,7 +13,11 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
+      // 'prompt', not 'autoUpdate': a new version installs but waits rather
+      // than reloading the page from under someone mid-hymn. The app surfaces
+      // a Refresh prompt (see useAppUpdate / UpdatePrompt) so the reader
+      // chooses when to take it.
+      registerType: 'prompt',
       includeAssets: ['favicon.svg', 'icon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'SDA Hymnal — Hymns & Readings',
