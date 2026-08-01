@@ -7,9 +7,12 @@
   /* Lyrics and titles: a liturgical old-style face with the Latin Extended
      coverage Yorùbá (ẹ ọ ṣ + tone marks) and Igbo (ị ọ ụ) need. */
   --font-serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
-  /* Numerals only: high-contrast didone, like an engraved hymn-board plate.
-     Digits are diacritic-free, so this face is safe in every edition. */
-  --font-numeral: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  /* Numerals only: a high-contrast didone, like an engraved hymn-board plate.
+     The fallbacks are sturdy text serifs, not more hairline didones — so if the
+     webfont can't load (e.g. offline) the numbers stay legible instead of
+     thinning to nothing. Digits are diacritic-free, so this face is safe in
+     every edition. */
+  --font-numeral: "Bodoni Moda", "Iowan Old Style", "Palatino", Georgia, serif;
 }
 
 :root {
@@ -149,14 +152,26 @@ body::before {
 }
 
 /* ——— The hymnal's own typographic voice ———
-   Numerals are set like the numbers on a church hymn board: high-contrast
-   didone, light, tightly tracked, tabular so they never jitter while paging. */
+   Numerals are set like the numbers on a church hymn board: a didone, tabular
+   so they never jitter while paging. But Bodoni's hairlines can vanish at a
+   glance — people were misreading numbers, worse light-on-dark — so we hold a
+   medium weight and pin a mid optical size rather than letting the big numeral
+   fall into Bodoni's most extreme display cut. Tracking is eased off the old
+   -0.035em too, so adjacent digits stop crowding. font-weight is set alongside
+   font-variation-settings so the non-variable fallbacks thicken as well. */
 .numeral {
   font-family: var(--font-numeral);
-  font-optical-sizing: auto;
-  font-weight: 400;
+  font-weight: 500;
+  font-variation-settings: "opsz" 36, "wght" 500;
   font-variant-numeric: tabular-nums lining-nums;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
+}
+
+/* Dark mode thins strokes further — light on dark reads lighter than dark on
+   light at the same weight — so step the numerals up to compensate. */
+.dark .numeral {
+  font-weight: 600;
+  font-variation-settings: "opsz" 36, "wght" 600;
 }
 
 /* Titles: old-style serif, a touch of weight, generous but not loud. */
