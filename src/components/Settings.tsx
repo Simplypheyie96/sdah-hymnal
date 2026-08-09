@@ -4,6 +4,7 @@ import { useHymnal } from '../data/hymnal'
 import { useOnline } from '../hooks/useOnline'
 import { canCast } from '../lib/present'
 import { InstallControls } from './Install'
+import { TipJar } from './TipJar'
 
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
@@ -237,6 +238,12 @@ export function Settings({
               </p>
             </div>
           </div>
+        </Section>
+      </div>
+
+      <div className="rise-in" style={{ animationDelay: '150ms' }}>
+        <Section title="Tip jar">
+          <TipJar />
         </Section>
       </div>
 
