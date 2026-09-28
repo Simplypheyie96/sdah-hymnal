@@ -45,3 +45,6 @@ media/audio/*.mp3
 
 # Video capture frames
 .video/
+
+# Claude Code launch config stays local
+.claude/
