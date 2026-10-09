@@ -200,9 +200,9 @@ const ROSE = hex('#e2aab7'), SAGE = hex('#a3cdb4'), SKY = hex('#a8c5e6'), GOLD =
 // Each line: when it shows, where (y as a fraction of the height), its style,
 // and its words — each word lands on its own beat.
 const LINES = [
-  // Intro — "It's almost Sabbath. Let's sing with JOY."
-  { from: 0, to: 4, y: 0.36, cls: 'sans-lg', enter: 'rise', words: [[0, "It's"], [1, 'almost']] },
-  { from: 2, to: 4, y: 0.47, cls: 'serif-xl glow', enter: 'slam', words: [[2, 'Sabbath']] },
+  // Intro — "It's Sabbath! Let's sing with JOY."
+  { from: 0, to: 4, y: 0.36, cls: 'sans-lg', enter: 'rise', words: [[0, "It's"]] },
+  { from: 1, to: 4, y: 0.47, cls: 'serif-xl glow', enter: 'slam', words: [[1, 'Sabbath!']] },
   { from: 4, to: 8, y: 0.33, cls: 'sans-lg', enter: 'rise', words: [[4, "Let's"], [5, 'sing'], [6, 'with']] },
   { from: 7, to: 8, y: 0.42, cls: 'joy grad glow', enter: 'slam', words: [[7, 'JOY']] },
 
@@ -256,13 +256,13 @@ function tintAt(b) {
 
 // Bursts of sparks: [beat, x, y, count, hue]
 const BURSTS = [
-  [7, 0.5, 0.47, 90, GOLD], [8, 0.5, 0.5, 60, ROSE],
+  [1, 0.5, 0.52, 70, GOLD], [7, 0.5, 0.47, 90, GOLD], [8, 0.5, 0.5, 60, ROSE],
   [52, 0.5, 0.43, 80, GOLD], [58, 0.5, 0.39, 110, GOLD],
   [60, 0.25, 0.5, 50, ROSE], [61, 0.75, 0.48, 50, SKY], [62, 0.3, 0.42, 50, SAGE], [63, 0.7, 0.45, 60, GOLD],
   [67, 0.5, 0.47, 90, GOLD],
 ]
 // Moments the whole frame flashes, on the big downbeats.
-const FLASHES = [2, 7, 8, 16, 32, 48, 52, 58, 64, 67]
+const FLASHES = [1, 7, 8, 16, 32, 48, 52, 58, 64, 67]
 
 // ——— build the DOM ———
 const stage = document.getElementById('stage')

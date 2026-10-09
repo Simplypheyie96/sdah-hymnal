@@ -8,7 +8,7 @@ lands on the beat of the song underneath it.
 
 | Bars  | Scene                                                                 |
 | ----- | --------------------------------------------------------------------- |
-| 1–2   | "It's almost *Sabbath*. Let's sing with **JOY**"                      |
+| 1–2   | "It's *Sabbath!* Let's sing with **JOY**"                              |
 | 3–4   | An iPhone rises in: *the whole hymnal in your pocket*, 0 → 920        |
 | 5–12  | One feature per bar: search, number pad, verses, English & Yorùbá (two phones), sharing, the big screen, themes, offline |
 | 13–16 | Light rays: "This Sabbath, open your **hymnal** … and sing with **joy!**" |
