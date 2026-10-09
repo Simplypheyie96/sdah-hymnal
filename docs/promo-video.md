@@ -35,13 +35,15 @@ npm run dev                       # window 1: the app to film
 node scripts/promo-video.mjs --music ~/Downloads/joy.mp3     # window 2
 ```
 
-- The script picks where the song starts on its own. It looks for the stretch
-  as long as the video that is loudest and opens with the biggest lift, which
-  is usually the chorus, and it skips a video's spoken intro. It prints the
-  time it chose. To use another point, pass `--start 45` (seconds).
-- It finds the tempo and the first downbeat itself. If the cuts feel twice as
-  fast or slow as the song, pass `--bpm` with the right number. If they sit
-  just off the beat, nudge them with `--offset` (seconds after the start).
+- The script picks where the song starts on its own: the first chorus, found
+  as the loud stretch the song plays again note for note later on, starting
+  on its first downbeat. A song with no clear repeat starts at its loudest
+  stretch instead. It prints the time it chose; to use another point, pass
+  `--start 45` (seconds).
+- The beat grid is fitted to the drum hits, to a hundredth of a BPM, so the
+  cuts stay on the beat to the last bar. It prints how many hits it lands on.
+  `--bpm` pins the tempo if a song fools it; `--offset` shifts the first cut
+  (seconds after the start).
 - `--preview 7,24,58,68` writes those steps (0–80) as stills to `.video/promo/` so
   you can check the look in seconds before a full render (about 7 minutes).
 - Without `--music` it renders silently at 120 BPM.

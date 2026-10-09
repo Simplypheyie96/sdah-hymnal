@@ -5,7 +5,7 @@
 //
 // Three steps, all automatic:
 //   1. Capture — drives the real app in a phone-sized browser (dark, Rose).
-//   2. Listen  — finds the song's tempo and first downbeat, so every cut,
+//   2. Listen  — fits a beat grid to the drum hits and finds the chorus, so every cut,
 //                pulse and word lands on a beat. Override with --bpm/--offset
 //                if the detection picks double or half time.
 //   3. Render  — draws each frame of the motion graphics in the browser,
@@ -16,7 +16,8 @@
 //                    --bpm and rendered silent, ready for a song to be added
 //                    in the Instagram/TikTok editor.
 //   --start <sec>    where in the song to begin. Left out, the script finds
-//                    the song's strongest stretch (usually the chorus) itself.
+//                    the first chorus itself (or, failing that, the loudest
+//                    stretch).
 //   --bpm <n>        force the tempo instead of detecting it
 //   --offset <sec>   force the first downbeat (seconds after --start)
 //   --base <url>     the app to capture (default http://localhost:5173 —
@@ -260,24 +261,62 @@ function tempo(o) {
   return best.bpm
 }
 
-/** First beat of the grid, then which of the next four is the downbeat. */
-function phase(o, bpm) {
-  const p = (60 * FR) / bpm
-  const near = (f) => Math.max(at(o, f - 1), at(o, f), at(o, f + 1))
-  let best = { f: 0, score: -1 }
-  for (let f = 0; f < p; f += 0.25) {
-    let s = 0
-    for (let k = 0; f + k * p < Math.min(o.length, FR * 40); k++) s += near(f + k * p)
-    if (s > best.score) best = { f, score: s }
+/**
+ * The drum hits: moments the sound jumps by 8 dB within 20 ms. These are the
+ * kick, snare and claps, and unlike the softer onsets they sit exactly on
+ * the beat, so they are what the grid is fitted to.
+ */
+function drumHits(x) {
+  const w = Math.round(SR * 0.005)
+  const env = []
+  for (let i = 0; i + w <= x.length; i += w) {
+    let e = 0
+    for (let j = i; j < i + w; j++) e += x[j] * x[j]
+    env.push(10 * Math.log10(e / w + 1e-12))
   }
-  let down = { m: 0, score: -1 }
-  for (let m = 0; m < 4; m++) {
-    let s = 0
-    for (let k = m; best.f + k * p < o.length; k += 4) s += near(best.f + k * p)
-    if (s > down.score) down = { m, score: s }
+  const hits = []
+  for (let k = 4; k < env.length; k++) {
+    const t = (k * w) / SR // exact: a step is w samples, not a round 5 ms
+    const rise = env[k] - Math.min(env[k - 1], env[k - 2], env[k - 3], env[k - 4])
+    if (rise > 8 && (!hits.length || t - hits[hits.length - 1] > 0.12)) hits.push(t)
   }
-  // A frame's rise is heard at the end of its 512-sample window, not the start.
-  return (best.f + down.m * p) / FR + 512 / SR
+  return hits
+}
+
+/**
+ * The beat grid that the most drum hits land on (within 25 ms), searched to a
+ * hundredth of a BPM around the first estimate. A small tempo error adds up:
+ * 0.3 BPM off is a tenth of a second adrift after a minute.
+ */
+function beatGrid(hits, guess) {
+  let best = { bpm: guess, phase: 0, n: -1 }
+  for (let bpm = guess - 1.5; bpm <= guess + 1.5; bpm += 0.01) {
+    const beat = 60 / bpm
+    for (let ph = 0; ph < beat; ph += 0.002) {
+      let n = 0
+      for (const h of hits) {
+        const r = ((h - ph) / beat) % 1
+        if (Math.min(r, 1 - r) * beat < 0.025) n++
+      }
+      if (n > best.n) best = { bpm, phase: ph, n }
+    }
+  }
+  return best
+}
+
+/** As beatGrid, with the tempo given: only the phase is fitted. */
+function beatGridAt(hits, bpm) {
+  const beat = 60 / bpm
+  let best = { bpm, phase: 0, n: -1 }
+  for (let ph = 0; ph < beat; ph += 0.001) {
+    let n = 0
+    for (const h of hits) {
+      const r = ((h - ph) / beat) % 1
+      if (Math.min(r, 1 - r) * beat < 0.025) n++
+    }
+    if (n > best.n) best = { bpm, phase: ph, n }
+  }
+  return best
 }
 
 /**
@@ -308,6 +347,155 @@ function strongest(x, length) {
   return best.at
 }
 
+/** In-place radix-2 FFT. */
+function fft(re, im) {
+  const n = re.length
+  for (let i = 1, j = 0; i < n; i++) {
+    let bit = n >> 1
+    for (; j & bit; bit >>= 1) j ^= bit
+    j ^= bit
+    if (i < j) {
+      ;[re[i], re[j]] = [re[j], re[i]]
+      ;[im[i], im[j]] = [im[j], im[i]]
+    }
+  }
+  for (let len = 2; len <= n; len <<= 1) {
+    const ang = (-2 * Math.PI) / len
+    for (let i = 0; i < n; i += len) {
+      for (let k = 0; k < len / 2; k++) {
+        const c = Math.cos(ang * k)
+        const sn = Math.sin(ang * k)
+        const a = i + k
+        const b = a + len / 2
+        const vr = re[b] * c - im[b] * sn
+        const vi = re[b] * sn + im[b] * c
+        re[b] = re[a] - vr
+        im[b] = im[a] - vi
+        re[a] += vr
+        im[a] += vi
+      }
+    }
+  }
+}
+
+/**
+ * The first chorus, found the way a listener finds it: the loud stretch the
+ * song plays again, note for note, later on. Each bar is boiled down to its
+ * harmony (12 pitch classes) and tone (8 bands); a chorus shows up as a long
+ * run of bars that match the bars a fixed number of bars later. Returns the
+ * downbeat it starts on, or null when nothing repeats convincingly.
+ */
+function chorus(x, grid) {
+  const beat = 60 / grid.bpm
+  const N = 2048
+  const hann = Float64Array.from({ length: N }, (_, i) => 0.5 - 0.5 * Math.cos((2 * Math.PI * i) / N))
+  // One harmony (12 pitch classes) and tone (8 bands) reading per beat.
+  const beats = []
+  for (let t = grid.phase; (t + beat) * SR < x.length; t += beat) {
+    const pitch = new Float64Array(12)
+    const tone = new Float64Array(8)
+    let energy = 0
+    let frames = 0
+    for (let at = Math.round(t * SR); at + N <= (t + beat) * SR; at += N) {
+      const re = new Float64Array(N)
+      const im = new Float64Array(N)
+      for (let i = 0; i < N; i++) re[i] = x[at + i] * hann[i]
+      fft(re, im)
+      for (let k = 2; k < N / 2; k++) {
+        const f = (k * SR) / N
+        const m = re[k] * re[k] + im[k] * im[k]
+        energy += m
+        if (f > 80 && f < 2000) pitch[(((Math.round(12 * Math.log2(f / 440)) % 12) + 12) % 12)] += Math.sqrt(m)
+        const band = Math.min(7, Math.floor(Math.log2(f / 40)))
+        if (band >= 0) tone[band] += Math.log1p(m)
+      }
+      frames++
+    }
+    beats.push({ t, pitch, tone, db: 10 * Math.log10(energy / Math.max(1, frames) + 1e-12) })
+  }
+  // Which beat of four is the "one": the chords change on it. (The kick is
+  // no guide; plenty of songs hit beat three as hard as beat one.)
+  const cos = (a, b) => {
+    let d = 0
+    let la = 0
+    let lb = 0
+    for (let i = 0; i < 12; i++) {
+      d += a[i] * b[i]
+      la += a[i] * a[i]
+      lb += b[i] * b[i]
+    }
+    return d / Math.sqrt(la * lb || 1)
+  }
+  const change = [0, 0, 0, 0]
+  for (let k = 1; k < beats.length; k++) change[k % 4] += 1 - cos(beats[k - 1].pitch, beats[k].pitch)
+  const one = change.indexOf(Math.max(...change))
+  // A bar starting at any beat: the four beats summed, then normalised.
+  const unit = (v) => {
+    const l = Math.hypot(...v) || 1
+    return v.map((a) => a / l)
+  }
+  const bars = []
+  for (let j = 0; j + 4 <= beats.length; j++) {
+    const pitch = new Float64Array(12)
+    const tone = new Float64Array(8)
+    let db = 0
+    for (let k = j; k < j + 4; k++) {
+      for (let i = 0; i < 12; i++) pitch[i] += beats[k].pitch[i]
+      for (let i = 0; i < 8; i++) tone[i] += beats[k].tone[i]
+      db += beats[k].db / 4
+    }
+    bars.push({ t: beats[j].t, pitch: unit(pitch), tone: unit(tone), db })
+  }
+  const alike = (a, b) => {
+    let p = 0
+    let q = 0
+    for (let i = 0; i < 12; i++) p += a.pitch[i] * b.pitch[i]
+    for (let i = 0; i < 8; i++) q += a.tone[i] * b.tone[i]
+    return 0.7 * p + 0.3 * q
+  }
+  // Only loud stretches count: within 3 dB of the song's loudest 8 bars.
+  let loudest = -Infinity
+  for (let j = 0; j + 32 <= bars.length; j += 4) {
+    let d = 0
+    for (let k = 0; k < 32; k += 4) d += bars[j + k].db
+    loudest = Math.max(loudest, d / 8)
+  }
+  // A bar sung a little differently the second time should not split the
+  // chorus in two, so each bar is judged with the bars either side of it.
+  const median3 = (a, b, c) => Math.max(Math.min(a, b), Math.min(Math.max(a, b), c))
+  let best = null
+  // Repeats sit whole bars apart (any multiple of 4 beats, from 16 bars on).
+  for (let lag = 64; lag + 32 < bars.length; lag += 4) {
+    const raw = []
+    for (let j = 0; j + lag < bars.length; j++) raw.push(alike(bars[j], bars[j + lag]))
+    const same = raw.map((v, j) => median3(raw[j - 4] ?? v, v, raw[j + 4] ?? v))
+    let run = 0
+    let db = 0
+    for (let j = 0; j <= same.length; j++) {
+      if (j < same.length && same[j] >= 0.975) {
+        run++
+        db += bars[j].db
+        continue
+      }
+      const start = j - run
+      if (run >= 32 && db / run > loudest - 3 && bars[start].t > 5) {
+        // Longest run wins; a near-tie goes to the earlier one.
+        if (!best || run > best.run * 1.1 || (run > best.run * 0.9 && start < best.start)) {
+          best = { run, start }
+        }
+      }
+      run = 0
+      db = 0
+    }
+  }
+  if (!best) return null
+  // The match often begins a beat or two early, on a lead-in sung the same
+  // both times; the chorus itself starts on the next "one".
+  let k = best.start
+  while (k % 4 !== one) k++
+  return beats[k].t
+}
+
 let START = opt.start ? Number(opt.start) : 0
 let bpm = opt.bpm ? Number(opt.bpm) : 120
 let offset = opt.offset ? Number(opt.offset) : 0
@@ -333,12 +521,30 @@ if (opt.music) {
   await access(opt.music)
   console.log(`\nListening to ${opt.music}`)
   const song = await decode(opt.music)
-  if (!opt.bpm) bpm = tempo(onsets(song.subarray(Math.round(song.length * 0.2), Math.round(song.length * 0.8))))
+  const guess = opt.bpm ? Number(opt.bpm) : tempo(onsets(song.subarray(Math.round(song.length * 0.2), Math.round(song.length * 0.8))))
+  // Fit the grid to the drum hits. --bpm pins the tempo; the phase is still fitted.
+  const hits = drumHits(song)
+  const fit = opt.bpm ? beatGridAt(hits, guess) : beatGrid(hits, guess)
+  bpm = fit.bpm
+  console.log(`Beat grid: ${bpm.toFixed(2)} BPM, ${fit.n} of ${hits.length} drum hits within 25 ms`)
+  const clock = (t) => `${Math.floor(t / 60)}:${(t % 60).toFixed(1).padStart(4, '0')}`
   if (!opt.start) {
-    START = strongest(song, (beatsOf(paceOf(gridOf(bpm))) * 60) / gridOf(bpm))
-    console.log(`Starting at ${Math.floor(START / 60)}:${String(Math.floor(START % 60)).padStart(2, '0')}, the song's strongest stretch (--start to change)`)
+    const found = chorus(song, fit)
+    if (found !== null) {
+      START = found
+      console.log(`Starting at ${clock(START)}, where the chorus begins (--start to change)`)
+    } else {
+      START = strongest(song, (beatsOf(paceOf(gridOf(bpm))) * 60) / gridOf(bpm))
+      console.log(`Starting at ${clock(START)}, the song's strongest stretch (--start to change)`)
+    }
   }
-  if (!opt.offset) offset = phase(onsets(song.subarray(Math.round(START * SR))), bpm)
+  // Start exactly on the grid: the first beat at or after the chosen start.
+  if (!opt.offset) {
+    const beat = 60 / bpm
+    const k = Math.ceil((START - fit.phase) / beat - 0.25)
+    offset = fit.phase + k * beat - START
+    if (offset < 0) offset = 0
+  }
 }
 const grid = gridOf(bpm)
 const BEAT = 60 / grid
@@ -346,7 +552,7 @@ const PACE = paceOf(grid)
 const DURATION = beatsOf(PACE) * BEAT
 console.log(
   `Tempo ${bpm.toFixed(1)} BPM${grid !== bpm ? ` (cut at ${grid.toFixed(1)})` : ''}, ` +
-    `downbeat ${offset.toFixed(3)} s after ${START} s → ${DURATION.toFixed(1)} s of video`,
+    `downbeat ${offset.toFixed(3)} s after ${START.toFixed(3)} s → ${DURATION.toFixed(1)} s of video`,
 )
 
 // ————————————————————————————————————————————————————————————————
