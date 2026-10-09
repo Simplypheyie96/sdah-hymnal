@@ -1,0 +1,726 @@
+<!doctype html>
+<!--
+  The stage for scripts/promo-video.mjs. Every moment of the promo is drawn
+  from one number — the time — by window.render(t), so the video is the same
+  every run and every cut sits on a beat. Times below are in "steps" of the
+  script; the script fills in BEAT (one beat, in seconds) and PACE (how many
+  of the song's beats each step lasts, section by section).
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:wght@400;500;600;800;900&display=block"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --rose: #e2aab7;
+    --sage: #a3cdb4;
+    --sky: #a8c5e6;
+    --gold: #f3d49b;
+    --paper: #f6f1ee;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0c0a0e; }
+  canvas { position: absolute; inset: 0; }
+  .layer { position: absolute; inset: 0; }
+
+  .line {
+    position: absolute; left: 0; right: 0; text-align: center;
+    color: var(--paper); white-space: nowrap; will-change: transform, opacity, filter;
+  }
+  .line > span { display: inline-block; will-change: transform, opacity, filter; margin: 0 0.12em; }
+  .sans-lg  { font: 800 104px/1 Inter, sans-serif; letter-spacing: -0.035em; }
+  .sans-md  { font: 600 52px/1.15 Inter, sans-serif; letter-spacing: -0.01em; color: rgba(246,241,238,.78); }
+  .eyebrow  { font: 600 34px/1 Inter, sans-serif; letter-spacing: 0.42em; text-transform: uppercase; color: var(--gold); }
+  .serif-xl { font: italic 500 210px/1 "EB Garamond", serif; letter-spacing: -0.02em; }
+  .serif-lg { font: 500 132px/1.02 "EB Garamond", serif; letter-spacing: -0.02em; }
+  .serif-it { font: italic 500 138px/1.02 "EB Garamond", serif; letter-spacing: -0.02em; }
+  .bodoni   { font: 800 240px/0.9 "Bodoni Moda", serif; letter-spacing: -0.03em; }
+  .joy {
+    font: italic 900 380px/0.9 "Bodoni Moda", serif; letter-spacing: -0.04em;
+  }
+  .grad > span, #counter .grad {
+    background: linear-gradient(100deg, var(--gold) 0%, #ffd6df 38%, var(--rose) 62%, var(--sky) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  /* Room under the baseline so the clipped gradient keeps j, y and p whole. */
+  .grad > span { padding: 0.04em 0.06em 0.22em; }
+  .glow { filter: drop-shadow(0 0 40px rgba(243, 212, 155, 0.4)); }
+
+  /* Montage captions */
+  .cap-title { font: 500 118px/1 "EB Garamond", serif; letter-spacing: -0.02em; }
+  .cap-sub { font: 500 40px/1.25 Inter, sans-serif; color: rgba(246,241,238,.72); letter-spacing: 0; }
+  .chip {
+    display: inline-block; padding: 14px 30px; border-radius: 999px;
+    font: 700 28px/1 Inter, sans-serif; letter-spacing: 0.3em; text-transform: uppercase;
+    background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.18); color: var(--gold);
+  }
+
+  /* The phone — an iPhone 16 Pro, drawn to its real proportions: a 402 × 874
+     point display (here 560 px wide, so 1 pt = 1.393 px), 55 pt display
+     corners, a black border, then the titanium band with its buttons. */
+  .iphone {
+    --ti-hi: #e9e4dc; --ti-mid: #a39d95; --ti-lo: #57534e; --ti-deep: #34312e;
+    position: absolute; left: 50%; top: 0; width: 608px; height: 1266px; margin-left: -304px;
+    border-radius: 101px; transform-style: preserve-3d; will-change: transform, opacity;
+    /* the brushed band: bright where the curve turns toward the light */
+    background:
+      linear-gradient(90deg, var(--ti-lo) 0%, var(--ti-hi) 0.9%, var(--ti-mid) 1.8%, var(--ti-deep) 3%,
+        var(--ti-deep) 97%, var(--ti-mid) 98.2%, var(--ti-hi) 99.1%, var(--ti-lo) 100%),
+      var(--ti-deep);
+    box-shadow:
+      inset 0 3px 2px -1px rgba(255,255,255,.55),
+      inset 0 -3px 3px -1px rgba(0,0,0,.6),
+      inset 0 0 0 1px rgba(255,255,255,.12),
+      0 2px 3px rgba(0,0,0,.45),
+      0 24px 40px -8px rgba(0,0,0,.55),
+      0 70px 140px -20px rgba(0,0,0,.65),
+      0 0 160px -10px var(--halo, rgba(226,170,183,.25));
+  }
+  .iphone.desert { --ti-hi: #f3e3cf; --ti-mid: #c4ab90; --ti-lo: #7a6553; --ti-deep: #4b3f35; }
+  /* the hairline seam where glass meets metal */
+  .iphone .bezel {
+    position: absolute; inset: 9px; border-radius: 92px; background: #030303;
+    box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.07), 0 0 0 1px rgba(0,0,0,.6);
+  }
+  .iphone .display {
+    position: absolute; inset: 24px; border-radius: 77px; overflow: hidden; background: #101214;
+    transform: translateZ(0);
+  }
+  .iphone .display img {
+    position: absolute; left: 0; top: 0; width: 100%; height: auto; will-change: transform, opacity, filter;
+  }
+  /* buttons: action, volume up/down on the left; side button and camera
+     control on the right — each a slim pill of the same metal */
+  .iphone .btn {
+    position: absolute; width: 7px; border-radius: 4px;
+    background: linear-gradient(90deg, var(--ti-lo), var(--ti-hi) 45%, var(--ti-mid) 70%, var(--ti-lo));
+    box-shadow: 0 1px 2px rgba(0,0,0,.5);
+  }
+  .iphone .btn.l { left: -5px; }
+  .iphone .btn.r { right: -5px; }
+  .iphone .btn.cam { background: linear-gradient(90deg, #1b1a19, #4d4a47 50%, #1b1a19); width: 6px; right: -3px; }
+  .iphone .island {
+    position: absolute; top: 15px; left: 50%; width: 175px; height: 52px; margin-left: -87.5px;
+    border-radius: 26px; background: #000; z-index: 4;
+  }
+  .iphone .island::after { /* the front camera, a faint violet glint */
+    content: ''; position: absolute; right: 17px; top: 15px; width: 22px; height: 22px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #3a3550 0%, #121018 45%, #050505 70%);
+    box-shadow: inset 0 0 0 1.5px #0c0c10;
+  }
+  .iphone .status {
+    position: absolute; left: 0; right: 0; top: 0; height: 86px; z-index: 3;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 44px 0 66px;
+    color: #fff; font: 600 24px/1 Inter, -apple-system, sans-serif; letter-spacing: -0.01em;
+  }
+  .iphone .status svg { display: block; }
+  .iphone .status .right { display: flex; gap: 9px; align-items: center; }
+  .iphone .home {
+    position: absolute; bottom: 11px; left: 50%; width: 194px; height: 7px; margin-left: -97px;
+    border-radius: 4px; background: rgba(255,255,255,.92); z-index: 3;
+  }
+  /* cover glass: a soft diagonal reflection, and a sweep of light each bar */
+  .iphone .glare {
+    position: absolute; inset: 0; z-index: 5; border-radius: 77px; pointer-events: none;
+    background: linear-gradient(118deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.04) 34%, rgba(255,255,255,0) 34.2%);
+  }
+  .iphone .sheen {
+    position: absolute; inset: 0; z-index: 5; border-radius: 77px; mix-blend-mode: screen;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.12) 45%, transparent 60%);
+    background-size: 300% 100%;
+  }
+  /* a soft contact shadow, so the phone floats above the light */
+  .floor {
+    position: absolute; left: 50%; width: 560px; height: 90px; margin-left: -280px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0,0,0,.55), rgba(0,0,0,0)); filter: blur(10px);
+  }
+
+  #counter { position: absolute; left: 0; right: 0; text-align: center; }
+  #counter .n { font: 800 200px/1 "Bodoni Moda", serif; }
+  #counter .l { font: 600 36px/1 Inter, sans-serif; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(246,241,238,.8); margin-top: 14px; }
+
+  #numbers { position: absolute; inset: 0; overflow: hidden; }
+  #numbers span {
+    position: absolute; font: 800 520px/1 "Bodoni Moda", serif; color: transparent;
+    -webkit-text-stroke: 3px rgba(243, 212, 155, 0.22);
+  }
+
+  #end-icon { position: absolute; left: 50%; width: 200px; height: 200px; margin-left: -100px; border-radius: 46px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 120px rgba(226,170,183,.35); }
+  #url {
+    position: absolute; left: 50%; transform: translateX(-50%);
+    padding: 30px 56px; border-radius: 999px; white-space: nowrap;
+    background: var(--paper); color: #1b1418; font: 800 50px/1 Inter, sans-serif; letter-spacing: -0.01em;
+    box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 0 80px rgba(243,212,155,.35);
+  }
+  #flash { position: absolute; inset: 0; background: #fff6ea; mix-blend-mode: soft-light; opacity: 0; }
+</style>
+</head>
+<body>
+<canvas id="bg" width="1080" height="1920"></canvas>
+<div id="numbers" class="layer"></div>
+<div id="stage" class="layer"></div>
+<div id="floor" class="floor"></div>
+<div id="phone2" class="iphone desert"></div>
+<div id="phone" class="iphone"></div>
+<div id="counter"><div class="n grad">0</div><div class="l">hymns &amp; readings</div></div>
+<img id="end-icon" src="__ICON__" />
+<div id="url">sdahymnal.vercel.app</div>
+<canvas id="fx" width="1080" height="1920"></canvas>
+<div id="flash"></div>
+
+<script>
+const BEAT = __BEAT__
+// [fromStep, toStep, beatsPerStep]: on a fast song the words still land on
+// every beat, while each phone screen gets two bars instead of one.
+const PACE = __PACE__
+const stepAt = (beat) => {
+  let acc = 0
+  for (const [a, b, k] of PACE) {
+    if (beat < acc + (b - a) * k) return a + (beat - acc) / k
+    acc += (b - a) * k
+  }
+  return PACE[PACE.length - 1][1]
+}
+const timeOf = (step) => {
+  let acc = 0
+  for (const [a, b, k] of PACE) {
+    if (step < b) return (acc + Math.max(0, step - a) * k) * BEAT
+    acc += (b - a) * k
+  }
+  return acc * BEAT
+}
+const W = 1080, H = 1920
+
+// ——— helpers ———
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x))
+const prog = (b, a, d) => clamp((b - a) / d)
+const lerp = (a, b, t) => a + (b - a) * t
+const outCubic = (t) => 1 - (1 - t) ** 3
+const outQuint = (t) => 1 - (1 - t) ** 5
+const inOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2)
+const inCubic = (t) => t * t * t
+const outBack = (t, s = 1.9) => 1 + (s + 1) * (t - 1) ** 3 + s * (t - 1) ** 2
+function rng(seed) {
+  return () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296)
+}
+const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16))
+const mix = (a, b, t) => a.map((v, i) => Math.round(lerp(v, b[i], t)))
+const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`
+
+const ROSE = hex('#e2aab7'), SAGE = hex('#a3cdb4'), SKY = hex('#a8c5e6'), GOLD = hex('#f3d49b'), PLUM = hex('#7a3d5c')
+
+// ——— the script, in beats ———
+// Each line: when it shows, where (y as a fraction of the height), its style,
+// and its words — each word lands on its own beat.
+const LINES = [
+  // Intro — "It's Sabbath! Let's sing with JOY."
+  { from: 0, to: 4, y: 0.36, cls: 'sans-lg', enter: 'rise', words: [[0, "It's"]] },
+  { from: 1, to: 4, y: 0.47, cls: 'serif-xl glow', enter: 'slam', words: [[1, 'Sabbath!']] },
+  { from: 4, to: 8, y: 0.33, cls: 'sans-lg', enter: 'rise', words: [[4, "Let's"], [5, 'sing'], [6, 'with']] },
+  { from: 7, to: 8, y: 0.42, cls: 'joy grad glow', enter: 'slam', words: [[7, 'JOY']] },
+
+  // In your pocket
+  { from: 8, to: 16, y: 0.07, cls: 'eyebrow', enter: 'rise', words: [[8, 'The whole hymnal']] },
+  { from: 8.5, to: 16, y: 0.105, cls: 'serif-it grad', enter: 'rise', words: [[8.5, 'in'], [9, 'your'], [9.5, 'pocket']] },
+
+  // The call — "This Sabbath, open your hymnal … and sing with joy!"
+  { from: 48, to: 56, y: 0.2, cls: 'sans-lg', enter: 'rise', words: [[48, 'This'], [49, 'Sabbath,']] },
+  { from: 50, to: 56, y: 0.33, cls: 'sans-md', enter: 'rise', words: [[50, 'open'], [51, 'your']] },
+  { from: 52, to: 56, y: 0.39, cls: 'bodoni grad glow', enter: 'slam', words: [[52, 'hymnal']] },
+  { from: 56, to: 64, y: 0.26, cls: 'sans-lg', enter: 'rise', words: [[56, 'and'], [56.5, 'sing'], [57, 'with']] },
+  { from: 58, to: 64, y: 0.35, cls: 'joy grad glow', enter: 'slam', words: [[58, 'joy!']] },
+  { from: 60, to: 64, y: 0.62, cls: 'sans-md', enter: 'rise', words: [[60, 'Every'], [60.5, 'voice.'], [61, 'Every'], [61.5, 'verse.']] },
+
+  // The close
+  { from: 64, to: 80, y: 0.34, cls: 'eyebrow', enter: 'rise', words: [[64.5, 'Happy Sabbath']] },
+  { from: 65, to: 80, y: 0.39, cls: 'serif-lg', enter: 'rise', words: [[65, 'Use'], [65.5, 'your'], [66, 'hymnals']] },
+  { from: 67, to: 80, y: 0.465, cls: 'serif-it grad glow', enter: 'slam', words: [[67, 'this Sabbath']] },
+  { from: 70, to: 80, y: 0.7, cls: 'sans-md', enter: 'rise', words: [[70, 'Free'], [70.5, '·'], [71, 'Works offline'], [71.5, '·'], [72, 'English & Yorùbá']] },
+]
+
+// The feature montage: one screen per bar, from beat 16 to 48.
+const FEATURES = [
+  { shot: 'search', title: 'Find any hymn', sub: 'by title — or a line you half remember', tint: ROSE },
+  { shot: 'keypad', title: 'Or key the number', sub: 'and you’re straight there', tint: SKY },
+  { shot: 'hymn', title: 'Every verse', sub: 'clear enough to sing from', tint: GOLD },
+  { shot: 'yoruba', title: 'English & Yorùbá', sub: 'the same hymn, the right number', tint: SAGE },
+  { shot: 'share', title: 'Share a verse', sub: 'pick a colour, send it to anyone', tint: ROSE },
+  { shot: 'present', title: 'Up on the screen', sub: 'one verse at a time, for the whole church', tint: SKY },
+  { shot: 'settings', title: 'Make it yours', sub: 'four colours, light or dark, any size', tint: SAGE },
+  { shot: 'verses', title: 'No signal? Still sings.', sub: 'works offline — and it’s free', tint: GOLD },
+]
+const MONTAGE = 16
+
+// Background colour by beat.
+function tintAt(b) {
+  const keys = [
+    [0, PLUM], [7, ROSE], [8, SKY], [16, FEATURES[0].tint],
+    ...FEATURES.slice(1).map((f, i) => [MONTAGE + 4 * (i + 1), f.tint]),
+    [48, GOLD], [56, ROSE], [64, ROSE], [72, SAGE], [80, SAGE],
+  ]
+  for (let i = keys.length - 1; i >= 0; i--) {
+    if (b >= keys[i][0]) {
+      const prev = keys[i - 1] ? keys[i - 1][1] : keys[i][1]
+      return mix(prev, keys[i][1], outCubic(prog(b, keys[i][0], 1)))
+    }
+  }
+  return PLUM
+}
+
+// Bursts of sparks: [beat, x, y, count, hue]
+const BURSTS = [
+  [1, 0.5, 0.52, 70, GOLD], [7, 0.5, 0.47, 90, GOLD], [8, 0.5, 0.5, 60, ROSE],
+  [52, 0.5, 0.43, 80, GOLD], [58, 0.5, 0.39, 110, GOLD],
+  [60, 0.25, 0.5, 50, ROSE], [61, 0.75, 0.48, 50, SKY], [62, 0.3, 0.42, 50, SAGE], [63, 0.7, 0.45, 60, GOLD],
+  [67, 0.5, 0.47, 90, GOLD],
+]
+// Moments the whole frame flashes, on the big downbeats.
+const FLASHES = [1, 7, 8, 16, 32, 48, 52, 58, 64, 67]
+
+// ——— build the DOM ———
+const stage = document.getElementById('stage')
+const lineEls = LINES.map((l) => {
+  const el = document.createElement('div')
+  el.className = `line ${l.cls}`
+  el.style.top = `${l.y * H}px`
+  l.spans = l.words.map(([, w]) => {
+    const s = document.createElement('span')
+    s.textContent = w
+    el.appendChild(s)
+    return s
+  })
+  stage.appendChild(el)
+  return el
+})
+
+const caption = document.createElement('div')
+caption.className = 'line'
+caption.style.top = '150px'
+caption.innerHTML = '<div class="chip"></div><div class="cap-title" style="margin-top:34px"></div><div class="cap-sub" style="margin-top:22px"></div>'
+stage.appendChild(caption)
+const [chip, capTitle, capSub] = caption.children
+
+// Status bar glyphs, drawn as iOS draws them: four bars, three arcs, a battery.
+const STATUS = `<span>9:41</span><span class="right">
+  <svg width="27" height="17" viewBox="0 0 27 17" fill="#fff"><rect x="0" y="11" width="5" height="6" rx="1.3"/><rect x="7.3" y="7.5" width="5" height="9.5" rx="1.3"/><rect x="14.6" y="4" width="5" height="13" rx="1.3"/><rect x="21.9" y="0" width="5" height="17" rx="1.3"/></svg>
+  <svg width="24" height="17" viewBox="0 0 24 17" fill="#fff"><path d="M12 3.6c3.3 0 6.3 1.3 8.5 3.4l1.7-1.8C19.5 2.6 15.9 1 12 1S4.5 2.6 1.8 5.2L3.5 7C5.7 4.9 8.7 3.6 12 3.6z"/><path d="M12 8.4c2 0 3.8.8 5.1 2l1.8-1.8C17.1 6.9 14.7 5.9 12 5.9S6.9 6.9 5.1 8.6L6.9 10.4c1.3-1.2 3.1-2 5.1-2z"/><path d="M12 13.2c.8 0 1.5.3 2 .8L12 16l-2-2c.5-.5 1.2-.8 2-.8z"/></svg>
+  <svg width="38" height="18" viewBox="0 0 38 18"><rect x="1" y="1" width="31" height="16" rx="5" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.6"/><rect x="3.5" y="3.5" width="26" height="11" rx="3" fill="#fff"/><path d="M34.5 6.5v5c1.2-.4 2-1.4 2-2.5s-.8-2.1-2-2.5z" fill="rgba(255,255,255,.45)"/></svg>
+</span>`
+
+function buildPhone(el) {
+  el.innerHTML = `
+    <div class="btn l" style="top:262px;height:46px"></div>
+    <div class="btn l" style="top:352px;height:96px"></div>
+    <div class="btn l" style="top:470px;height:96px"></div>
+    <div class="btn r" style="top:400px;height:150px"></div>
+    <div class="btn r cam" style="top:780px;height:106px"></div>
+    <div class="bezel"></div>
+    <div class="display">
+      <div class="status">${STATUS}</div>
+      <div class="island"></div>
+      <div class="home"></div>
+      <div class="glare"></div>
+      <div class="sheen"></div>
+    </div>`
+  return el.querySelector('.display')
+}
+
+const phone = document.getElementById('phone')
+const phone2 = document.getElementById('phone2')
+const floor = document.getElementById('floor')
+const screen = buildPhone(phone)
+const screen2 = buildPhone(phone2)
+const sheen = phone.querySelector('.sheen')
+const shotEls = {}
+for (const name of ['splash', 'home', ...FEATURES.map((f) => f.shot)]) {
+  if (shotEls[name]) continue
+  const img = new Image()
+  img.src = `shots/${name}.png`
+  img.style.opacity = 0
+  screen.insertBefore(img, screen.firstChild)
+  shotEls[name] = img
+}
+// The second phone only ever holds the English side of the language scene.
+const englishShot = new Image()
+englishShot.src = 'shots/english.png'
+screen2.insertBefore(englishShot, screen2.firstChild)
+const counter = document.getElementById('counter')
+const counterN = counter.querySelector('.n')
+const endIcon = document.getElementById('end-icon')
+const url = document.getElementById('url')
+const flash = document.getElementById('flash')
+
+const numbersEl = document.getElementById('numbers')
+const NUMS = ['12', '100', '341', '1', '229', '518', '86', '627', '9', '300', '462', '72']
+const numEls = NUMS.map((n) => {
+  const s = document.createElement('span')
+  s.textContent = n
+  numbersEl.appendChild(s)
+  return s
+})
+
+// ——— background ———
+const bg = document.getElementById('bg').getContext('2d')
+const fx = document.getElementById('fx').getContext('2d')
+
+const grains = [0, 1, 2, 3].map((k) => {
+  const c = document.createElement('canvas')
+  c.width = c.height = 256
+  const g = c.getContext('2d')
+  const d = g.createImageData(256, 256)
+  const r = rng(99 + k)
+  for (let i = 0; i < d.data.length; i += 4) {
+    const v = r() * 255
+    d.data[i] = d.data[i + 1] = d.data[i + 2] = v
+    d.data[i + 3] = 255
+  }
+  g.putImageData(d, 0, 0)
+  return bg.createPattern(c, 'repeat')
+})
+
+const DUST = (() => {
+  const r = rng(7)
+  return Array.from({ length: 70 }, () => ({ x: r(), y: r(), s: 1 + r() * 3.5, v: 20 + r() * 60, p: r() * 6.28 }))
+})()
+
+function drawBackground(t, b, pulse, tint) {
+  bg.globalCompositeOperation = 'source-over'
+  bg.fillStyle = '#0c0a0e'
+  bg.fillRect(0, 0, W, H)
+
+  // Three soft blobs drifting, breathing on the beat.
+  bg.globalCompositeOperation = 'lighter'
+  const blobs = [
+    [0.25 + 0.12 * Math.sin(t * 0.35), 0.25 + 0.06 * Math.cos(t * 0.27), 900, tint, 0.34],
+    [0.8 + 0.1 * Math.cos(t * 0.3), 0.62 + 0.08 * Math.sin(t * 0.22), 1000, mix(tint, PLUM, 0.55), 0.3],
+    [0.45 + 0.15 * Math.sin(t * 0.2 + 2), 0.92 + 0.05 * Math.sin(t * 0.4), 850, mix(tint, SKY, 0.4), 0.22],
+  ]
+  for (const [x, y, r, c, a] of blobs) {
+    const R = r * (1 + 0.05 * pulse)
+    const g = bg.createRadialGradient(x * W, y * H, 0, x * W, y * H, R)
+    g.addColorStop(0, rgba(c, a * (0.8 + 0.35 * pulse)))
+    g.addColorStop(1, rgba(c, 0))
+    bg.fillStyle = g
+    bg.fillRect(0, 0, W, H)
+  }
+
+  // Light rays for the call and the close.
+  const rays = clamp(prog(b, 47.5, 1)) * (1 - prog(b, 78, 2))
+  if (rays > 0) {
+    bg.save()
+    bg.translate(W / 2, -120)
+    bg.rotate(Math.sin(t * 0.25) * 0.12)
+    for (let i = 0; i < 9; i++) {
+      const ang = (i - 4) * 0.17
+      const g = bg.createLinearGradient(0, 0, 0, H * 1.2)
+      g.addColorStop(0, rgba(GOLD, 0.17 * rays * (0.7 + 0.5 * pulse)))
+      g.addColorStop(1, rgba(GOLD, 0))
+      bg.fillStyle = g
+      bg.beginPath()
+      bg.moveTo(0, 0)
+      bg.lineTo(Math.tan(ang - 0.035) * H * 1.2, H * 1.2)
+      bg.lineTo(Math.tan(ang + 0.035) * H * 1.2, H * 1.2)
+      bg.closePath()
+      bg.fill()
+    }
+    bg.restore()
+  }
+
+  // Rising dust.
+  for (const d of DUST) {
+    const y = ((d.y * H - t * d.v) % H + H) % H
+    const x = d.x * W + Math.sin(t * 0.8 + d.p) * 18
+    const a = 0.25 + 0.35 * Math.sin(t * 1.3 + d.p) ** 2
+    bg.fillStyle = rgba(mix(tint, [255, 255, 255], 0.5), a * (0.7 + 0.5 * pulse))
+    bg.beginPath()
+    bg.arc(x, y, d.s, 0, 6.29)
+    bg.fill()
+  }
+  bg.globalCompositeOperation = 'source-over'
+}
+
+function drawSparks(t) {
+  fx.clearRect(0, 0, W, H)
+  fx.globalCompositeOperation = 'lighter'
+  for (const [at, cx, cy, n, c] of BURSTS) {
+    const age = t - timeOf(at) // seconds
+    if (age < 0 || age > 2.2) continue
+    const r = rng(Math.round(at * 100))
+    for (let i = 0; i < n; i++) {
+      const ang = r() * Math.PI * 2
+      const sp = 500 + r() * 1300
+      const drag = 1 - Math.exp(-age * 2.6)
+      const x = cx * W + Math.cos(ang) * sp * drag / 2.6
+      const y = cy * H + Math.sin(ang) * sp * drag / 2.6 + 260 * age * age
+      const life = 1 - age / 2.2
+      const size = (2 + r() * 6) * life
+      const col = r() < 0.3 ? [255, 255, 255] : c
+      fx.fillStyle = rgba(col, 0.9 * life)
+      fx.beginPath()
+      if (r() < 0.4) {
+        // a little four-point star
+        fx.moveTo(x, y - size * 2.4)
+        fx.lineTo(x + size * 0.5, y)
+        fx.lineTo(x, y + size * 2.4)
+        fx.lineTo(x - size * 0.5, y)
+        fx.moveTo(x - size * 2.4, y)
+        fx.lineTo(x, y - size * 0.5)
+        fx.lineTo(x + size * 2.4, y)
+        fx.lineTo(x, y + size * 0.5)
+      } else {
+        fx.arc(x, y, size, 0, 6.29)
+      }
+      fx.fill()
+    }
+  }
+  fx.globalCompositeOperation = 'source-over'
+}
+
+// ——— text ———
+function drawLines(b) {
+  LINES.forEach((l, i) => {
+    const el = lineEls[i]
+    if (b < l.from - 0.01 || b >= l.to) {
+      el.style.display = 'none'
+      return
+    }
+    el.style.display = 'block'
+    // Lines leave quickly on their last half-beat: up and out of focus.
+    const out = prog(b, l.to - 0.4, 0.4)
+    el.style.opacity = 1 - out
+    el.style.filter = out ? `blur(${out * 16}px)` : ''
+    el.style.transform = `translateY(${-out * 40}px)`
+    // The gradient shimmers across the word.
+    el.style.backgroundPosition = `${(b * 12) % 200}% 0`
+    l.words.forEach(([at], j) => {
+      const s = l.spans[j]
+      s.style.backgroundPosition = `${(b * 18) % 200}% 0`
+      const p = prog(b, at, 0.5)
+      if (b < at) {
+        s.style.opacity = 0
+        return
+      }
+      if (l.enter === 'slam') {
+        const e = outQuint(p)
+        const kick = Math.exp(-(b - at) * 3) * 0.04
+        s.style.opacity = clamp(p * 3)
+        s.style.transform = `scale(${lerp(1.7, 1, e) + kick})`
+        s.style.filter = `blur(${(1 - e) * 22}px)`
+      } else {
+        const e = outCubic(p)
+        s.style.opacity = e
+        s.style.transform = `translateY(${(1 - e) * 70}px) rotate(${(1 - e) * 4}deg)`
+        s.style.filter = p < 1 ? `blur(${(1 - e) * 10}px)` : ''
+      }
+    })
+  })
+}
+
+// ——— the phone ———
+function showShot(name, opacity = 1, extra = '') {
+  for (const [k, img] of Object.entries(shotEls)) {
+    if (k === name) {
+      img.style.opacity = opacity
+      img.style.transform = extra
+    }
+  }
+}
+function hideShots() {
+  for (const img of Object.values(shotEls)) {
+    img.style.opacity = 0
+    img.style.transform = ''
+    img.style.filter = ''
+  }
+}
+
+function drawPhone(t, b, pulse) {
+  hideShots()
+  const inP = prog(b, 8, 1.2)
+  const outP = prog(b, 47.5, 1)
+  phone2.style.display = 'none'
+  if (b < 8 || b >= 49) {
+    floor.style.display = 'none'
+    phone.style.display = 'none'
+    counter.style.display = 'none'
+    caption.style.display = 'none'
+    return
+  }
+  phone.style.display = 'block'
+  floor.style.display = 'block'
+
+  // Where it sits: low and large in "pocket", a little lower in the montage.
+  const montage = prog(b, 15.5, 0.8)
+  const y = lerp(330, 520, inOut(montage))
+  const enter = outQuint(inP)
+  const leave = inCubic(outP)
+  const bob = Math.sin(t * 1.4) * 8
+  const scale = (lerp(0.75, 1, enter) + pulse * 0.012) * lerp(1, 0.4, leave) * lerp(0.82, 1, inOut(montage))
+  const rx = lerp(38, 0, enter) + Math.sin(t * 0.9) * 2.5
+  const ry = Math.sin(t * 0.6) * 6 + lerp(0, 25, leave)
+  const ty = y + lerp(900, 0, enter) + bob + lerp(0, -400, leave)
+  // In the language scene the phone steps right to make room for its twin.
+  const k0 = Math.floor((b - MONTAGE) / 4)
+  const pair = b >= MONTAGE && FEATURES[k0]?.shot === 'yoruba'
+    ? outCubic(prog(b - MONTAGE - k0 * 4, 0, 0.6)) * (1 - inOut(prog(b - MONTAGE - k0 * 4, 3.6, 0.4)))
+    : 0
+  const opacity = clamp(inP * 2) * (1 - outP)
+  phone.style.opacity = opacity
+  phone.style.transform = `translate(${pair * 150}px, ${ty + pair * 60}px) perspective(2400px) rotateX(${rx}deg) rotateY(${ry - pair * 14}deg) scale(${scale * (1 - pair * 0.06)})`
+  floor.style.opacity = opacity * (1 - leave)
+  floor.style.top = `${ty + 633 + 633 * scale - 10}px`
+  floor.style.transform = `scaleX(${scale + Math.sin(t * 1.4) * 0.02})`
+  if (pair > 0) {
+    phone2.style.display = 'block'
+    phone2.style.opacity = pair
+    phone2.style.transform = `translate(${lerp(-700, -190, pair)}px, ${ty - 40}px) perspective(2400px) rotateX(${rx}deg) rotateY(${ry + 16}deg) rotate(-4deg) scale(${scale * 0.86})`
+    phone2.style.filter = `brightness(${0.75 + 0.25 * pair})`
+  }
+  sheen.style.backgroundPosition = `${lerp(160, -60, ((b % 4) / 4))}% 0`
+
+  // Pocket: the splash, then the list scrolling gently.
+  if (b < MONTAGE) {
+    if (b < 12) showShot('splash')
+    else {
+      const p = prog(b, 12, 0.4)
+      showShot('splash', 1 - p)
+      showShot('home', p, `scale(${1 + prog(b, 12, 4) * 0.04})`)
+    }
+    // the counter rolls up to 920
+    counter.style.display = 'block'
+    counter.style.top = '1560px'
+    const c = outCubic(prog(b, 9, 3))
+    counterN.textContent = Math.round(920 * c)
+    counter.style.opacity = clamp(prog(b, 9, 0.5)) * (1 - prog(b, 15.5, 0.5))
+    counter.style.transform = `scale(${1 + Math.exp(-Math.max(0, b - 12) * 4) * 0.12 * (b >= 12 ? 1 : 0)})`
+    caption.style.display = 'none'
+    return
+  }
+  counter.style.display = 'none'
+
+  // Montage: a new screen each bar, whipped in from the right.
+  const k = Math.min(FEATURES.length - 1, Math.floor((b - MONTAGE) / 4))
+  const local = b - MONTAGE - k * 4
+  const f = FEATURES[k]
+  const prev = FEATURES[k - 1]
+  const w = outQuint(prog(local, 0, 0.5))
+  // A slow push in on the screenshot within each bar.
+  const drift = `scale(${1 + local * 0.01})`
+  if (prev && w < 1) {
+    shotEls[prev.shot].style.opacity = 1
+    shotEls[prev.shot].style.transform = `translateX(${-w * 100}%) scale(1.05)`
+    shotEls[prev.shot].style.filter = `blur(${Math.sin(w * Math.PI) * 14}px)`
+  }
+  const img = shotEls[f.shot]
+  img.style.opacity = 1
+  img.style.transform = prev ? `translateX(${(1 - w) * 100}%) ${drift}` : drift
+  img.style.filter = prev && w < 1 ? `blur(${Math.sin(w * Math.PI) * 14}px)` : ''
+  phone.style.setProperty('--halo', rgba(f.tint, 0.28 + 0.2 * pulse))
+  phone2.style.setProperty('--halo', rgba(f.tint, 0.2))
+
+  // Caption: chip, title and subtitle land on beats 1, 1 and 2 of the bar.
+  caption.style.display = 'block'
+  chip.textContent = `${String(k + 1).padStart(2, '0')} / 0${FEATURES.length}`
+  capTitle.textContent = f.title
+  capSub.textContent = f.sub
+  const ce = outCubic(prog(local, 0, 0.5))
+  const se = outCubic(prog(local, 0.75, 0.6))
+  const leaveCap = k === FEATURES.length - 1 ? prog(b, 47.4, 0.6) : prog(local, 3.65, 0.35)
+  chip.style.opacity = ce * (1 - leaveCap)
+  capTitle.style.opacity = ce * (1 - leaveCap)
+  capTitle.style.transform = `translateY(${(1 - ce) * 60 - leaveCap * 30}px)`
+  capTitle.style.filter = `blur(${(1 - ce) * 10 + leaveCap * 12}px)`
+  capSub.style.opacity = se * (1 - leaveCap)
+  capSub.style.transform = `translateY(${(1 - se) * 40}px)`
+  caption.style.opacity = 1 - outP
+}
+
+// ——— the call: hymn numbers flick past behind the words ———
+function drawNumbers(b) {
+  const on = b >= 52 && b < 64
+  numbersEl.style.display = on ? 'block' : 'none'
+  if (!on) return
+  const r = rng(5)
+  numEls.forEach((el, i) => {
+    const at = 52 + i
+    const age = b - at
+    const x = r() * 0.6, y = r() * 0.75
+    if (age < 0 || age > 3) {
+      el.style.opacity = 0
+      return
+    }
+    el.style.opacity = Math.exp(-age * 1.1) * clamp(age * 6)
+    el.style.left = `${x * W - 120}px`
+    el.style.top = `${y * H}px`
+    el.style.transform = `scale(${1 + age * 0.15}) rotate(${(r() - 0.5) * 16}deg)`
+  })
+}
+
+function drawEnd(b) {
+  const p = prog(b, 64, 0.8)
+  if (b < 64) {
+    endIcon.style.display = url.style.display = 'none'
+    return
+  }
+  endIcon.style.display = url.style.display = 'block'
+  const e = outBack(p, 1.6)
+  endIcon.style.top = '370px'
+  endIcon.style.opacity = clamp(p * 2)
+  endIcon.style.transform = `scale(${e}) rotate(${(1 - e) * -14}deg) translateY(${Math.sin(b * Math.PI / 2) * 6}px)`
+  const u = outBack(prog(b, 68, 0.7), 2)
+  url.style.top = '1180px'
+  url.style.opacity = clamp(prog(b, 68, 0.3))
+  url.style.transform = `translateX(-50%) scale(${u * (1 + 0.025 * Math.exp(-((b - 68) % 2) * 4) * (b >= 70 ? 1 : 0))})`
+}
+
+window.render = (t) => {
+  // The pulse follows the song's own beats; everything else follows the steps.
+  const beat = t / BEAT
+  const b = stepAt(beat)
+  const frac = beat - Math.floor(beat)
+  // A kick on every beat, stronger on the bar's downbeat.
+  const pulse = Math.exp(-frac * 5) * (Math.floor(beat) % 4 === 0 ? 1 : 0.6)
+  const tint = tintAt(b)
+  drawBackground(t, b, pulse, tint)
+  drawSparks(t)
+  drawLines(b)
+  drawPhone(t, b, pulse)
+  drawNumbers(b)
+  drawEnd(b)
+
+  // Flash on the big moments.
+  let fl = 0
+  for (const f of FLASHES) if (b >= f) fl = Math.max(fl, Math.exp(-(b - f) * 5))
+  flash.style.opacity = fl * 0.85
+
+  // Grain over everything, and a fade in/out at the ends.
+  const fade = clamp(prog(b, 0, 0.35)) * (1 - prog(b, 78, 2))
+  bg.globalAlpha = 1
+  // Fine grain, changing every other frame: texture without starving the encoder.
+  fx.globalAlpha = 0.045
+  fx.fillStyle = grains[Math.floor(t * 15) % 4]
+  fx.fillRect(0, 0, W, H)
+  fx.globalAlpha = 1
+  // vignette
+  const v = fx.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.75)
+  v.addColorStop(0, 'rgba(0,0,0,0)')
+  v.addColorStop(1, 'rgba(0,0,0,0.55)')
+  fx.fillStyle = v
+  fx.fillRect(0, 0, W, H)
+  document.body.style.opacity = fade
+}
+
+window.ready = Promise.all([
+  document.fonts.ready,
+  ...[...Object.values(shotEls), englishShot].map((i) => i.decode().catch(() => {})),
+  endIcon.decode().catch(() => {}),
+]).then(() => window.render(0))
+</script>
+</body>
+</html>
