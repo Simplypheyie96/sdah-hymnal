@@ -15,7 +15,8 @@
 //   --music <file>   the song (mp3, m4a, wav…). Without it the video is cut to
 //                    --bpm and rendered silent, ready for a song to be added
 //                    in the Instagram/TikTok editor.
-//   --start <sec>    where in the song to begin (default 0 — pick the chorus!)
+//   --start <sec>    where in the song to begin. Left out, the script finds
+//                    the song's strongest stretch (usually the chorus) itself.
 //   --bpm <n>        force the tempo instead of detecting it
 //   --offset <sec>   force the first downbeat (seconds after --start)
 //   --base <url>     the app to capture (default http://localhost:5173 —
@@ -39,7 +40,7 @@ const run = promisify(execFile)
 const { values: opt } = parseArgs({
   options: {
     music: { type: 'string' },
-    start: { type: 'string', default: '0' },
+    start: { type: 'string' },
     bpm: { type: 'string' },
     offset: { type: 'string' },
     base: { type: 'string', default: 'http://localhost:5173' },
@@ -191,11 +192,14 @@ const SR = 11025
 const HOP = 128
 const FR = SR / HOP // onset-envelope frames per second
 
-/** Decode the song to mono float samples, from --start for up to 90 s. */
-async function decode(file, start) {
+/** Decode the song to mono float samples, from `start` for `length` seconds. */
+async function decode(file, start = 0, length) {
   const { stdout } = await run(
     'ffmpeg',
-    ['-v', 'error', '-ss', String(start), '-t', '90', '-i', file, '-ac', '1', '-ar', String(SR), '-f', 'f32le', '-'],
+    [
+      '-v', 'error', '-ss', String(start), ...(length ? ['-t', String(length)] : []),
+      '-i', file, '-ac', '1', '-ar', String(SR), '-f', 'f32le', '-',
+    ],
     { encoding: 'buffer', maxBuffer: 64 * 1024 * 1024 },
   )
   return new Float32Array(stdout.buffer, stdout.byteOffset, stdout.byteLength / 4)
@@ -276,25 +280,59 @@ function phase(o, bpm) {
   return (best.f + down.m * p) / FR + 512 / SR
 }
 
-const START = Number(opt.start)
+/**
+ * Where the clip should begin: the stretch of the song, as long as the video,
+ * that is loudest overall and opens with the biggest lift — the chorus or the
+ * drop, rather than an intro or a spoken bit before the music.
+ */
+function strongest(x, length) {
+  const block = Math.floor(SR / 2) // half-second loudness blocks
+  const loud = []
+  for (let i = 0; i + block <= x.length; i += block) {
+    let e = 0
+    for (let j = i; j < i + block; j++) e += x[j] * x[j]
+    loud.push(10 * Math.log10(e / block + 1e-9))
+  }
+  const mean = (a, b) => {
+    let s = 0
+    for (let i = a; i < b; i++) s += loud[i]
+    return s / (b - a)
+  }
+  const span = Math.round(length * 2)
+  let best = { at: 0, score: -Infinity }
+  // Skip the first few seconds: a fade-in or a video's opening is never the moment.
+  for (let i = 16; i + span <= loud.length; i++) {
+    const score = mean(i, i + span) + 1.5 * (mean(i, i + 8) - mean(i - 8, i))
+    if (score > best.score) best = { at: i / 2, score }
+  }
+  return best.at
+}
+
+let START = opt.start ? Number(opt.start) : 0
 let bpm = opt.bpm ? Number(opt.bpm) : 120
 let offset = opt.offset ? Number(opt.offset) : 0
 
+// The edit is cut in a comfortable range; a fast song is cut every other beat.
+const BEATS = 80 // 20 bars: intro, pocket, eight features, the call, the close
+const gridOf = (b) => {
+  while (b > 140) b /= 2
+  while (b < 80) b *= 2
+  return b
+}
+
 if (opt.music) {
   await access(opt.music)
-  if (!opt.bpm || !opt.offset) {
-    console.log(`\nListening to ${opt.music}`)
-    const o = onsets(await decode(opt.music, START))
-    if (!opt.bpm) bpm = tempo(o)
-    if (!opt.offset) offset = phase(o, bpm)
+  console.log(`\nListening to ${opt.music}`)
+  const song = await decode(opt.music)
+  if (!opt.bpm) bpm = tempo(onsets(song.subarray(Math.round(song.length * 0.2), Math.round(song.length * 0.8))))
+  if (!opt.start) {
+    START = strongest(song, (BEATS * 60) / gridOf(bpm))
+    console.log(`Starting at ${Math.floor(START / 60)}:${String(Math.floor(START % 60)).padStart(2, '0')}, the song's strongest stretch (--start to change)`)
   }
+  if (!opt.offset) offset = phase(onsets(song.subarray(Math.round(START * SR))), bpm)
 }
-// The edit is cut in a comfortable range; a fast song is cut every other beat.
-let grid = bpm
-while (grid > 140) grid /= 2
-while (grid < 80) grid *= 2
+const grid = gridOf(bpm)
 const BEAT = 60 / grid
-const BEATS = 80 // 20 bars: intro, pocket, eight features, the call, the close
 const DURATION = BEATS * BEAT
 console.log(
   `Tempo ${bpm.toFixed(1)} BPM${grid !== bpm ? ` (cut at ${grid.toFixed(1)})` : ''}, ` +
