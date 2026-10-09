@@ -8,7 +8,7 @@ import { TipJar } from './TipJar'
 
 export type ThemeChoice = 'light' | 'dark' | 'system'
 
-const PORTFOLIO_URL = 'https://simplypheyie.is-a.dev/'
+const PORTFOLIO_URL = 'https://feyidesigns.com/'
 export type AccentChoice = 'mono' | 'sage' | 'rose' | 'sky'
 
 const ACCENTS: { id: AccentChoice; label: string; swatch: string }[] = [
