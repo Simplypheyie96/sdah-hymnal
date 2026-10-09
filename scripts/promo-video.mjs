@@ -332,7 +332,7 @@ const ff = spawn('ffmpeg', [
   '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
   // Capped so the file stays shareable on WhatsApp; Instagram and TikTok
   // re-encode anyway.
-  '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-maxrate', '9M', '-bufsize', '18M',
+  '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-maxrate', '6M', '-bufsize', '12M',
   '-profile:v', 'high', '-pix_fmt', 'yuv420p',
   silent,
 ], { stdio: ['pipe', 'inherit', 'inherit'] })
