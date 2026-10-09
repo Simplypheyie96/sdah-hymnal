@@ -23,7 +23,7 @@
 //                    run `npm run dev` first)
 //   --out <file>     default docs/promo-sabbath.mp4
 //   --skip-capture   reuse the screenshots from the last run
-//   --preview <b,…>  write stills at these beats to .video/promo/ and stop
+//   --preview <s,…>  write stills at these steps (0–80) to .video/promo/ and stop
 //
 // Set CHROMIUM_PATH if Playwright's own browser is not installed.
 // Requires ffmpeg and ffprobe on PATH. Frames land in .video/promo/.
@@ -312,13 +312,22 @@ let START = opt.start ? Number(opt.start) : 0
 let bpm = opt.bpm ? Number(opt.bpm) : 120
 let offset = opt.offset ? Number(opt.offset) : 0
 
-// The edit is cut in a comfortable range; a fast song is cut every other beat.
-const BEATS = 80 // 20 bars: intro, pocket, eight features, the call, the close
+// The edit is cut in a comfortable range; a very fast song is cut every
+// other beat.
 const gridOf = (b) => {
-  while (b > 140) b /= 2
-  while (b < 80) b *= 2
+  while (b > 150) b /= 2
+  while (b < 75) b *= 2
   return b
 }
+// The stage runs in 80 steps: intro, pocket, eight features, the call, the
+// close. On a slow song each step is a beat. On a quick one (over 120) the
+// words still land beat by beat, but each phone screen and the closing card
+// get two bars, so there is time to read them.
+const paceOf = (g) =>
+  g > 120
+    ? [[0, 8, 1], [8, 16, 2], [16, 48, 2], [48, 64, 1], [64, 80, 2]]
+    : [[0, 80, 1]]
+const beatsOf = (pace) => pace.reduce((n, [a, b, k]) => n + (b - a) * k, 0)
 
 if (opt.music) {
   await access(opt.music)
@@ -326,14 +335,15 @@ if (opt.music) {
   const song = await decode(opt.music)
   if (!opt.bpm) bpm = tempo(onsets(song.subarray(Math.round(song.length * 0.2), Math.round(song.length * 0.8))))
   if (!opt.start) {
-    START = strongest(song, (BEATS * 60) / gridOf(bpm))
+    START = strongest(song, (beatsOf(paceOf(gridOf(bpm))) * 60) / gridOf(bpm))
     console.log(`Starting at ${Math.floor(START / 60)}:${String(Math.floor(START % 60)).padStart(2, '0')}, the song's strongest stretch (--start to change)`)
   }
   if (!opt.offset) offset = phase(onsets(song.subarray(Math.round(START * SR))), bpm)
 }
 const grid = gridOf(bpm)
 const BEAT = 60 / grid
-const DURATION = BEATS * BEAT
+const PACE = paceOf(grid)
+const DURATION = beatsOf(PACE) * BEAT
 console.log(
   `Tempo ${bpm.toFixed(1)} BPM${grid !== bpm ? ` (cut at ${grid.toFixed(1)})` : ''}, ` +
     `downbeat ${offset.toFixed(3)} s after ${START} s → ${DURATION.toFixed(1)} s of video`,
@@ -344,7 +354,9 @@ console.log(
 // ————————————————————————————————————————————————————————————————
 
 const stage = fileURLToPath(new URL('./promo-stage.html', import.meta.url))
-const html = (await readFile(stage, 'utf8')).replace('__BEAT__', String(BEAT))
+const html = (await readFile(stage, 'utf8'))
+  .replace('__BEAT__', String(BEAT))
+  .replace('__PACE__', JSON.stringify(PACE))
 const icon = fileURLToPath(new URL('../public/pwa-512x512.png', import.meta.url))
 await writeFile(`${DIR}stage.html`, html.replaceAll('__ICON__', pathToFileURL(icon).href))
 
@@ -356,7 +368,7 @@ await page.evaluate(() => window.ready)
 
 if (opt.preview) {
   for (const b of opt.preview.split(',').map(Number)) {
-    await page.evaluate((t) => window.render(t), b * BEAT)
+    await page.evaluate((step) => window.render(timeOf(step)), b)
     await page.screenshot({ path: `${DIR}preview-${b}.png` })
     console.log(`  preview-${b}.png`)
   }

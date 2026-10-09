@@ -4,13 +4,16 @@ A 9:16 portrait clip for WhatsApp Status, Instagram Reels, TikTok and YouTube
 Shorts. It says "use your hymnals this Sabbath", and every cut, word and spark
 lands on the beat of the song underneath it.
 
-**Running order** (20 bars, about 45 seconds at 104 BPM):
+**Running order.** The bars below are for a slow song. On a quick one
+(over 120 BPM, like RAYE's "Joy" at 140) the words still land on every beat,
+but each phone screen and the closing card get two bars so they can be read.
+That makes about 58 seconds at 140 BPM.
 
 | Bars  | Scene                                                                 |
 | ----- | --------------------------------------------------------------------- |
 | 1–2   | "It's *Sabbath!* Let's sing with **JOY**"                              |
 | 3–4   | An iPhone rises in: *the whole hymnal in your pocket*, 0 → 920        |
-| 5–12  | One feature per bar: search, number pad, verses, English & Yorùbá (two phones), sharing, the big screen, themes, offline |
+| 5–12  | One feature per bar (two on a quick song): search, number pad, verses, English & Yorùbá (two phones), sharing, the big screen, themes, offline |
 | 13–16 | Light rays: "This Sabbath, open your **hymnal** … and sing with **joy!**" |
 | 17–20 | "Happy Sabbath · Use your hymnals *this Sabbath*" and the link        |
 
@@ -39,7 +42,7 @@ node scripts/promo-video.mjs --music ~/Downloads/joy.mp3     # window 2
 - It finds the tempo and the first downbeat itself. If the cuts feel twice as
   fast or slow as the song, pass `--bpm` with the right number. If they sit
   just off the beat, nudge them with `--offset` (seconds after the start).
-- `--preview 7,24,58,68` writes those beats as stills to `.video/promo/` so
+- `--preview 7,24,58,68` writes those steps (0–80) as stills to `.video/promo/` so
   you can check the look in seconds before a full render (about 7 minutes).
 - Without `--music` it renders silently at 120 BPM.
 

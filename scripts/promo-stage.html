@@ -2,8 +2,9 @@
 <!--
   The stage for scripts/promo-video.mjs. Every moment of the promo is drawn
   from one number — the time — by window.render(t), so the video is the same
-  every run and every cut sits on a beat. Times below are in beats; BEAT
-  is filled in by the script: one beat, in seconds.
+  every run and every cut sits on a beat. Times below are in "steps" of the
+  script; the script fills in BEAT (one beat, in seconds) and PACE (how many
+  of the song's beats each step lasts, section by section).
 -->
 <html>
 <head>
@@ -176,6 +177,25 @@
 
 <script>
 const BEAT = __BEAT__
+// [fromStep, toStep, beatsPerStep]: on a fast song the words still land on
+// every beat, while each phone screen gets two bars instead of one.
+const PACE = __PACE__
+const stepAt = (beat) => {
+  let acc = 0
+  for (const [a, b, k] of PACE) {
+    if (beat < acc + (b - a) * k) return a + (beat - acc) / k
+    acc += (b - a) * k
+  }
+  return PACE[PACE.length - 1][1]
+}
+const timeOf = (step) => {
+  let acc = 0
+  for (const [a, b, k] of PACE) {
+    if (step < b) return (acc + Math.max(0, step - a) * k) * BEAT
+    acc += (b - a) * k
+  }
+  return acc * BEAT
+}
 const W = 1080, H = 1920
 
 // ——— helpers ———
@@ -426,11 +446,11 @@ function drawBackground(t, b, pulse, tint) {
   bg.globalCompositeOperation = 'source-over'
 }
 
-function drawSparks(b) {
+function drawSparks(t) {
   fx.clearRect(0, 0, W, H)
   fx.globalCompositeOperation = 'lighter'
   for (const [at, cx, cy, n, c] of BURSTS) {
-    const age = (b - at) * BEAT // seconds
+    const age = t - timeOf(at) // seconds
     if (age < 0 || age > 2.2) continue
     const r = rng(Math.round(at * 100))
     for (let i = 0; i < n; i++) {
@@ -660,13 +680,15 @@ function drawEnd(b) {
 }
 
 window.render = (t) => {
-  const b = t / BEAT
-  const frac = b - Math.floor(b)
+  // The pulse follows the song's own beats; everything else follows the steps.
+  const beat = t / BEAT
+  const b = stepAt(beat)
+  const frac = beat - Math.floor(beat)
   // A kick on every beat, stronger on the bar's downbeat.
-  const pulse = Math.exp(-frac * 5) * (Math.floor(b) % 4 === 0 ? 1 : 0.6)
+  const pulse = Math.exp(-frac * 5) * (Math.floor(beat) % 4 === 0 ? 1 : 0.6)
   const tint = tintAt(b)
   drawBackground(t, b, pulse, tint)
-  drawSparks(b)
+  drawSparks(t)
   drawLines(b)
   drawPhone(t, b, pulse)
   drawNumbers(b)
