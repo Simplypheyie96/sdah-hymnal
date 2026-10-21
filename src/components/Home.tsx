@@ -75,11 +75,11 @@ function HymnRow({
   )
 }
 
-// PROTOTYPE — three mastheads, ?variant=a|b|c.
+// PROTOTYPE — three mastheads, ?variant=a|b|c. Each is its own region, set apart from the list.
 const MASTHEADS = [
-  { key: 'a', name: 'A · Wordmark' },
-  { key: 'b', name: 'B · Title page' },
-  { key: 'c', name: 'C · Lockup' },
+  { key: 'a', name: 'A · Cover' },
+  { key: 'b', name: 'B · Arch' },
+  { key: 'c', name: 'C · Book cover' },
 ]
 
 function LangSwitch({ lang, onLang, segmented }: { lang: LangCode; onLang: (l: LangCode) => void; segmented?: boolean }) {
@@ -114,68 +114,72 @@ function Masthead({
   lang: LangCode
   onLang: (l: LangCode) => void
 }) {
-  const now = new Date()
   const title = lang === 'en' ? 'Hymnal' : LANGS.find((l) => l.code === lang)?.hymnalTitle
-  const date = now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })
-  const songs = hymns.filter((h) => h.kind === 'hymn')
-  const pad = 'px-6 pt-[max(env(safe-area-inset-top),28px)]'
+  const date = new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })
+  const songs = hymns.filter((h) => h.kind === 'hymn').length
+  const top = 'pt-[calc(max(env(safe-area-inset-top),28px)+32px)]'
 
   if (variant === 'b')
     return (
-      <header className={`${pad} flex flex-col items-center text-center`}>
-        <span className="rise-in mt-8 flex h-11 w-11 items-center justify-center rounded-full bg-[var(--accent)]/12 text-[var(--accent-ink)]">
-          <MusicIcon size={20} />
-        </span>
-        <p className="rise-in eyebrow mt-5 text-[var(--accent-ink)] opacity-75" style={{ animationDelay: '40ms' }}>
-          Seventh-day Adventist
-        </p>
-        <h1
-          className="rise-in display-title mt-2 text-balance text-[clamp(44px,16vw,64px)] leading-[0.95] tracking-[-0.02em] text-[var(--accent-ink)]"
-          style={{ animationDelay: '60ms' }}
-        >
-          {title}
-        </h1>
-        <p className="rise-in font-lyrics mt-3 text-[15px] italic text-[var(--ink-2)]" style={{ animationDelay: '80ms' }}>
-          {songs.length} hymns · {date}
-        </p>
-        <div className="rise-in mt-6" style={{ animationDelay: '90ms' }}>
-          <LangSwitch lang={lang} onLang={onLang} segmented />
+      <header className={`${top} px-6`}>
+        <div className="arch rise-in flex flex-col items-center px-8 pt-16 pb-8 text-center">
+          <MusicIcon size={22} className="text-[var(--accent-ink)]" />
+          <p className="eyebrow mt-5 text-[var(--accent-ink)] opacity-75">Seventh-day Adventist</p>
+          <h1 className="display-title mt-2 text-balance text-[clamp(40px,13vw,56px)] leading-[0.95] tracking-[-0.02em] text-[var(--accent-ink)]">
+            {title}
+          </h1>
+          <p className="font-lyrics mt-3 text-[15px] italic text-[var(--ink-2)]">
+            {songs} hymns · {date}
+          </p>
+          <div className="mt-7">
+            <LangSwitch lang={lang} onLang={onLang} segmented />
+          </div>
         </div>
       </header>
     )
 
   if (variant === 'c')
     return (
-      <header className={pad}>
-        <div className="rise-in flex items-center gap-4 pt-8">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent)] text-[var(--accent-contrast)] shadow-[var(--shadow-soft)]">
-            <MusicIcon size={26} />
-          </span>
-          <div className="min-w-0">
+      <header className={`${top} px-5`}>
+        <div className="cover book rise-in rounded-[28px] px-7 pt-8 pb-7 shadow-[var(--shadow-float)]">
+          <div className="flex items-start justify-between gap-4">
             <p className="eyebrow text-[var(--ink-2)]">Seventh-day Adventist</p>
-            <h1 className="display-title mt-1.5 truncate text-[34px] leading-none tracking-[-0.02em] text-[var(--accent-ink)]">{title}</h1>
+            <MusicIcon size={20} className="shrink-0 text-[var(--ink-2)]" />
           </div>
-        </div>
-        <div className="rise-in mt-5" style={{ animationDelay: '90ms' }}>
-          <LangSwitch lang={lang} onLang={onLang} />
+          <h1 className="display-title mt-10 text-balance text-[clamp(44px,14vw,60px)] leading-[0.92] tracking-[-0.025em] text-[var(--accent-ink)]">
+            {title}
+          </h1>
+          <p className="font-lyrics mt-3 text-[15px] italic text-[var(--ink-2)]">
+            {songs} hymns · {date}
+          </p>
+          <div className="mt-8 border-t border-[var(--line)] pt-5">
+            <LangSwitch lang={lang} onLang={onLang} />
+          </div>
         </div>
       </header>
     )
 
+  // The search bar overlaps this panel's lower edge (see the -mt on the search in Home).
   return (
-    <header className={pad}>
-      <div className="rise-in flex items-center justify-between gap-4 pt-4">
-        <p className="eyebrow text-[var(--accent-ink)] opacity-75">Seventh-day Adventist</p>
-        <LangSwitch lang={lang} onLang={onLang} segmented />
-      </div>
+    <header className={`cover ${top} flex flex-col items-center rounded-b-[36px] px-6 pb-[60px] text-center`}>
+      <span className="rise-in flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-[var(--accent-ink)]">
+        <MusicIcon size={20} />
+      </span>
+      <p className="rise-in eyebrow mt-5 text-[var(--ink-2)]" style={{ animationDelay: '40ms' }}>
+        Seventh-day Adventist
+      </p>
       <h1
-        className={`rise-in display-title mt-7 leading-[0.85] tracking-[-0.045em] text-[var(--accent-ink)] ${
-          (title?.length ?? 0) > 8 ? 'text-[clamp(52px,15vw,76px)]' : 'text-[clamp(72px,27vw,112px)]'
-        }`}
+        className="rise-in display-title mt-2 text-balance text-[clamp(44px,15vw,62px)] leading-[0.95] tracking-[-0.02em] text-[var(--accent-ink)]"
         style={{ animationDelay: '60ms' }}
       >
         {title}
       </h1>
+      <p className="rise-in font-lyrics mt-3 text-[15px] italic text-[var(--ink-2)]" style={{ animationDelay: '80ms' }}>
+        {songs} hymns · {date}
+      </p>
+      <div className="rise-in mt-6" style={{ animationDelay: '90ms' }}>
+        <LangSwitch lang={lang} onLang={onLang} segmented />
+      </div>
     </header>
   )
 }
@@ -248,7 +252,7 @@ export function Home({
 
       {/* Search: free text, plus a dedicated number field that jumps straight
           to a hymn. Both are always available. */}
-      <div className="rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
+      <div className={`rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pt-6 pb-4 ${masthead === 'a' ? '-mt-[52px]' : ''}`} style={{ animationDelay: '120ms' }}>
         <div aria-hidden className="top-scrim" />
         <div className="flex items-stretch gap-2.5">
           <label className="glass hairline group flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30">
