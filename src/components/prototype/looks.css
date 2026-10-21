@@ -1,16 +1,15 @@
-/* PROTOTYPE — twelve designs, each its own idea: three per theme, keyed on
-   <html data-look="1|2|3"> (set by LookSwitcher) plus the app's own data-accent.
+/* Each theme's own design, keyed on the app's data-accent (picked 2026-10-22 from twelve).
    ::before paints the sky (--look-bg); ::after paints one illustrated motif from bg/*.svg,
    used as a mask and filled with --motif, so light and dark share the drawing but not the
    colour. Every colour stays inside the theme's one hue. No lines, no grids. */
 
-html[data-look] { --h: 250; --k: 0; }
-html[data-look][data-accent='sage'] { --h: 158; --k: 1; }
-html[data-look][data-accent='rose'] { --h: 8; --k: 1; }
-html[data-look][data-accent='sky'] { --h: 250; --k: 1; }
+html { --h: 250; --k: 0; }
+html[data-accent='sage'] { --h: 158; --k: 1; }
+html[data-accent='rose'] { --h: 8; --k: 1; }
+html[data-accent='sky'] { --h: 250; --k: 1; }
 
 /* Neutrals follow the theme hue, lightly. */
-html:root[data-look]:not(.dark) {
+html:root:not(.dark) {
   --paper: oklch(97.5% calc(0.008 * var(--k)) var(--h));
   --paper-raised: oklch(99.5% calc(0.004 * var(--k)) var(--h) / 0.72);
   --glass: oklch(97.5% calc(0.008 * var(--k)) var(--h) / 0.72);
@@ -21,7 +20,7 @@ html:root[data-look]:not(.dark) {
   --line-strong: oklch(22% calc(0.02 * var(--k)) var(--h) / 0.18);
   --paper-tint: transparent;
 }
-html:root.dark[data-look] {
+html:root.dark {
   --paper: oklch(17% calc(0.015 * var(--k)) var(--h));
   --paper-raised: oklch(100% 0 0 / 0.05);
   --glass: oklch(17% calc(0.015 * var(--k)) var(--h) / 0.7);
@@ -33,8 +32,8 @@ html:root.dark[data-look] {
   --paper-tint: transparent;
 }
 
-html[data-look] body { background: transparent; }
-html[data-look]::before {
+html body { background: transparent; }
+html::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -43,9 +42,9 @@ html[data-look]::before {
   background: var(--look-bg);
 }
 /* The hymn reader is an opaque full-screen overlay, so it repaints the same sky and motif. */
-html[data-look] .hymn-overlay { background: var(--look-bg); }
-html[data-look]::after,
-html[data-look] .hymn-overlay::before {
+html .hymn-overlay { background: var(--look-bg); }
+html::after,
+html .hymn-overlay::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -55,144 +54,68 @@ html[data-look] .hymn-overlay::before {
   -webkit-mask: var(--mask) bottom center / cover no-repeat;
   mask: var(--mask) bottom center / cover no-repeat;
 }
-/* Chrome scrims as translucent paper that feathers out on every open side, so the
-   backgrounds run edge to edge with no box. (backdrop-filter is avoided: Chrome drops
-   the fade mask with it and shows a hard-edged slab.) */
-html[data-look] :is(.top-scrim, .bottom-scrim) {
-  background: color-mix(in oklab, var(--paper) 82%, transparent);
+/* Chrome scrims. The bottom one is translucent paper that feathers out on every open side.
+   The top one paints the page's own sky (fixed, so it lines up with what is behind it) and
+   only fades in once the list scrolls under it: at rest it was a paper slab that read as a
+   stray frame on any tinted background. (backdrop-filter is avoided: Chrome drops the fade
+   mask with it and shows a hard-edged slab.) */
+html :is(.top-scrim, .bottom-scrim) {
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
-html[data-look] .top-scrim {
-  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(to bottom, #000 45%, transparent), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+html .top-scrim {
+  background: var(--look-bg) fixed;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  animation: scrim-in linear both;
+  animation-timeline: scroll();
+  animation-range: 0 96px;
 }
-html[data-look] .bottom-scrim {
+@keyframes scrim-in { from { opacity: 0; } }
+html .bottom-scrim {
+  background: color-mix(in oklab, var(--paper) 82%, transparent);
   -webkit-mask-image: linear-gradient(to top, #000 45%, transparent), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
   mask-image: linear-gradient(to top, #000 45%, transparent), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 }
 
 
-/* mono 1 · Ink wash — sumi ink bleeding in from the lower corner, like a brush rested on wet paper */
-html:root[data-look='1']:not([data-accent]) { --mask: url('./bg/mono-1.svg'); }
-html:root[data-look='1']:not([data-accent]):not(.dark) {
-  --look-bg: var(--paper);
-  --motif: oklch(50% 0 0 / .45);
-}
-html:root.dark[data-look='1']:not([data-accent]) {
-  --look-bg: var(--paper);
-  --motif: oklch(55% 0 0 / .6);
-}
-/* mono 2 · Moonrise — one large pale moon, half risen behind the list */
-html:root[data-look='2']:not([data-accent]) { --mask: url('./bg/mono-2.svg'); }
-html:root[data-look='2']:not([data-accent]):not(.dark) {
-  --look-bg: linear-gradient(to bottom, oklch(98.5% 0 0), oklch(93% 0 0));
-  --motif: oklch(55% 0 0 / .45);
-}
-html:root.dark[data-look='2']:not([data-accent]) {
-  --look-bg: linear-gradient(to bottom, oklch(13% 0 0), oklch(20% 0 0));
-  --motif: oklch(80% 0 0 / .4);
-}
-html:root[data-look='2']:not([data-accent]) { --font-serif: "Cormorant Garamond", "EB Garamond", Georgia, serif; }
-/* mono 3 · Folded paper — the lower page creased into faceted planes, light catching each fold */
-html:root[data-look='3']:not([data-accent]) { --mask: url('./bg/mono-3.svg'); }
-html:root[data-look='3']:not([data-accent]):not(.dark) {
+/* mono · Folded paper — the lower page creased into faceted planes, light catching each fold */
+html:root:not([data-accent]) { --mask: url('./bg/mono-3.svg'); }
+html:root:not([data-accent]):not(.dark) {
   --look-bg: var(--paper);
   --motif: oklch(45% 0 0 / .42);
 }
-html:root.dark[data-look='3']:not([data-accent]) {
+html:root.dark:not([data-accent]) {
   --look-bg: var(--paper);
   --motif: oklch(75% 0 0 / .32);
-}
-/* sage 1 · Meadow — three rolling hills, the furthest palest, open sky above */
-html:root[data-look='1'][data-accent='sage'] { --mask: url('./bg/sage-1.svg'); }
-html:root[data-look='1'][data-accent='sage']:not(.dark) {
-  --look-bg: linear-gradient(to bottom, oklch(98% .01 158), oklch(95% .02 158));
-  --motif: oklch(70% .08 158 / .7);
-}
-html:root.dark[data-look='1'][data-accent='sage'] {
-  --look-bg: linear-gradient(to bottom, oklch(15% .015 158), oklch(19% .03 158));
-  --motif: oklch(48% .08 158 / .9);
-}
-/* sage 2 · Olive branch — a single olive branch sweeping up from the corner */
-html:root[data-look='2'][data-accent='sage'] { --mask: url('./bg/sage-2.svg'); }
-html:root[data-look='2'][data-accent='sage']:not(.dark) {
+}/* sage · Olive branch — a single olive branch sweeping up from the corner */
+html:root[data-accent='sage'] { --mask: url('./bg/sage-2.svg'); }
+html:root[data-accent='sage']:not(.dark) {
   --look-bg: var(--paper);
   --motif: oklch(62% .07 150 / .5);
 }
-html:root.dark[data-look='2'][data-accent='sage'] {
+html:root.dark[data-accent='sage'] {
   --look-bg: var(--paper);
   --motif: oklch(62% .08 150 / .35);
 }
-html:root[data-look='2'][data-accent='sage'] { --font-serif: "Fraunces", "EB Garamond", Georgia, serif; --font-numeral: "Fraunces", "EB Garamond", Georgia, serif; }
-/* sage 3 · Dappled shade — sun falling through leaves in soft pools, on a green-shaded page */
-html:root[data-look='3'][data-accent='sage'] { --mask: url('./bg/sage-3.svg'); }
-html:root[data-look='3'][data-accent='sage']:not(.dark) {
-  --look-bg: oklch(90% .035 158);
-  --motif: oklch(99% .02 120);
-}
-html:root.dark[data-look='3'][data-accent='sage'] {
-  --look-bg: oklch(17% .025 158);
-  --motif: oklch(40% .08 140 / .75);
-}
-/* rose 1 · Petals — a few rose petals drifting down the page, some in focus, some soft */
-html:root[data-look='1'][data-accent='rose'] { --mask: url('./bg/rose-1.svg'); }
-html:root[data-look='1'][data-accent='rose']:not(.dark) {
+html:root[data-accent='sage'] { --font-serif: "Fraunces", "EB Garamond", Georgia, serif; --font-numeral: "Fraunces", "EB Garamond", Georgia, serif; }/* rose · Petals — a few rose petals drifting down the page, some in focus, some soft */
+html:root[data-accent='rose'] { --mask: url('./bg/rose-1.svg'); }
+html:root[data-accent='rose']:not(.dark) {
   --look-bg: linear-gradient(to bottom, oklch(98.5% .006 8), oklch(95.5% .018 8));
   --motif: oklch(70% .1 8 / .55);
 }
-html:root.dark[data-look='1'][data-accent='rose'] {
+html:root.dark[data-accent='rose'] {
   --look-bg: linear-gradient(to bottom, oklch(15% .015 8), oklch(19% .03 8));
   --motif: oklch(55% .11 8 / .45);
-}
-/* rose 2 · Rose window — a great cathedral rose window rising behind the list */
-html:root[data-look='2'][data-accent='rose'] { --mask: url('./bg/rose-2.svg'); }
-html:root[data-look='2'][data-accent='rose']:not(.dark) {
-  --look-bg: var(--paper);
-  --motif: oklch(55% .12 8 / .5);
-}
-html:root.dark[data-look='2'][data-accent='rose'] {
-  --look-bg: var(--paper);
-  --motif: oklch(72% .1 8 / .6);
-}
-html:root[data-look='2'][data-accent='rose'] { --font-serif: "Cormorant Garamond", "EB Garamond", Georgia, serif; }
-/* rose 3 · Silk — loose ribbons of silk folding across the lower page */
-html:root[data-look='3'][data-accent='rose'] { --mask: url('./bg/rose-3.svg'); }
-html:root[data-look='3'][data-accent='rose']:not(.dark) {
-  --look-bg: oklch(97% .012 8);
-  --motif: oklch(70% .1 8 / .75);
-}
-html:root.dark[data-look='3'][data-accent='rose'] {
-  --look-bg: oklch(16% .02 8);
-  --motif: oklch(55% .12 8 / .75);
-}
-/* sky 1 · Cloud bank — a sky that deepens upward, with soft cumulus banked along the bottom */
-html:root[data-look='1'][data-accent='sky'] { --mask: url('./bg/sky-1.svg'); }
-html:root[data-look='1'][data-accent='sky']:not(.dark) {
+}/* sky · Cloud bank by day — a sky that deepens upward, with soft cumulus banked along the bottom */
+html:root[data-accent='sky']:not(.dark) { --mask: url('./bg/sky-1.svg'); }
+html:root[data-accent='sky']:not(.dark) {
   --look-bg: linear-gradient(to bottom, oklch(84% .06 245), oklch(91% .035 245));
   --motif: oklch(99.5% .005 245);
 }
-html:root.dark[data-look='1'][data-accent='sky'] {
-  --look-bg: linear-gradient(to bottom, oklch(12% .03 260), oklch(20% .04 250) 75%);
-  --motif: oklch(38% .05 250 / .9);
-}
-/* sky 2 · Horizon — a still sea meeting an open sky, the water line low on the page */
-html:root[data-look='2'][data-accent='sky'] { --mask: url('./bg/sky-2.svg'); }
-html:root[data-look='2'][data-accent='sky']:not(.dark) {
-  --look-bg: linear-gradient(to bottom, oklch(96.5% .012 240), oklch(93% .03 220) 70%);
-  --motif: oklch(70% .08 235 / .7);
-}
-html:root.dark[data-look='2'][data-accent='sky'] {
-  --look-bg: linear-gradient(to bottom, oklch(13% .02 255), oklch(21% .04 240) 70%);
-  --motif: oklch(45% .08 240 / .9);
-}
-/* sky 3 · Aurora — slow veils of light hanging from the top of the page */
-html:root[data-look='3'][data-accent='sky'] { --mask: url('./bg/sky-3.svg'); }
-html:root[data-look='3'][data-accent='sky']:not(.dark) {
-  --look-bg: oklch(97% .01 250);
-  --motif: oklch(72% .1 210 / .7);
-}
-html:root.dark[data-look='3'][data-accent='sky'] {
+/* sky · Aurora by night — slow veils of light hanging from the top of the page */
+html:root.dark[data-accent='sky'] {
+  --mask: url('./bg/sky-3.svg');
   --look-bg: oklch(12% .025 260);
   --motif: oklch(65% .13 195 / .6);
 }

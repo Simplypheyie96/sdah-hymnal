@@ -16,7 +16,6 @@ import { useAppUpdate } from './hooks/useAppUpdate'
 import { TabBar, type Tab } from './components/TabBar'
 import { BookIcon } from './components/icons'
 import { ReceiverScreen } from './components/ReceiverScreen'
-import { LookSwitcher } from './components/prototype/PrototypeSwitcher'
 import './components/prototype/looks.css'
 
 // When a phone casts a hymn, the television opens this same app with
@@ -149,7 +148,6 @@ export default function App() {
     return (
       <div className="mx-auto flex h-dvh max-w-7xl">
         {splash}
-        <LookSwitcher accent={accent} setAccent={setAccent} />
         <aside className="w-[400px] shrink-0 overflow-y-auto border-r border-[var(--line)]">
           <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
           <TabBar tab={tab} onChange={changeTab} dock="left" />
@@ -184,7 +182,6 @@ export default function App() {
   return (
     <div className="mx-auto min-h-dvh max-w-2xl">
       {splash}
-      <LookSwitcher accent={accent} setAccent={setAccent} />
       {tab === 'hymns' && (
         <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
       )}

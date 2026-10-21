@@ -1,36 +1,8 @@
 // PROTOTYPE — throwaway. Lives only on the prototype/home-directions branch.
 import { useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons'
-import type { AccentChoice } from '../Settings'
 
-// PROTOTYPE — twelve designs, three of its own for each of the four themes, over the unchanged layout,
-// ?variant=now|mono-1…sky-3. Each look lives in src/components/prototype/looks.css keyed on
-// <html data-look>; the theme half of the key drives the app's real accent setting.
-const THEMES = ['mono', 'sage', 'rose', 'sky'] as const
-const NAMES: Record<string, string[]> = {
-  mono: ['Ink wash', 'Moonrise', 'Folded paper'],
-  sage: ['Meadow', 'Olive branch', 'Dappled shade'],
-  rose: ['Petals', 'Rose window', 'Silk'],
-  sky: ['Cloud bank', 'Horizon', 'Aurora'],
-}
-const LOOKS = [
-  { key: 'now', name: 'Current' },
-  ...THEMES.flatMap((t) =>
-    NAMES[t].map((n, i) => ({ key: `${t}-${i + 1}`, name: `${t[0].toUpperCase()}${t.slice(1)} · ${n}` })),
-  ),
-]
-
-export function LookSwitcher({ accent, setAccent }: { accent: AccentChoice; setAccent: (a: AccentChoice) => void }) {
-  const [look, setLook] = useVariant(LOOKS.map((l) => l.key))
-  useEffect(() => {
-    const root = document.documentElement
-    if (look === 'now') return void delete root.dataset.look
-    const [theme, n] = look.split('-')
-    root.dataset.look = n
-    if (theme !== accent) setAccent(theme as AccentChoice)
-  }, [look])
-  return <PrototypeSwitcher variants={LOOKS} current={look} onChange={setLook} />
-}
+// PROTOTYPE — three header variations on Home, ?variant=a|b|c (see Masthead in Home.tsx).
 
 export function useVariant(keys: string[]) {
   const read = () => {
