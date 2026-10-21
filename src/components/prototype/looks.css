@@ -42,7 +42,10 @@ html[data-look]::before {
   pointer-events: none;
   background: var(--look-bg);
 }
-html[data-look]::after {
+/* The hymn reader is an opaque full-screen overlay, so it repaints the same sky and motif. */
+html[data-look] .hymn-overlay { background: var(--look-bg); }
+html[data-look]::after,
+html[data-look] .hymn-overlay::before {
   content: "";
   position: fixed;
   inset: 0;

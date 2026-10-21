@@ -269,7 +269,7 @@ export function HymnOverlay(props: HymnContentProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 24 }}
       transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-[var(--paper)]"
+      className="hymn-overlay fixed inset-0 z-50 flex flex-col overflow-y-auto bg-[var(--paper)]"
     >
       <HymnContent {...props} />
     </motion.div>
