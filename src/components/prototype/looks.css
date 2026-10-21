@@ -1,0 +1,164 @@
+/* PROTOTYPE — three visual directions over the unchanged layout.
+   Keyed on <html data-look>, set by LookSwitcher (?variant=A|B|C).
+   The App theme (Mono/Sage/Rose/Sky) still owns --accent*; a look owns the
+   neutrals, the type, the background and how components are dressed.
+   Backgrounds keep the top of the viewport plain paper so the sticky scrims
+   (flat paper) meet them without a seam. */
+
+html[data-look] body { background: transparent; }
+html[data-look]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--look-bg);
+}
+
+/* ——— A · Gilt hymnal — the printed church book: laid ivory stock, warm vignette ——— */
+html:root[data-look='A']:not(.dark) {
+  --paper: #f3ead9;
+  --paper-raised: rgba(255, 250, 240, 0.6);
+  --glass: rgba(243, 234, 217, 0.8);
+  --ink: #2a1d17;
+  --ink-2: #5a473b;
+  --ink-3: #6e5a4c;
+  --line: rgba(42, 29, 23, 0.12);
+  --line-strong: rgba(42, 29, 23, 0.22);
+  --grain-opacity: 0.95;
+  --shadow-soft: 0 1px 2px rgba(60, 35, 20, 0.06), 0 8px 28px rgba(60, 35, 20, 0.08);
+  --shadow-float: 0 2px 6px rgba(60, 35, 20, 0.08), 0 16px 48px rgba(60, 35, 20, 0.16);
+}
+html:root.dark[data-look='A'] {
+  --paper: #1b1311;
+  --paper-raised: rgba(239, 220, 190, 0.055);
+  --glass: rgba(27, 19, 17, 0.72);
+  --ink: #f1e6d2;
+  --ink-2: #c4b29a;
+  --ink-3: #a8957c;
+  --line: rgba(241, 230, 210, 0.1);
+  --line-strong: rgba(241, 230, 210, 0.18);
+  --grain-opacity: 0.55;
+}
+html:root[data-look='A'] {
+  --font-serif: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  --font-numeral: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  --look-bg:
+    /* chain lines, then laid lines, of handmade paper */
+    repeating-linear-gradient(90deg, transparent 0 139px, color-mix(in oklab, var(--ink) 4%, transparent) 139px 140px),
+    repeating-linear-gradient(0deg, transparent 0 3px, color-mix(in oklab, var(--ink) 2.2%, transparent) 3px 4px),
+    radial-gradient(150% 100% at 50% 0%, transparent 55%, color-mix(in oklab, var(--accent) 12%, transparent)),
+    linear-gradient(var(--paper-tint), var(--paper-tint)),
+    var(--paper);
+}
+[data-look='A'] .display-title { font-weight: 600; letter-spacing: 0; }
+[data-look='A'] .numeral { font-weight: 600; }
+[data-look='A'] .numeral-list {
+  font-family: var(--font-numeral);
+  font-size: 21px;
+  font-weight: 600;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--accent-ink);
+}
+[data-look='A'] .eyebrow { font-family: var(--font-serif); font-size: 13px; letter-spacing: 0.2em; }
+[data-look='A'] .tap-pad.rounded-full { font-family: var(--font-serif); font-size: 15px; letter-spacing: 0.02em; }
+
+/* ——— B · Vespers — evening chapel: night sky, candle glow rising from below ——— */
+html:root[data-look='B']:not(.dark) {
+  --paper: #eeebf4;
+  --paper-raised: rgba(255, 255, 255, 0.62);
+  --glass: rgba(238, 235, 244, 0.74);
+  --ink: #1c1a33;
+  --ink-2: #4f4b6b;
+  --ink-3: #5f5b7e;
+  --line: rgba(28, 26, 51, 0.09);
+  --line-strong: rgba(28, 26, 51, 0.17);
+  --grain-opacity: 0.35;
+  --shadow-soft: 0 1px 2px rgba(28, 26, 51, 0.05), 0 10px 30px rgba(80, 70, 160, 0.1);
+  --shadow-float: 0 2px 8px rgba(28, 26, 51, 0.08), 0 18px 50px rgba(80, 70, 160, 0.18);
+  --look-glow: 22%;
+  --look-stars: transparent;
+}
+html:root.dark[data-look='B'] {
+  --paper: #0c0e1d;
+  --paper-raised: rgba(170, 180, 255, 0.065);
+  --glass: rgba(12, 14, 29, 0.66);
+  --ink: #ecebf7;
+  --ink-2: #a9a8c8;
+  --ink-3: #8f8eb3;
+  --line: rgba(236, 235, 247, 0.09);
+  --line-strong: rgba(236, 235, 247, 0.17);
+  --grain-opacity: 0.25;
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-float: 0 2px 8px rgba(0, 0, 0, 0.4), 0 18px 54px rgba(0, 0, 0, 0.45);
+  --look-glow: 30%;
+  --look-stars: rgba(236, 235, 247, 0.5);
+}
+html:root[data-look='B'] {
+  --font-serif: "Fraunces", "EB Garamond", Georgia, serif;
+  --font-numeral: "Fraunces", "EB Garamond", Georgia, serif;
+  --look-bg:
+    radial-gradient(1px 1px at 20% 30%, var(--look-stars), transparent),
+    radial-gradient(1px 1px at 70% 45%, var(--look-stars), transparent),
+    radial-gradient(1.5px 1.5px at 40% 60%, var(--look-stars), transparent),
+    radial-gradient(1px 1px at 85% 20%, var(--look-stars), transparent),
+    radial-gradient(1px 1px at 10% 75%, var(--look-stars), transparent),
+    radial-gradient(130% 65% at 50% 115%, color-mix(in oklab, var(--accent) var(--look-glow), transparent), transparent 70%),
+    radial-gradient(70% 45% at 100% 60%, color-mix(in oklab, #6c74ff 10%, transparent), transparent 70%),
+    linear-gradient(var(--paper-tint), var(--paper-tint)),
+    var(--paper);
+}
+html[data-look='B']::before { background-size: 240px 300px, 240px 300px, 240px 300px, 240px 300px, 240px 300px, auto, auto, auto, auto; background-repeat: repeat, repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat; }
+[data-look='B'] .display-title { font-weight: 450; letter-spacing: -0.015em; }
+[data-look='B'] .numeral { font-weight: 400; }
+[data-look='B'] .numeral-list { font-family: var(--font-numeral); font-size: 19px; font-weight: 450; color: var(--accent-ink); }
+[data-look='B'] .eyebrow { letter-spacing: 0.14em; }
+[data-look='B'] .rounded-2xl { border-radius: 22px; }
+[data-look='B'] .tap-pad.rounded-full[class*='bg-[var(--accent)]'] {
+  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent) 40%, transparent), 0 6px 24px color-mix(in oklab, var(--accent) 45%, transparent);
+}
+
+/* ——— C · Signal — contemporary Swiss: graph-paper ground, tight sans, square corners ——— */
+html:root[data-look='C']:not(.dark) {
+  --paper: #fbfbfa;
+  --paper-raised: #f1f1ef;
+  --glass: rgba(251, 251, 250, 0.86);
+  --ink: #0b0b0c;
+  --ink-2: #48484c;
+  --ink-3: #5f5f66;
+  --line: rgba(11, 11, 12, 0.12);
+  --line-strong: rgba(11, 11, 12, 0.24);
+  --grain-opacity: 0;
+  --shadow-soft: 0 0 0 1px var(--line);
+  --shadow-float: 0 0 0 1px var(--line-strong), 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+html:root.dark[data-look='C'] {
+  --paper: #0a0a0b;
+  --paper-raised: #161618;
+  --glass: rgba(10, 10, 11, 0.84);
+  --ink: #f5f5f4;
+  --ink-2: #a8a8ad;
+  --ink-3: #8c8c93;
+  --line: rgba(245, 245, 244, 0.12);
+  --line-strong: rgba(245, 245, 244, 0.24);
+  --grain-opacity: 0;
+  --shadow-soft: 0 0 0 1px var(--line);
+  --shadow-float: 0 0 0 1px var(--line-strong), 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+html:root[data-look='C'] {
+  --font-ui: "Inter Tight", -apple-system, system-ui, sans-serif;
+  --font-serif: "Inter Tight", -apple-system, system-ui, sans-serif;
+  --font-numeral: "Inter Tight", -apple-system, system-ui, sans-serif;
+  --look-bg:
+    linear-gradient(90deg, color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(var(--paper-tint), var(--paper-tint)),
+    var(--paper);
+}
+[data-look='C'] .display-title { font-weight: 700; letter-spacing: -0.035em; }
+[data-look='C'] .numeral,
+[data-look='C'] .numeral-list { font-weight: 750; letter-spacing: -0.02em; }
+[data-look='C'] .numeral-list { color: var(--accent-ink); }
+[data-look='C'] .eyebrow { font-weight: 700; letter-spacing: 0.08em; }
+[data-look='C'] .tap-pad.rounded-full { text-transform: uppercase; letter-spacing: 0.06em; font-size: 11.5px; font-weight: 700; }
+[data-look='C'] [class*='rounded-']:not([class*='rounded-full']) { border-radius: 4px; }

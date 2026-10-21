@@ -2,6 +2,25 @@
 import { useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons'
 
+// PROTOTYPE — three visual directions over the unchanged layout, ?variant=now|A|B|C.
+// Each look is a token set in src/components/prototype/looks.css keyed on <html data-look>.
+const LOOKS = [
+  { key: 'now', name: 'Current' },
+  { key: 'A', name: 'Gilt hymnal' },
+  { key: 'B', name: 'Vespers' },
+  { key: 'C', name: 'Signal' },
+]
+
+export function LookSwitcher() {
+  const [look, setLook] = useVariant(LOOKS.map((l) => l.key))
+  useEffect(() => {
+    const root = document.documentElement
+    if (look === 'now') delete root.dataset.look
+    else root.dataset.look = look
+  }, [look])
+  return <PrototypeSwitcher variants={LOOKS} current={look} onChange={setLook} />
+}
+
 export function useVariant(keys: string[]) {
   const read = () => {
     const v = new URLSearchParams(location.search).get('variant')

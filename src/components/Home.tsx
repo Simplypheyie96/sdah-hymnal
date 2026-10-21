@@ -4,16 +4,6 @@ import { LANGS, type Hymn, type LangCode } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { KeypadIcon, SearchIcon } from './icons'
 import { NumberPad } from './NumberPad'
-import { LeadBoard, LeadContents, LeadShelves, type LeadProps } from './prototype/HomeLeads'
-import { PrototypeSwitcher, useVariant } from './prototype/PrototypeSwitcher'
-
-// PROTOTYPE — lead-section directions, ?variant=now|A|B|C
-const VARIANTS = [
-  { key: 'now', name: 'Current' },
-  { key: 'A', name: 'Hymn board' },
-  { key: 'B', name: 'Contents page' },
-  { key: 'C', name: 'Shelves' },
-]
 
 /** Strip case and diacritics so a phone keyboard without Yorùbá tone marks
  *  still finds Mímọ́ by typing "mimo". */
@@ -144,20 +134,8 @@ export function Home({
   }, [hymns, query, category, lyricsIndex])
 
 
-  const [variant, setVariant] = useVariant(VARIANTS.map((v) => v.key))
-  const lead: LeadProps = {
-    hymns, chips, category, setCategory, query, setQuery,
-    openPad: () => setPadOpen(true), onOpen, lang, onLang,
-    title: activeHymnal?.hymnalTitle ?? 'Hymnal',
-  }
-
   return (
     <div className="pb-36">
-      <PrototypeSwitcher variants={VARIANTS} current={variant} onChange={setVariant} />
-      {variant === 'A' && <LeadBoard {...lead} />}
-      {variant === 'B' && <LeadContents {...lead} />}
-      {variant === 'C' && <LeadShelves {...lead} />}
-      {variant === 'now' && (<>
       {/* Masthead */}
       <header className="px-6 pt-[max(env(safe-area-inset-top),28px)]">
         <p className="rise-in eyebrow pt-8 text-[var(--accent-ink)] opacity-75">
@@ -244,8 +222,6 @@ export function Home({
           )
         })}
       </div>
-
-      </>)}
 
       {/* List */}
       <div className="mt-4">
