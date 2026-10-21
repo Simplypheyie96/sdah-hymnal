@@ -153,7 +153,7 @@ export function Home({
               key={l.code}
               onClick={() => onLang(l.code)}
               title={l.hymnalTitle}
-              className={`hairline rounded-full px-4 py-1.5 text-[12.5px] font-semibold transition-all duration-250 ${
+              className={`tap-pad hairline rounded-full px-4 py-1.5 text-[12.5px] font-semibold transition-all duration-250 ${
                 lang === l.code
                   ? 'bg-[var(--accent)] text-[var(--accent-contrast)]'
                   : 'glass text-[var(--ink-2)] hover:text-[var(--ink)]'
@@ -167,7 +167,8 @@ export function Home({
 
       {/* Search: free text, plus a dedicated number field that jumps straight
           to a hymn. Both are always available. */}
-      <div className="rise-in sticky top-0 z-30 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
+      <div className="rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
+        <div aria-hidden className="top-scrim" />
         <div className="flex items-stretch gap-2.5">
           <label className="glass hairline group flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30">
             <SearchIcon className="shrink-0 text-[var(--ink-3)] transition-colors group-focus-within:text-[var(--accent-ink)]" />
@@ -210,7 +211,7 @@ export function Home({
             <button
               key={c ?? 'all'}
               onClick={() => setCategory(active ? null : c)}
-              className={`hairline shrink-0 rounded-full px-4 py-2 text-[13px] font-medium transition-all duration-250 ${
+              className={`tap-pad hairline shrink-0 rounded-full px-4 py-2 text-[13px] font-medium transition-all duration-250 ${
                 active || (c === null && category === null)
                   ? 'bg-[var(--accent)] text-[var(--accent-contrast)] shadow-[var(--shadow-soft)]'
                   : 'glass text-[var(--ink-2)] hover:text-[var(--ink)]'

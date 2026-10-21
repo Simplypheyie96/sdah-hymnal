@@ -25,7 +25,7 @@ export function Favorites({
       {items.length === 0 ? (
         <div className="rise-in px-8 pt-24 text-center" style={{ animationDelay: '140ms' }}>
           <div className="hairline mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--paper-raised)] text-[var(--ink-3)]">
-            <HeartIcon size={26} strokeWidth={1.5} />
+            <HeartIcon size={26} />
           </div>
           <p className="font-lyrics mt-7 text-[21px] text-[var(--ink-2)]">No favorites yet</p>
           <p className="mx-auto mt-2.5 max-w-[260px] text-[13.5px] leading-relaxed text-[var(--ink-3)]">
