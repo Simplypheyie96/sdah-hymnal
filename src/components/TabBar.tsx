@@ -23,10 +23,13 @@ export function TabBar({
   const big = useMediaQuery('(min-width: 768px)')
   return (
     <nav
-      className={`fixed bottom-0 z-40 pb-[max(env(safe-area-inset-bottom),16px)] pt-2 pointer-events-none ${
-        dock === 'left' ? 'left-0 w-[400px]' : 'inset-x-0'
+      className={`bottom-0 z-40 pb-[max(env(safe-area-inset-bottom),16px)] pt-2 pointer-events-none ${
+        // Docked: stick to the foot of the sidebar it serves, wherever the
+        // centred two-pane layout puts that sidebar.
+        dock === 'left' ? 'sticky' : 'fixed inset-x-0'
       }`}
     >
+      <div aria-hidden className="bottom-scrim" />
       <div className="mx-auto w-fit pointer-events-auto">
         {/* The container's ends are semicircles, so the space available at the
             active pill's *corner* is far less than the flat padding suggests:

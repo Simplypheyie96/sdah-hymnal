@@ -149,6 +149,7 @@ export default function App() {
         {splash}
         <aside className="w-[400px] shrink-0 overflow-y-auto border-r border-[var(--line)]">
           <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
+          <TabBar tab={tab} onChange={changeTab} dock="left" />
         </aside>
         <main className="relative flex flex-1 flex-col overflow-y-auto">
           {hymnProps ? (
@@ -162,7 +163,7 @@ export default function App() {
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center pb-24 text-center">
               <div className="hairline flex h-16 w-16 items-center justify-center rounded-full bg-[var(--paper-raised)] text-[var(--ink-3)]">
-                <BookIcon size={26} strokeWidth={1.5} />
+                <BookIcon size={26} />
               </div>
               <p className="font-lyrics mt-7 text-[21px] text-[var(--ink-2)]">Select a hymn</p>
               <p className="mx-auto mt-2.5 max-w-[260px] text-[13.5px] leading-relaxed text-[var(--ink-3)]">
@@ -171,7 +172,6 @@ export default function App() {
             </div>
           )}
         </main>
-        <TabBar tab={tab} onChange={changeTab} dock="left" />
         <UpdatePrompt show={needRefresh} onRefresh={refresh} />
         <AnimatePresence>{presenter}</AnimatePresence>
       </div>

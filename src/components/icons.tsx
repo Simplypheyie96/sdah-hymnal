@@ -1,157 +1,125 @@
-type IconProps = { size?: number; strokeWidth?: number; className?: string; filled?: boolean }
+// Remix Icon (remixicon.com, Apache-2.0). Filled paths inside a padded 24px box,
+// so nothing reaches the edge and clips at small sizes.
+type IconProps = { size?: number; className?: string; filled?: boolean }
 
-const base = (size: number) => ({
-  width: size,
-  height: size,
-  viewBox: '0 0 24 24',
-  fill: 'none',
-  stroke: 'currentColor',
-  strokeLinecap: 'round' as const,
-  strokeLinejoin: 'round' as const,
-})
+const base = (size: number) => ({ width: size, height: size, viewBox: '0 0 24 24', fill: 'currentColor', 'aria-hidden': true })
 
-export function BookIcon({ size = 22, strokeWidth = 1.7, className }: IconProps) {
+export function BookIcon({ size = 22, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <path d="M12 6.5C10.6 5 8.6 4.25 6 4.25c-1 0-1.9.12-2.75.36V18.4c.85-.24 1.75-.36 2.75-.36 2.6 0 4.6.75 6 2.21 1.4-1.46 3.4-2.21 6-2.21 1 0 1.9.12 2.75.36V4.61A10.6 10.6 0 0 0 18 4.25c-2.6 0-4.6.75-6 2.25Z" />
-      <path d="M12 6.5v13.75" />
+    <svg {...base(size)} className={className}>
+      <path d="M13 21V23H11V21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H9C10.1947 3 11.2671 3.52375 12 4.35418C12.7329 3.52375 13.8053 3 15 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H13ZM20 19V5H15C13.8954 5 13 5.89543 13 7V19H20ZM11 19V7C11 5.89543 10.1046 5 9 5H4V19H11Z" />
     </svg>
   )
 }
 
-export function HeartIcon({ size = 22, strokeWidth = 1.7, className, filled }: IconProps) {
+export function HeartIcon({ size = 22, className, filled }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className} fill={filled ? 'currentColor' : 'none'}>
-      <path d="M12 20.25S3.75 15.5 3.75 9.75a4.5 4.5 0 0 1 8.25-2.48 4.5 4.5 0 0 1 8.25 2.48c0 5.75-8.25 10.5-8.25 10.5Z" />
+    <svg {...base(size)} className={className}>
+      <path d={filled ? 'M16.5 3C19.5376 3 22 5.5 22 9C22 16 14.5 20 12 21.5C9.5 20 2 16 2 9C2 5.5 4.5 3 7.5 3C9.35997 3 11 4 12 5C13 4 14.64 3 16.5 3Z' : 'M16.5 3C19.5376 3 22 5.5 22 9C22 16 14.5 20 12 21.5C9.5 20 2 16 2 9C2 5.5 4.5 3 7.5 3C9.35997 3 11 4 12 5C13 4 14.64 3 16.5 3ZM12.9339 18.6038C13.8155 18.0485 14.61 17.4955 15.3549 16.9029C18.3337 14.533 20 11.9435 20 9C20 6.64076 18.463 5 16.5 5C15.4241 5 14.2593 5.56911 13.4142 6.41421L12 7.82843L10.5858 6.41421C9.74068 5.56911 8.5759 5 7.5 5C5.55906 5 4 6.6565 4 9C4 11.9435 5.66627 14.533 8.64514 16.9029C9.39 17.4955 10.1845 18.0485 11.0661 18.6038C11.3646 18.7919 11.6611 18.9729 12 19.1752C12.3389 18.9729 12.6354 18.7919 12.9339 18.6038Z'} />
     </svg>
   )
 }
 
-export function GearIcon({ size = 22, strokeWidth = 1.7, className }: IconProps) {
+export function GearIcon({ size = 22, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <circle cx="12" cy="12" r="3.1" />
-      <path d="M19.4 13.5a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56v.17a2 2 0 1 1-4 0v-.17a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.88 1.7 1.7 0 0 0-1.56-1.03h-.17a2 2 0 1 1 0-4h.17a1.7 1.7 0 0 0 1.56-1.03 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.88.34h.09a1.7 1.7 0 0 0 .94-1.56v-.17a2 2 0 1 1 4 0v.17a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.88v.09a1.7 1.7 0 0 0 1.56.94h.17a2 2 0 1 1 0 4h-.17a1.7 1.7 0 0 0-1.56 1.03Z" />
+    <svg {...base(size)} className={className}>
+      <path d="M3.33946 17.0002C2.90721 16.2515 2.58277 15.4702 2.36133 14.6741C3.3338 14.1779 3.99972 13.1668 3.99972 12.0002C3.99972 10.8345 3.3348 9.824 2.36353 9.32741C2.81025 7.71651 3.65857 6.21627 4.86474 4.99001C5.7807 5.58416 6.98935 5.65534 7.99972 5.072C9.01009 4.48866 9.55277 3.40635 9.4962 2.31604C11.1613 1.8846 12.8847 1.90004 14.5031 2.31862C14.4475 3.40806 14.9901 4.48912 15.9997 5.072C17.0101 5.65532 18.2187 5.58416 19.1346 4.99007C19.7133 5.57986 20.2277 6.25151 20.66 7.00021C21.0922 7.7489 21.4167 8.53025 21.6381 9.32628C20.6656 9.82247 19.9997 10.8336 19.9997 12.0002C19.9997 13.166 20.6646 14.1764 21.6359 14.673C21.1892 16.2839 20.3409 17.7841 19.1347 19.0104C18.2187 18.4163 17.0101 18.3451 15.9997 18.9284C14.9893 19.5117 14.4467 20.5941 14.5032 21.6844C12.8382 22.1158 11.1148 22.1004 9.49633 21.6818C9.55191 20.5923 9.00929 19.5113 7.99972 18.9284C6.98938 18.3451 5.78079 18.4162 4.86484 19.0103C4.28617 18.4205 3.77172 17.7489 3.33946 17.0002ZM8.99972 17.1964C10.0911 17.8265 10.8749 18.8227 11.2503 19.9659C11.7486 20.0133 12.2502 20.014 12.7486 19.9675C13.1238 18.8237 13.9078 17.8268 14.9997 17.1964C16.0916 16.5659 17.347 16.3855 18.5252 16.6324C18.8146 16.224 19.0648 15.7892 19.2729 15.334C18.4706 14.4373 17.9997 13.2604 17.9997 12.0002C17.9997 10.74 18.4706 9.5632 19.2729 8.6665C19.1688 8.4405 19.0538 8.21822 18.9279 8.00021C18.802 7.78219 18.667 7.57148 18.5233 7.36842C17.3457 7.61476 16.0911 7.43414 14.9997 6.80405C13.9083 6.17395 13.1246 5.17768 12.7491 4.03455C12.2509 3.98714 11.7492 3.98646 11.2509 4.03292C10.8756 5.17671 10.0916 6.17364 8.99972 6.80405C7.9078 7.43447 6.65245 7.61494 5.47428 7.36803C5.18485 7.77641 4.93463 8.21117 4.72656 8.66637C5.52881 9.56311 5.99972 10.74 5.99972 12.0002C5.99972 13.2604 5.52883 14.4372 4.72656 15.3339C4.83067 15.5599 4.94564 15.7822 5.07152 16.0002C5.19739 16.2182 5.3324 16.4289 5.47612 16.632C6.65377 16.3857 7.90838 16.5663 8.99972 17.1964ZM11.9997 15.0002C10.3429 15.0002 8.99972 13.6571 8.99972 12.0002C8.99972 10.3434 10.3429 9.00021 11.9997 9.00021C13.6566 9.00021 14.9997 10.3434 14.9997 12.0002C14.9997 13.6571 13.6566 15.0002 11.9997 15.0002ZM11.9997 13.0002C12.552 13.0002 12.9997 12.5525 12.9997 12.0002C12.9997 11.4479 12.552 11.0002 11.9997 11.0002C11.4474 11.0002 10.9997 11.4479 10.9997 12.0002C10.9997 12.5525 11.4474 13.0002 11.9997 13.0002Z" />
     </svg>
   )
 }
 
-export function SearchIcon({ size = 18, strokeWidth = 1.8, className }: IconProps) {
+export function SearchIcon({ size = 18, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <circle cx="11" cy="11" r="6.5" />
-      <path d="m20 20-3.4-3.4" />
+    <svg {...base(size)} className={className}>
+      <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z" />
     </svg>
   )
 }
 
-export function ChevronLeftIcon({ size = 22, strokeWidth = 1.9, className }: IconProps) {
+export function ChevronLeftIcon({ size = 22, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <path d="m14.5 5.5-6.5 6.5 6.5 6.5" />
+    <svg {...base(size)} className={className}>
+      <path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z" />
     </svg>
   )
 }
 
-export function ChevronRightIcon({ size = 22, strokeWidth = 1.9, className }: IconProps) {
+export function ChevronRightIcon({ size = 22, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <path d="m9.5 5.5 6.5 6.5-6.5 6.5" />
+    <svg {...base(size)} className={className}>
+      <path d="M13.1717 12.0007L8.22192 7.05093L9.63614 5.63672L16.0001 12.0007L9.63614 18.3646L8.22192 16.9504L13.1717 12.0007Z" />
     </svg>
   )
 }
 
-export function ShareIcon({ size = 20, strokeWidth = 1.7, className }: IconProps) {
+export function ShareIcon({ size = 20, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <path d="M12 3.5v12" />
-      <path d="m8 7 4-3.5L16 7" />
-      <path d="M5.5 11.5v7a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-7" />
+    <svg {...base(size)} className={className}>
+      <path d="M4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19ZM13 9V16H11V9H6L12 3L18 9H13Z" />
     </svg>
   )
 }
 
-export function CastIcon({ size = 19, strokeWidth = 1.7, className }: IconProps) {
+export function CastIcon({ size = 19, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <path d="M3.5 6.5A2 2 0 0 1 5.5 4.5h13a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-5" />
-      <path d="M3.5 12.5a6 6 0 0 1 6 6" />
-      <path d="M3.5 16.5a2.5 2.5 0 0 1 2.5 2.5" />
-      <circle cx="3.9" cy="19.6" r="0.9" fill="currentColor" stroke="none" />
+    <svg {...base(size)} className={className}>
+      <path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H15C15 20.3199 14.9478 19.6519 14.8471 19H20V5H4V8.1529C3.34806 8.05223 2.68013 8 2 8V4C2 3.44772 2.44772 3 3 3ZM13 21H11C11 16.0294 6.97056 12 2 12V10C8.07513 10 13 14.9249 13 21ZM9 21H7C7 18.2386 4.76142 16 2 16V14C5.86599 14 9 17.134 9 21ZM5 21H2V18C3.65685 18 5 19.3431 5 21Z" />
     </svg>
   )
 }
 
-export function KeypadIcon({ size = 19, strokeWidth = 1.7, className }: IconProps) {
+export function KeypadIcon({ size = 19, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <circle cx="6" cy="6" r="1.15" fill="currentColor" stroke="none" />
-      <circle cx="12" cy="6" r="1.15" fill="currentColor" stroke="none" />
-      <circle cx="18" cy="6" r="1.15" fill="currentColor" stroke="none" />
-      <circle cx="6" cy="12" r="1.15" fill="currentColor" stroke="none" />
-      <circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none" />
-      <circle cx="18" cy="12" r="1.15" fill="currentColor" stroke="none" />
-      <circle cx="6" cy="18" r="1.15" fill="currentColor" stroke="none" />
-      <circle cx="12" cy="18" r="1.15" fill="currentColor" stroke="none" />
-      <circle cx="18" cy="18" r="1.15" fill="currentColor" stroke="none" />
+    <svg {...base(size)} className={className}>
+      <path d="M7.78428 14L8.2047 10H4V8H8.41491L8.94043 3H10.9514L10.4259 8H14.4149L14.9404 3H16.9514L16.4259 8H20V10H16.2157L15.7953 14H20V16H15.5851L15.0596 21H13.0486L13.5741 16H9.58509L9.05957 21H7.04855L7.57407 16H4V14H7.78428ZM9.7953 14H13.7843L14.2047 10H10.2157L9.7953 14Z" />
     </svg>
   )
 }
 
-export function PresentIcon({ size = 20, strokeWidth = 1.7, className }: IconProps) {
+export function PresentIcon({ size = 20, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <rect x="3" y="4.5" width="18" height="12.5" rx="2" />
-      <path d="M12 17v3.5" />
-      <path d="M8.5 20.5h7" />
+    <svg {...base(size)} className={className}>
+      <path d="M13 18V20H17V22H7V20H11V18H3C2.44772 18 2 17.5523 2 17V4C2 3.44772 2.44772 3 3 3H21C21.5523 3 22 3.44772 22 4V17C22 17.5523 21.5523 18 21 18H13ZM4 5V16H20V5H4ZM10 7.5L15 10.5L10 13.5V7.5Z" />
     </svg>
   )
 }
 
-export function PlayIcon({ size = 20, strokeWidth = 1.7, className }: IconProps) {
+export function PlayIcon({ size = 20, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className} fill="currentColor" stroke="none">
-      <path d="M8.5 5.8v12.4a.6.6 0 0 0 .92.5l9.4-6.2a.6.6 0 0 0 0-1l-9.4-6.2a.6.6 0 0 0-.92.5Z" />
+    <svg {...base(size)} className={className}>
+      <path d="M16.3944 12.0001L10 7.7371V16.263L16.3944 12.0001ZM19.376 12.4161L8.77735 19.4818C8.54759 19.635 8.23715 19.5729 8.08397 19.3432C8.02922 19.261 8 19.1645 8 19.0658V4.93433C8 4.65818 8.22386 4.43433 8.5 4.43433C8.59871 4.43433 8.69522 4.46355 8.77735 4.5183L19.376 11.584C19.6057 11.7372 19.6678 12.0477 19.5146 12.2774C19.478 12.3323 19.4309 12.3795 19.376 12.4161Z" />
     </svg>
   )
 }
 
 export function PauseIcon({ size = 20, className }: IconProps) {
   return (
-    <svg {...base(size)} className={className} fill="currentColor" stroke="none">
-      <rect x="7" y="5.5" width="3.4" height="13" rx="1" />
-      <rect x="13.6" y="5.5" width="3.4" height="13" rx="1" />
+    <svg {...base(size)} className={className}>
+      <path d="M6 5H8V19H6V5ZM16 5H18V19H16V5Z" />
     </svg>
   )
 }
 
-export function MusicOffIcon({ size = 20, strokeWidth = 1.7, className }: IconProps) {
+export function MusicOffIcon({ size = 20, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <path d="M9.5 17.5V8.7l9-2.2v8" />
-      <circle cx="7" cy="17.5" r="2.5" />
-      <circle cx="16" cy="16.5" r="2.5" />
-      <path d="m4 4 16 16" />
+    <svg {...base(size)} className={className}>
+      <path d="M10 7.22056L6.60282 10.0001H3V14.0001H6.60282L10 16.7796V7.22056ZM5.88889 16.0001H2C1.44772 16.0001 1 15.5524 1 15.0001V9.00007C1 8.44778 1.44772 8.00007 2 8.00007H5.88889L11.1834 3.66821C11.3971 3.49335 11.7121 3.52485 11.887 3.73857C11.9601 3.8279 12 3.93977 12 4.05519V19.9449C12 20.2211 11.7761 20.4449 11.5 20.4449C11.3846 20.4449 11.2727 20.405 11.1834 20.3319L5.88889 16.0001ZM20.4142 12.0001L23.9497 15.5356L22.5355 16.9498L19 13.4143L15.4645 16.9498L14.0503 15.5356L17.5858 12.0001L14.0503 8.46454L15.4645 7.05032L19 10.5859L22.5355 7.05032L23.9497 8.46454L20.4142 12.0001Z" />
     </svg>
   )
 }
 
-// A down arrow settling into a tray — the mirror of ShareIcon's arrow-out-of-a-
-// tray, so "install" reads as the opposite gesture to "share".
-export function InstallIcon({ size = 20, strokeWidth = 1.7, className }: IconProps) {
+export function InstallIcon({ size = 20, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <path d="M12 3.5v10.5" />
-      <path d="m8 10 4 4 4-4" />
-      <path d="M5.5 15.5v3a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3" />
+    <svg {...base(size)} className={className}>
+      <path d="M13 10H18L12 16L6 10H11V3H13V10ZM4 19H20V12H22V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V12H4V19Z" />
     </svg>
   )
 }
 
-export function CheckIcon({ size = 20, strokeWidth = 1.9, className }: IconProps) {
+export function CheckIcon({ size = 20, className }: IconProps) {
   return (
-    <svg {...base(size)} strokeWidth={strokeWidth} className={className}>
-      <path d="m5 12.5 4.5 4.5L19 7" />
+    <svg {...base(size)} className={className}>
+      <path d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z" />
     </svg>
   )
 }
