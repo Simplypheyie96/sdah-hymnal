@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { AnimatePresence } from 'motion/react'
 import { LANGS, type Hymn, type LangCode } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
-import { ArrowRightIcon, KeypadIcon, MusicIcon, SearchIcon, ShuffleIcon } from './icons'
+import { KeypadIcon, MusicIcon, SearchIcon } from './icons'
 import { PrototypeSwitcher, useVariant } from './prototype/PrototypeSwitcher'
 import { NumberPad } from './NumberPad'
 
@@ -77,9 +77,9 @@ function HymnRow({
 
 // PROTOTYPE — three mastheads, ?variant=a|b|c.
 const MASTHEADS = [
-  { key: 'a', name: 'A · Hymn of the day' },
+  { key: 'a', name: 'A · Wordmark' },
   { key: 'b', name: 'B · Title page' },
-  { key: 'c', name: 'C · Greeting' },
+  { key: 'c', name: 'C · Lockup' },
 ]
 
 function LangSwitch({ lang, onLang, segmented }: { lang: LangCode; onLang: (l: LangCode) => void; segmented?: boolean }) {
@@ -103,31 +103,21 @@ function LangSwitch({ lang, onLang, segmented }: { lang: LangCode; onLang: (l: L
   )
 }
 
-function greeting(d: Date) {
-  const day = d.getDay(), h = d.getHours()
-  if ((day === 5 && h >= 18) || (day === 6 && h < 18)) return 'Happy Sabbath'
-  return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening'
-}
-
 function Masthead({
   variant,
   hymns,
   lang,
   onLang,
-  onOpen,
 }: {
   variant: string
   hymns: Hymn[]
   lang: LangCode
   onLang: (l: LangCode) => void
-  onOpen: (songId: string) => void
 }) {
   const now = new Date()
   const title = lang === 'en' ? 'Hymnal' : LANGS.find((l) => l.code === lang)?.hymnalTitle
   const date = now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })
-  const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 864e5)
   const songs = hymns.filter((h) => h.kind === 'hymn')
-  const today = songs.length ? songs[dayOfYear % songs.length] : undefined
   const pad = 'px-6 pt-[max(env(safe-area-inset-top),28px)]'
 
   if (variant === 'b')
@@ -157,60 +147,35 @@ function Masthead({
   if (variant === 'c')
     return (
       <header className={pad}>
-        <div className="rise-in flex items-center justify-between gap-4 pt-4">
-          <span className="display-title truncate text-[22px] leading-none text-[var(--accent-ink)]">{title}</span>
-          <LangSwitch lang={lang} onLang={onLang} segmented />
+        <div className="rise-in flex items-center gap-4 pt-8">
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[var(--accent)] text-[var(--accent-contrast)] shadow-[var(--shadow-soft)]">
+            <MusicIcon size={26} />
+          </span>
+          <div className="min-w-0">
+            <p className="eyebrow text-[var(--ink-2)]">Seventh-day Adventist</p>
+            <h1 className="display-title mt-1.5 truncate text-[34px] leading-none tracking-[-0.02em] text-[var(--accent-ink)]">{title}</h1>
+          </div>
         </div>
-        <p className="rise-in eyebrow mt-10 text-[var(--ink-2)]" style={{ animationDelay: '40ms' }}>
-          {date}
-        </p>
-        <h1
-          className="rise-in display-title mt-2 text-[40px] leading-[1.05] tracking-[-0.02em] text-[var(--ink)]"
-          style={{ animationDelay: '60ms' }}
-        >
-          {greeting(now)},
-          <br />
-          <em className="text-[var(--accent-ink)]">what shall we sing?</em>
-        </h1>
-        {today && (
-          <button
-            onClick={() => onOpen(songs[Math.floor(Math.random() * songs.length)].songId)}
-            className="rise-in glass hairline mt-5 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold text-[var(--ink-2)] transition-colors hover:text-[var(--ink)]"
-            style={{ animationDelay: '90ms' }}
-          >
-            <ShuffleIcon size={16} className="text-[var(--accent-ink)]" />
-            Surprise me
-          </button>
-        )}
+        <div className="rise-in mt-5" style={{ animationDelay: '90ms' }}>
+          <LangSwitch lang={lang} onLang={onLang} />
+        </div>
       </header>
     )
 
   return (
     <header className={pad}>
-      <p className="rise-in eyebrow pt-8 text-[var(--accent-ink)] opacity-75">Seventh-day Adventist</p>
+      <div className="rise-in flex items-center justify-between gap-4 pt-4">
+        <p className="eyebrow text-[var(--accent-ink)] opacity-75">Seventh-day Adventist</p>
+        <LangSwitch lang={lang} onLang={onLang} segmented />
+      </div>
       <h1
-        className="rise-in display-title mt-1.5 text-[44px] leading-none tracking-[-0.02em] text-[var(--accent-ink)]"
+        className={`rise-in display-title mt-7 leading-[0.85] tracking-[-0.045em] text-[var(--accent-ink)] ${
+          (title?.length ?? 0) > 8 ? 'text-[clamp(52px,15vw,76px)]' : 'text-[clamp(72px,27vw,112px)]'
+        }`}
         style={{ animationDelay: '60ms' }}
       >
         {title}
       </h1>
-      <div className="rise-in mt-4" style={{ animationDelay: '90ms' }}>
-        <LangSwitch lang={lang} onLang={onLang} />
-      </div>
-      {today && (
-        <button
-          onClick={() => onOpen(today.songId)}
-          className="rise-in glass hairline group mt-6 flex w-full items-center gap-5 rounded-3xl px-5 py-4 text-left shadow-[var(--shadow-soft)] transition-shadow hover:shadow-[var(--shadow-float)]"
-          style={{ animationDelay: '110ms' }}
-        >
-          <span className="numeral w-14 shrink-0 text-center text-[48px] leading-none text-[var(--accent-ink)]">{today.number}</span>
-          <span className="min-w-0 flex-1">
-            <span className="eyebrow block text-[var(--ink-2)]">Hymn of the day</span>
-            <span className="font-lyrics mt-1 block truncate text-[19px] text-[var(--ink)]">{today.title}</span>
-          </span>
-          <ArrowRightIcon className="shrink-0 text-[var(--accent-ink)] transition-transform group-hover:translate-x-0.5" />
-        </button>
-      )}
     </header>
   )
 }
@@ -279,7 +244,7 @@ export function Home({
   return (
     <div className="pb-36">
       <PrototypeSwitcher variants={MASTHEADS} current={masthead} onChange={setMasthead} />
-      <Masthead variant={masthead} hymns={hymns} lang={lang} onLang={onLang} onOpen={onOpen} />
+      <Masthead variant={masthead} hymns={hymns} lang={lang} onLang={onLang} />
 
       {/* Search: free text, plus a dedicated number field that jumps straight
           to a hymn. Both are always available. */}
