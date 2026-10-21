@@ -15,8 +15,8 @@ html:root[data-look]:not(.dark) {
   --paper-raised: oklch(99.5% calc(0.004 * var(--k)) var(--h) / 0.72);
   --glass: oklch(97.5% calc(0.008 * var(--k)) var(--h) / 0.72);
   --ink: oklch(22% calc(0.02 * var(--k)) var(--h));
-  --ink-2: oklch(40% calc(0.025 * var(--k)) var(--h));
-  --ink-3: oklch(47% calc(0.025 * var(--k)) var(--h));
+  --ink-2: oklch(32% calc(0.025 * var(--k)) var(--h));
+  --ink-3: oklch(38% calc(0.025 * var(--k)) var(--h));
   --line: oklch(22% calc(0.02 * var(--k)) var(--h) / 0.1);
   --line-strong: oklch(22% calc(0.02 * var(--k)) var(--h) / 0.18);
   --paper-tint: transparent;
@@ -26,8 +26,8 @@ html:root.dark[data-look] {
   --paper-raised: oklch(100% 0 0 / 0.05);
   --glass: oklch(17% calc(0.015 * var(--k)) var(--h) / 0.7);
   --ink: oklch(95% calc(0.01 * var(--k)) var(--h));
-  --ink-2: oklch(80% calc(0.02 * var(--k)) var(--h));
-  --ink-3: oklch(70% calc(0.02 * var(--k)) var(--h));
+  --ink-2: oklch(87% calc(0.02 * var(--k)) var(--h));
+  --ink-3: oklch(81% calc(0.02 * var(--k)) var(--h));
   --line: oklch(95% 0 0 / 0.1);
   --line-strong: oklch(95% 0 0 / 0.18);
   --paper-tint: transparent;
@@ -77,7 +77,7 @@ html[data-look] .bottom-scrim {
 html:root[data-look='1']:not([data-accent]) { --mask: url('./bg/mono-1.svg'); }
 html:root[data-look='1']:not([data-accent]):not(.dark) {
   --look-bg: var(--paper);
-  --motif: oklch(25% 0 0 / .8);
+  --motif: oklch(50% 0 0 / .45);
 }
 html:root.dark[data-look='1']:not([data-accent]) {
   --look-bg: var(--paper);
@@ -118,7 +118,7 @@ html:root.dark[data-look='1'][data-accent='sage'] {
 html:root[data-look='2'][data-accent='sage'] { --mask: url('./bg/sage-2.svg'); }
 html:root[data-look='2'][data-accent='sage']:not(.dark) {
   --look-bg: var(--paper);
-  --motif: oklch(50% .08 150 / .7);
+  --motif: oklch(62% .07 150 / .5);
 }
 html:root.dark[data-look='2'][data-accent='sage'] {
   --look-bg: var(--paper);
@@ -160,7 +160,7 @@ html:root[data-look='2'][data-accent='rose'] { --font-serif: "Cormorant Garamond
 html:root[data-look='3'][data-accent='rose'] { --mask: url('./bg/rose-3.svg'); }
 html:root[data-look='3'][data-accent='rose']:not(.dark) {
   --look-bg: oklch(97% .012 8);
-  --motif: oklch(60% .13 8 / .9);
+  --motif: oklch(70% .1 8 / .75);
 }
 html:root.dark[data-look='3'][data-accent='rose'] {
   --look-bg: oklch(16% .02 8);
@@ -180,7 +180,7 @@ html:root.dark[data-look='1'][data-accent='sky'] {
 html:root[data-look='2'][data-accent='sky'] { --mask: url('./bg/sky-2.svg'); }
 html:root[data-look='2'][data-accent='sky']:not(.dark) {
   --look-bg: linear-gradient(to bottom, oklch(96.5% .012 240), oklch(93% .03 220) 70%);
-  --motif: oklch(58% .1 235 / .9);
+  --motif: oklch(70% .08 235 / .7);
 }
 html:root.dark[data-look='2'][data-accent='sky'] {
   --look-bg: linear-gradient(to bottom, oklch(13% .02 255), oklch(21% .04 240) 70%);
