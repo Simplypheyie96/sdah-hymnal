@@ -3,15 +3,20 @@ import { useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons'
 import type { AccentChoice } from '../Settings'
 
-// PROTOTYPE — three backgrounds for each of the four themes over the unchanged layout,
+// PROTOTYPE — twelve designs, three of its own for each of the four themes, over the unchanged layout,
 // ?variant=now|mono-1…sky-3. Each look lives in src/components/prototype/looks.css keyed on
 // <html data-look>; the theme half of the key drives the app's real accent setting.
 const THEMES = ['mono', 'sage', 'rose', 'sky'] as const
-const NAMES = ['Halo', 'Dunes', 'Window light']
+const NAMES: Record<string, string[]> = {
+  mono: ['Ink wash', 'Moonrise', 'Folded paper'],
+  sage: ['Meadow', 'Olive branch', 'Dappled shade'],
+  rose: ['Petals', 'Rose window', 'Silk'],
+  sky: ['Cloud bank', 'Horizon', 'Aurora'],
+}
 const LOOKS = [
   { key: 'now', name: 'Current' },
   ...THEMES.flatMap((t) =>
-    NAMES.map((n, i) => ({ key: `${t}-${i + 1}`, name: `${t[0].toUpperCase()}${t.slice(1)} · ${n}` })),
+    NAMES[t].map((n, i) => ({ key: `${t}-${i + 1}`, name: `${t[0].toUpperCase()}${t.slice(1)} · ${n}` })),
   ),
 ]
 

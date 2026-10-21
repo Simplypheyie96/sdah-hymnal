@@ -1,7 +1,8 @@
-/* PROTOTYPE — three backgrounds per theme over the unchanged layout.
-   Keyed on <html data-look="1|2|3"> (set by LookSwitcher) and the app's own data-accent.
-   Every colour is built from the theme's one hue (--h) so nothing clashes; Mono runs the
-   same recipes at zero chroma. No lines, no grids: only soft-edged light and shape. */
+/* PROTOTYPE — twelve designs, each its own idea: three per theme, keyed on
+   <html data-look="1|2|3"> (set by LookSwitcher) plus the app's own data-accent.
+   ::before paints the sky (--look-bg); ::after paints one illustrated motif from bg/*.svg,
+   used as a mask and filled with --motif, so light and dark share the drawing but not the
+   colour. Every colour stays inside the theme's one hue. No lines, no grids. */
 
 html[data-look] { --h: 250; --k: 0; }
 html[data-look][data-accent='sage'] { --h: 158; --k: 1; }
@@ -41,83 +42,154 @@ html[data-look]::before {
   pointer-events: none;
   background: var(--look-bg);
 }
-/* Frosted chrome instead of flat paper bands, so the backgrounds run edge to edge. */
+html[data-look]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--motif);
+  -webkit-mask: var(--mask) bottom center / cover no-repeat;
+  mask: var(--mask) bottom center / cover no-repeat;
+}
+/* Chrome scrims as translucent paper that feathers out on every open side, so the
+   backgrounds run edge to edge with no box. (backdrop-filter is avoided: Chrome drops
+   the fade mask with it and shows a hard-edged slab.) */
 html[data-look] :is(.top-scrim, .bottom-scrim) {
-  background: color-mix(in oklab, var(--paper) 68%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(1.15);
-  backdrop-filter: blur(22px) saturate(1.15);
+  background: color-mix(in oklab, var(--paper) 82%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+html[data-look] .top-scrim {
+  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to bottom, #000 45%, transparent), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+html[data-look] .bottom-scrim {
+  -webkit-mask-image: linear-gradient(to top, #000 45%, transparent), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to top, #000 45%, transparent), linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 }
 
-/* ——— 1 · Halo — a soft sunrise of the theme colour rising from below ——— */
-html:root[data-look='1']:not(.dark) {
-  --look-bg:
-    radial-gradient(70% 38% at 50% 112%, oklch(84% calc(0.07 * var(--k)) var(--h)) 0 25%, transparent 70%),
-    radial-gradient(120% 70% at 50% 118%, oklch(90% calc(0.05 * var(--k)) var(--h)) 0 40%, transparent 72%),
-    radial-gradient(190% 115% at 50% 125%, oklch(94.5% calc(0.03 * var(--k)) var(--h)) 0 50%, transparent 80%),
-    var(--paper);
-}
-html:root.dark[data-look='1'] {
-  --look-bg:
-    radial-gradient(70% 38% at 50% 112%, oklch(46% calc(0.1 * var(--k)) var(--h)) 0 22%, transparent 70%),
-    radial-gradient(120% 70% at 50% 118%, oklch(31% calc(0.075 * var(--k)) var(--h)) 0 40%, transparent 72%),
-    radial-gradient(190% 115% at 50% 125%, oklch(23% calc(0.045 * var(--k)) var(--h)) 0 50%, transparent 80%),
-    var(--paper);
-}
-[data-look='1'] .tap-pad.rounded-full[class*='bg-[var(--accent)]'] {
-  box-shadow: 0 6px 22px color-mix(in oklab, var(--accent) 35%, transparent);
-}
 
-/* ——— 2 · Dunes — layered hills in tones of the theme colour, sky clear above ——— */
-html:root[data-look='2']:not(.dark) {
-  --ink-3: oklch(43% calc(0.03 * var(--k)) var(--h));
-  --look-bg:
-    radial-gradient(125% 26% at 12% 100%, oklch(85.5% calc(0.07 * var(--k)) var(--h)) 99%, transparent 100%),
-    radial-gradient(140% 38% at 92% 100%, oklch(89% calc(0.056 * var(--k)) var(--h)) 99%, transparent 100%),
-    radial-gradient(170% 52% at 22% 100%, oklch(92.2% calc(0.042 * var(--k)) var(--h)) 99%, transparent 100%),
-    radial-gradient(170% 66% at 88% 100%, oklch(95.3% calc(0.024 * var(--k)) var(--h)) 99%, transparent 100%),
-    var(--paper);
+/* mono 1 · Ink wash — sumi ink bleeding in from the lower corner, like a brush rested on wet paper */
+html:root[data-look='1']:not([data-accent]) { --mask: url('./bg/mono-1.svg'); }
+html:root[data-look='1']:not([data-accent]):not(.dark) {
+  --look-bg: var(--paper);
+  --motif: oklch(25% 0 0 / .8);
 }
-html:root.dark[data-look='2'] {
-  --look-bg:
-    radial-gradient(125% 26% at 12% 100%, oklch(30% calc(0.065 * var(--k)) var(--h)) 99%, transparent 100%),
-    radial-gradient(140% 38% at 92% 100%, oklch(26% calc(0.055 * var(--k)) var(--h)) 99%, transparent 100%),
-    radial-gradient(170% 52% at 22% 100%, oklch(22.5% calc(0.042 * var(--k)) var(--h)) 99%, transparent 100%),
-    radial-gradient(170% 66% at 88% 100%, oklch(19.8% calc(0.03 * var(--k)) var(--h)) 99%, transparent 100%),
-    var(--paper);
+html:root.dark[data-look='1']:not([data-accent]) {
+  --look-bg: var(--paper);
+  --motif: oklch(55% 0 0 / .6);
 }
-html:root[data-look='2'] {
-  --font-serif: "Fraunces", "EB Garamond", Georgia, serif;
-  --font-numeral: "Fraunces", "EB Garamond", Georgia, serif;
+/* mono 2 · Moonrise — one large pale moon, half risen behind the list */
+html:root[data-look='2']:not([data-accent]) { --mask: url('./bg/mono-2.svg'); }
+html:root[data-look='2']:not([data-accent]):not(.dark) {
+  --look-bg: linear-gradient(to bottom, oklch(98.5% 0 0), oklch(93% 0 0));
+  --motif: oklch(55% 0 0 / .45);
 }
-[data-look='2'] .display-title { font-weight: 450; letter-spacing: -0.015em; }
-[data-look='2'] .numeral-list { font-size: 19px; font-weight: 450; color: var(--accent-ink); }
-[data-look='2'] .rounded-2xl { border-radius: 22px; }
-
-/* ——— 3 · Window light — rays fanning from a high window, pooling on the floor ——— */
-html:root[data-look='3']:not(.dark) {
-  --paper: oklch(93.5% calc(0.02 * var(--k)) var(--h));
-  --glass: oklch(93.5% calc(0.02 * var(--k)) var(--h) / 0.72);
-  --paper-raised: oklch(99.5% calc(0.006 * var(--k)) var(--h) / 0.78);
-  --look-beam: oklch(99.5% calc(0.008 * var(--k)) var(--h) / 0.85);
-  --look-pool: oklch(99.5% calc(0.01 * var(--k)) var(--h) / 0.9);
+html:root.dark[data-look='2']:not([data-accent]) {
+  --look-bg: linear-gradient(to bottom, oklch(13% 0 0), oklch(20% 0 0));
+  --motif: oklch(80% 0 0 / .4);
 }
-html:root.dark[data-look='3'] {
-  --paper: oklch(15% calc(0.02 * var(--k)) var(--h));
-  --glass: oklch(15% calc(0.02 * var(--k)) var(--h) / 0.7);
-  --look-beam: oklch(46% calc(0.07 * var(--k)) var(--h) / 0.38);
-  --look-pool: oklch(42% calc(0.08 * var(--k)) var(--h) / 0.45);
+html:root[data-look='2']:not([data-accent]) { --font-serif: "Cormorant Garamond", "EB Garamond", Georgia, serif; }
+/* mono 3 · Folded paper — the lower page creased into faceted planes, light catching each fold */
+html:root[data-look='3']:not([data-accent]) { --mask: url('./bg/mono-3.svg'); }
+html:root[data-look='3']:not([data-accent]):not(.dark) {
+  --look-bg: var(--paper);
+  --motif: oklch(45% 0 0 / .42);
 }
-html:root[data-look='3'] {
-  --look-bg:
-    radial-gradient(75% 30% at 18% 98%, var(--look-pool), transparent 70%),
-    radial-gradient(40% 25% at 104% -4%, var(--look-pool), transparent 75%),
-    conic-gradient(at 104% -6%, transparent 0 198deg,
-      var(--look-beam) 204deg, transparent 211deg, transparent 215deg,
-      color-mix(in oklab, var(--look-beam) 70%, transparent) 220deg, transparent 228deg, transparent 233deg,
-      var(--look-beam) 238deg, transparent 245deg, transparent 250deg,
-      color-mix(in oklab, var(--look-beam) 55%, transparent) 255deg, transparent 262deg, transparent 360deg),
-    var(--paper);
-  --font-serif: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+html:root.dark[data-look='3']:not([data-accent]) {
+  --look-bg: var(--paper);
+  --motif: oklch(75% 0 0 / .32);
 }
-[data-look='3'] .display-title { font-weight: 600; letter-spacing: 0; }
-[data-look='3'] .numeral-list { color: var(--accent-ink); }
+/* sage 1 · Meadow — three rolling hills, the furthest palest, open sky above */
+html:root[data-look='1'][data-accent='sage'] { --mask: url('./bg/sage-1.svg'); }
+html:root[data-look='1'][data-accent='sage']:not(.dark) {
+  --look-bg: linear-gradient(to bottom, oklch(98% .01 158), oklch(95% .02 158));
+  --motif: oklch(70% .08 158 / .7);
+}
+html:root.dark[data-look='1'][data-accent='sage'] {
+  --look-bg: linear-gradient(to bottom, oklch(15% .015 158), oklch(19% .03 158));
+  --motif: oklch(48% .08 158 / .9);
+}
+/* sage 2 · Olive branch — a single olive branch sweeping up from the corner */
+html:root[data-look='2'][data-accent='sage'] { --mask: url('./bg/sage-2.svg'); }
+html:root[data-look='2'][data-accent='sage']:not(.dark) {
+  --look-bg: var(--paper);
+  --motif: oklch(50% .08 150 / .7);
+}
+html:root.dark[data-look='2'][data-accent='sage'] {
+  --look-bg: var(--paper);
+  --motif: oklch(62% .08 150 / .35);
+}
+html:root[data-look='2'][data-accent='sage'] { --font-serif: "Fraunces", "EB Garamond", Georgia, serif; --font-numeral: "Fraunces", "EB Garamond", Georgia, serif; }
+/* sage 3 · Dappled shade — sun falling through leaves in soft pools, on a green-shaded page */
+html:root[data-look='3'][data-accent='sage'] { --mask: url('./bg/sage-3.svg'); }
+html:root[data-look='3'][data-accent='sage']:not(.dark) {
+  --look-bg: oklch(90% .035 158);
+  --motif: oklch(99% .02 120);
+}
+html:root.dark[data-look='3'][data-accent='sage'] {
+  --look-bg: oklch(17% .025 158);
+  --motif: oklch(40% .08 140 / .75);
+}
+/* rose 1 · Petals — a few rose petals drifting down the page, some in focus, some soft */
+html:root[data-look='1'][data-accent='rose'] { --mask: url('./bg/rose-1.svg'); }
+html:root[data-look='1'][data-accent='rose']:not(.dark) {
+  --look-bg: linear-gradient(to bottom, oklch(98.5% .006 8), oklch(95.5% .018 8));
+  --motif: oklch(70% .1 8 / .55);
+}
+html:root.dark[data-look='1'][data-accent='rose'] {
+  --look-bg: linear-gradient(to bottom, oklch(15% .015 8), oklch(19% .03 8));
+  --motif: oklch(55% .11 8 / .45);
+}
+/* rose 2 · Rose window — a great cathedral rose window rising behind the list */
+html:root[data-look='2'][data-accent='rose'] { --mask: url('./bg/rose-2.svg'); }
+html:root[data-look='2'][data-accent='rose']:not(.dark) {
+  --look-bg: var(--paper);
+  --motif: oklch(55% .12 8 / .5);
+}
+html:root.dark[data-look='2'][data-accent='rose'] {
+  --look-bg: var(--paper);
+  --motif: oklch(72% .1 8 / .6);
+}
+html:root[data-look='2'][data-accent='rose'] { --font-serif: "Cormorant Garamond", "EB Garamond", Georgia, serif; }
+/* rose 3 · Silk — loose ribbons of silk folding across the lower page */
+html:root[data-look='3'][data-accent='rose'] { --mask: url('./bg/rose-3.svg'); }
+html:root[data-look='3'][data-accent='rose']:not(.dark) {
+  --look-bg: oklch(97% .012 8);
+  --motif: oklch(60% .13 8 / .9);
+}
+html:root.dark[data-look='3'][data-accent='rose'] {
+  --look-bg: oklch(16% .02 8);
+  --motif: oklch(55% .12 8 / .75);
+}
+/* sky 1 · Cloud bank — a sky that deepens upward, with soft cumulus banked along the bottom */
+html:root[data-look='1'][data-accent='sky'] { --mask: url('./bg/sky-1.svg'); }
+html:root[data-look='1'][data-accent='sky']:not(.dark) {
+  --look-bg: linear-gradient(to bottom, oklch(84% .06 245), oklch(91% .035 245));
+  --motif: oklch(99.5% .005 245);
+}
+html:root.dark[data-look='1'][data-accent='sky'] {
+  --look-bg: linear-gradient(to bottom, oklch(12% .03 260), oklch(20% .04 250) 75%);
+  --motif: oklch(38% .05 250 / .9);
+}
+/* sky 2 · Horizon — a still sea meeting an open sky, the water line low on the page */
+html:root[data-look='2'][data-accent='sky'] { --mask: url('./bg/sky-2.svg'); }
+html:root[data-look='2'][data-accent='sky']:not(.dark) {
+  --look-bg: linear-gradient(to bottom, oklch(96.5% .012 240), oklch(93% .03 220) 70%);
+  --motif: oklch(58% .1 235 / .9);
+}
+html:root.dark[data-look='2'][data-accent='sky'] {
+  --look-bg: linear-gradient(to bottom, oklch(13% .02 255), oklch(21% .04 240) 70%);
+  --motif: oklch(45% .08 240 / .9);
+}
+/* sky 3 · Aurora — slow veils of light hanging from the top of the page */
+html:root[data-look='3'][data-accent='sky'] { --mask: url('./bg/sky-3.svg'); }
+html:root[data-look='3'][data-accent='sky']:not(.dark) {
+  --look-bg: oklch(97% .01 250);
+  --motif: oklch(72% .1 210 / .7);
+}
+html:root.dark[data-look='3'][data-accent='sky'] {
+  --look-bg: oklch(12% .025 260);
+  --motif: oklch(65% .13 195 / .6);
+}
