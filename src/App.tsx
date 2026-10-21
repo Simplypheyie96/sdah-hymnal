@@ -149,7 +149,7 @@ export default function App() {
     return (
       <div className="mx-auto flex h-dvh max-w-7xl">
         {splash}
-        <LookSwitcher />
+        <LookSwitcher accent={accent} setAccent={setAccent} />
         <aside className="w-[400px] shrink-0 overflow-y-auto border-r border-[var(--line)]">
           <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
           <TabBar tab={tab} onChange={changeTab} dock="left" />
@@ -184,7 +184,7 @@ export default function App() {
   return (
     <div className="mx-auto min-h-dvh max-w-2xl">
       {splash}
-      <LookSwitcher />
+      <LookSwitcher accent={accent} setAccent={setAccent} />
       {tab === 'hymns' && (
         <Home onOpen={setOpenSongId} selected={displayed?.songId ?? null} lang={lang} onLang={setLang} />
       )}

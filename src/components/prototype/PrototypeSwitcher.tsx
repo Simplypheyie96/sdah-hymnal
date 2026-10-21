@@ -1,22 +1,28 @@
 // PROTOTYPE — throwaway. Lives only on the prototype/home-directions branch.
 import { useEffect, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '../icons'
+import type { AccentChoice } from '../Settings'
 
-// PROTOTYPE — three visual directions over the unchanged layout, ?variant=now|A|B|C.
-// Each look is a token set in src/components/prototype/looks.css keyed on <html data-look>.
+// PROTOTYPE — three backgrounds for each of the four themes over the unchanged layout,
+// ?variant=now|mono-1…sky-3. Each look lives in src/components/prototype/looks.css keyed on
+// <html data-look>; the theme half of the key drives the app's real accent setting.
+const THEMES = ['mono', 'sage', 'rose', 'sky'] as const
+const NAMES = ['Halo', 'Dunes', 'Window light']
 const LOOKS = [
   { key: 'now', name: 'Current' },
-  { key: 'A', name: 'Gilt hymnal' },
-  { key: 'B', name: 'Vespers' },
-  { key: 'C', name: 'Signal' },
+  ...THEMES.flatMap((t) =>
+    NAMES.map((n, i) => ({ key: `${t}-${i + 1}`, name: `${t[0].toUpperCase()}${t.slice(1)} · ${n}` })),
+  ),
 ]
 
-export function LookSwitcher() {
+export function LookSwitcher({ accent, setAccent }: { accent: AccentChoice; setAccent: (a: AccentChoice) => void }) {
   const [look, setLook] = useVariant(LOOKS.map((l) => l.key))
   useEffect(() => {
     const root = document.documentElement
-    if (look === 'now') delete root.dataset.look
-    else root.dataset.look = look
+    if (look === 'now') return void delete root.dataset.look
+    const [theme, n] = look.split('-')
+    root.dataset.look = n
+    if (theme !== accent) setAccent(theme as AccentChoice)
   }, [look])
   return <PrototypeSwitcher variants={LOOKS} current={look} onChange={setLook} />
 }
@@ -66,8 +72,8 @@ export function PrototypeSwitcher({
       <button onClick={() => step(-1)} aria-label="Previous variant" className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-white/15">
         <ChevronLeftIcon size={18} />
       </button>
-      <span className="min-w-[150px] text-center text-[12.5px] font-semibold">
-        {variants[i].key} · {variants[i].name}
+      <span className="min-w-[170px] text-center text-[12.5px] font-semibold">
+        {variants[i].name}
       </span>
       <button onClick={() => step(1)} aria-label="Next variant" className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-white/15">
         <ChevronRightIcon size={18} />
