@@ -223,8 +223,8 @@ export function Home({
         </div>
       </div>
 
-      {/* Categories */}
-      <div className="rise-in flex gap-2 overflow-x-auto px-6 pb-2 pt-1 [scrollbar-width:none]" style={{ animationDelay: '180ms' }}>
+      {/* Categories — none at all for an edition without a topical index */}
+      {chips.length > 0 && <div className="rise-in flex gap-2 overflow-x-auto px-6 pb-2 pt-1 [scrollbar-width:none]" style={{ animationDelay: '180ms' }}>
         {[null, ...chips].map((c) => {
           const active = category === c
           return (
@@ -241,7 +241,7 @@ export function Home({
             </button>
           )
         })}
-      </div>
+      </div>}
 
       {/* List */}
       <div className="mt-4">
