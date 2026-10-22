@@ -1,13 +1,14 @@
 # SDAH Hymnal
 
 ## Now
-Task · Home header picked: Cover with an arched lower edge, folded into Home.tsx on prototype/home-directions
+Task · Home header picked: Arch (church-window arch, accent tint, double frame), folded into Home.tsx on prototype/home-directions
 Done · Looks picked and locked: Mono = Folded paper, Sage = Olive branch, Rose = Petals, Sky = Cloud bank (light) / Aurora (dark); keyed on data-accent only, other 7 motifs deleted. Stray "frame" fixed: the sticky search's top scrim now paints the page's own sky and fades in on scroll.
 Next · Merge prototype/home-directions to main (user's go) and ship the SEO fix (canonical, robots.txt, sitemap.xml → sdahymnal.vercel.app).
-Files · src/components/Home.tsx (Masthead, LangSwitch; search has -mt-[52px] to overlap the cover), src/components/prototype/looks.css (.cover at the end; glass/paper-raised opacity), prototype/bg/*.svg
+Files · src/components/Home.tsx (Masthead, LangSwitch), src/components/prototype/looks.css (.arch at the end; glass/paper-raised opacity), prototype/bg/*.svg
 Open · SEO: site is live at both sdahymnal.vercel.app and sdah-hymnal.vercel.app with no canonical, robots.txt or sitemap; og:url already says sdahymnal.vercel.app. Fix on main awaits user's go; Search Console verification is the user's step.
 
 ## Decisions log
+- 2026-10-22 · "For cover, let's do arc" meant the Arch variant (B) as the header, not an arched Cover edge; Cover removed, Arch in.
 - 2026-10-22 · Header picked: Cover, with an arched lower edge (border-radius 50%/88px) instead of rounded corners; Arch, Book cover and the variant switcher removed. Surfaces behind text made near-opaque for readability: --glass .92 light / .9 dark, --paper-raised .92 light.
 - 2026-10-22 · Header: Wordmark (too huge) and Lockup (not premium) rejected, and the header must read as its own region. New set: Cover, Arch, Book cover, all panels set apart from the list; .cover flips ink/accent tokens so the language switch inverts by itself.
 - 2026-10-22 · Header: no added content (greeting, hymn of the day rejected); design only. Title page kept; Wordmark and Lockup replace the other two.

@@ -120,32 +120,31 @@ html:root.dark[data-accent='sky'] {
   --motif: oklch(65% .13 195 / .6);
 }
 
-/* Header cover: a deep panel in the theme hue with the theme's own motif pressed into it and
-   an arched lower edge. It flips the ink and accent tokens so everything inside, the
-   language switch included, inverts by itself. */
-html .cover {
-  --ink: oklch(97% calc(0.01 * var(--k)) var(--h));
-  --ink-2: oklch(97% calc(0.01 * var(--k)) var(--h) / 0.8);
-  --ink-3: oklch(97% calc(0.01 * var(--k)) var(--h) / 0.7);
-  --accent: oklch(93% calc(0.04 * var(--k)) var(--h));
-  --accent-ink: oklch(95% calc(0.03 * var(--k)) var(--h));
-  --accent-contrast: oklch(26% calc(0.06 * var(--k)) var(--h));
-  --glass: oklch(100% 0 0 / 0.1);
-  --line: oklch(100% 0 0 / 0.2);
+/* Header arch: a church window in the accent tint, the theme's own motif pressed into it,
+   with a double frame (outline plus an inner ring 8px in). */
+html .arch {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border-radius: 0 0 50% 50% / 0 0 88px 88px;
-  background: oklch(30% calc(0.06 * var(--k)) var(--h));
+  border-radius: 50% 50% 28px 28px / 170px 170px 28px 28px;
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--accent) 17%, var(--paper)), color-mix(in oklab, var(--accent) 6%, var(--paper)));
+  box-shadow: inset 0 0 0 1px var(--line-strong), var(--shadow-soft);
 }
-html.dark .cover { background: oklch(25% calc(0.05 * var(--k)) var(--h)); }
-html .cover::before {
+html .arch::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: oklch(100% 0 0 / 0.09);
+  background: color-mix(in oklab, var(--accent) 14%, transparent);
   -webkit-mask: var(--mask) bottom center / cover no-repeat;
   mask: var(--mask) bottom center / cover no-repeat;
+}
+html .arch::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50% 50% 21px 21px / 162px 162px 21px 21px;
+  border: 1px solid var(--line-strong);
+  pointer-events: none;
 }

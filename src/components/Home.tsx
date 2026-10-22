@@ -95,32 +95,27 @@ function LangSwitch({ lang, onLang, segmented }: { lang: LangCode; onLang: (l: L
   )
 }
 
-// A deep panel in the theme hue with an arched lower edge; the search bar overlaps that
-// edge (see the -mt on the search below), which is what sets the header apart from the list.
+// A church-window arch in the accent tint with a double frame; it holds the whole header,
+// which is what sets it apart from the list below.
 function Masthead({ hymns, lang, onLang }: { hymns: Hymn[]; lang: LangCode; onLang: (l: LangCode) => void }) {
   const title = lang === 'en' ? 'Hymnal' : LANGS.find((l) => l.code === lang)?.hymnalTitle
   const date = new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })
   const songs = hymns.filter((h) => h.kind === 'hymn').length
 
   return (
-    <header className="cover flex flex-col items-center px-6 pt-[calc(max(env(safe-area-inset-top),20px)+28px)] pb-[64px] text-center">
-      <span className="rise-in flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-[var(--accent-ink)]">
-        <MusicIcon size={20} />
-      </span>
-      <p className="rise-in eyebrow mt-5 text-[var(--ink-2)]" style={{ animationDelay: '40ms' }}>
-        Seventh-day Adventist
-      </p>
-      <h1
-        className="rise-in display-title mt-2 text-balance text-[clamp(44px,15vw,62px)] leading-[0.95] tracking-[-0.02em] text-[var(--accent-ink)]"
-        style={{ animationDelay: '60ms' }}
-      >
-        {title}
-      </h1>
-      <p className="rise-in font-lyrics mt-3 text-[15px] italic text-[var(--ink-2)]" style={{ animationDelay: '80ms' }}>
-        {songs} hymns · {date}
-      </p>
-      <div className="rise-in mt-6" style={{ animationDelay: '90ms' }}>
-        <LangSwitch lang={lang} onLang={onLang} segmented />
+    <header className="px-6 pt-[max(env(safe-area-inset-top),24px)]">
+      <div className="arch rise-in flex flex-col items-center px-8 pt-16 pb-8 text-center">
+        <MusicIcon size={22} className="text-[var(--accent-ink)]" />
+        <p className="eyebrow mt-5 text-[var(--accent-ink)] opacity-75">Seventh-day Adventist</p>
+        <h1 className="display-title mt-2 text-balance text-[clamp(40px,13vw,56px)] leading-[0.95] tracking-[-0.02em] text-[var(--accent-ink)]">
+          {title}
+        </h1>
+        <p className="font-lyrics mt-3 text-[15px] italic text-[var(--ink-2)]">
+          {songs} hymns · {date}
+        </p>
+        <div className="mt-7">
+          <LangSwitch lang={lang} onLang={onLang} segmented />
+        </div>
       </div>
     </header>
   )
@@ -192,7 +187,7 @@ export function Home({
 
       {/* Search: free text, plus a dedicated number field that jumps straight
           to a hymn. Both are always available. */}
-      <div className="rise-in sticky top-[env(safe-area-inset-top)] z-30 -mt-[52px] px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
+      <div className="rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
         <div aria-hidden className="top-scrim" />
         <div className="flex items-stretch gap-2.5">
           <label className="glass hairline group flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30">
