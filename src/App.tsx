@@ -26,10 +26,18 @@ const castTarget = (() => {
   return songId ? { songId, lang: (p.get('lang') as LangCode) || 'en' } : null
 })()
 
+// Every hymn has its own address (/hymn/100, /yo/hymn/12), prerendered for
+// search engines by scripts/seo-pages.mjs. Landing on one opens that hymn.
+const linked = (() => {
+  const m = window.location.pathname.match(/^\/(?:(yo)\/)?hymn\/(\d+)\/?$/)
+  return m ? { lang: (m[1] ?? 'en') as LangCode, songId: m[1] ? `yo-${m[2]}` : `sdah-${m[2]}` } : null
+})()
+const homeTitle = 'SDA Hymnal — Seventh-day Adventist Hymnal Online, All 920 Hymns'
+
 export default function App() {
   const { ready, ensure, hymnsFor, resolve } = useHymnal()
   const [tab, setTab] = useState<Tab>('hymns')
-  const [openSongId, setOpenSongId] = useState<string | null>(null)
+  const [openSongId, setOpenSongId] = useState<string | null>(linked?.songId ?? null)
   const [lang, setLang] = useLocalStorage<LangCode>('sdah.lang', 'en')
   const [theme, setTheme] = useLocalStorage<ThemeChoice>('sdah.theme', 'system')
   const [accent, setAccent] = useLocalStorage<AccentChoice>('sdah.accent', 'mono')
@@ -78,6 +86,10 @@ export default function App() {
     else root.dataset.accent = accent
   }, [accent])
 
+  useEffect(() => {
+    if (linked) setLang(linked.lang)
+  }, [setLang])
+
   // Editions load lazily; the one the user is reading in must be in flight.
   useEffect(() => ensure(lang), [ensure, lang])
 
@@ -86,6 +98,16 @@ export default function App() {
   const requested = openSongId ? resolve(openSongId, lang) : undefined
   const fallback = openSongId ? resolve(openSongId, 'en') : undefined
   const displayed = requested ?? fallback
+
+  // The address bar and tab title follow the open hymn, so a shared or
+  // bookmarked link lands on it.
+  useEffect(() => {
+    if (castTarget || (openSongId && !displayed)) return
+    const path = displayed ? `${displayed.lang === 'en' ? '' : `/${displayed.lang}`}/hymn/${displayed.number}` : '/'
+    const here = window.location.pathname
+    if (here !== path && (displayed || linked || /\/hymn\//.test(here))) history.replaceState(null, '', path + window.location.search)
+    document.title = displayed ? `${displayed.number} · ${displayed.title} — SDA Hymnal` : homeTitle
+  }, [openSongId, displayed])
 
   // When the chosen edition has no counterpart we still show the song, but
   // the reader says which hymnal it is missing from rather than pretending.
