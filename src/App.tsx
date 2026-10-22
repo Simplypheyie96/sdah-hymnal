@@ -34,6 +34,24 @@ const linked = (() => {
 })()
 const homeTitle = 'SDA Hymnal — Seventh-day Adventist Hymnal Online, All 920 Hymns'
 
+// Paints the status bar (theme-color) with the current theme's top colour. The fixed
+// near-white in index.html met a tinted sky in a hard, blurred seam on iPhone. A canvas
+// turns the oklch token into hex, which every browser's theme-color accepts.
+function syncStatusBar() {
+  const probe = document.createElement('div')
+  probe.style.color = 'var(--look-top)'
+  document.body.appendChild(probe)
+  const ctx = document.createElement('canvas').getContext('2d')
+  if (ctx) {
+    ctx.fillStyle = getComputedStyle(probe).color
+    ctx.fillRect(0, 0, 1, 1)
+    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data
+    const hex = '#' + [r, g, b].map((n) => n.toString(16).padStart(2, '0')).join('')
+    document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', hex))
+  }
+  probe.remove()
+}
+
 export default function App() {
   const { ready, ensure, hymnsFor, resolve } = useHymnal()
   const [tab, setTab] = useState<Tab>('hymns')
@@ -74,6 +92,7 @@ export default function App() {
     const apply = () => {
       const dark = theme === 'dark' || (theme === 'system' && media.matches)
       document.documentElement.classList.toggle('dark', dark)
+      syncStatusBar()
     }
     apply()
     media.addEventListener('change', apply)
@@ -84,6 +103,7 @@ export default function App() {
     const root = document.documentElement
     if (accent === 'mono') delete root.dataset.accent
     else root.dataset.accent = accent
+    syncStatusBar()
   }, [accent])
 
   useEffect(() => {

@@ -32,6 +32,14 @@ html:root.dark {
   --paper-tint: transparent;
 }
 
+/* The sky's top colour: the status bar and Safari's chrome are painted with it (App.tsx
+   copies it into theme-color), so the bar runs straight into the page with no seam. */
+html { --look-top: var(--paper); background-color: var(--look-top); }
+html:root[data-accent='rose']:not(.dark) { --look-top: oklch(98.5% .006 8); }
+html:root.dark[data-accent='rose'] { --look-top: oklch(15% .015 8); }
+html:root[data-accent='sky']:not(.dark) { --look-top: oklch(84% .06 245); }
+html:root.dark[data-accent='sky'] { --look-top: oklch(12% .025 260); }
+
 html body { background: transparent; }
 html::before {
   content: "";
@@ -42,7 +50,7 @@ html::before {
   background: var(--look-bg);
 }
 /* The hymn reader is an opaque full-screen overlay, so it repaints the same sky and motif. */
-html .hymn-overlay { background: var(--look-bg); }
+html .hymn-overlay { background: var(--look-bg); background-color: var(--look-top); }
 html::after,
 html .hymn-overlay::before {
   content: "";
