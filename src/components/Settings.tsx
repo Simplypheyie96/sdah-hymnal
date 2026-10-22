@@ -430,8 +430,10 @@ export function Settings({
             <div className="px-5 py-4">
               <p className="eyebrow text-[var(--ink-3)]">Privacy</p>
               <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--ink-2)]">
-                This app collects nothing — no accounts, no analytics, no tracking. Your favourites
-                and settings stay on your own device, and nothing you do here is sent anywhere.
+                No accounts, no cookies, no tracking. Vercel counts anonymous page views, and that
+                is all. Your favourites and settings stay on your own device.
+                Full policy at{' '}
+                <a href="https://feyidesigns.com/apps/sdah-hymnal/privacy/" target="_blank" rel="noopener noreferrer" className="underline">feyidesigns.com/apps/sdah-hymnal/privacy</a>.
               </p>
             </div>
           </div>
