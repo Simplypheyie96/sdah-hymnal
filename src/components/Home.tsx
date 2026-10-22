@@ -3,7 +3,6 @@ import { AnimatePresence } from 'motion/react'
 import { LANGS, type Hymn, type LangCode } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { KeypadIcon, MusicIcon, SearchIcon } from './icons'
-import { PrototypeSwitcher, useVariant } from './prototype/PrototypeSwitcher'
 import { NumberPad } from './NumberPad'
 
 /** Strip case and diacritics so a phone keyboard without Yorùbá tone marks
@@ -75,13 +74,6 @@ function HymnRow({
   )
 }
 
-// PROTOTYPE — three mastheads, ?variant=a|b|c. Each is its own region, set apart from the list.
-const MASTHEADS = [
-  { key: 'a', name: 'A · Cover' },
-  { key: 'b', name: 'B · Arch' },
-  { key: 'c', name: 'C · Book cover' },
-]
-
 function LangSwitch({ lang, onLang, segmented }: { lang: LangCode; onLang: (l: LangCode) => void; segmented?: boolean }) {
   return (
     <div className={segmented ? 'glass hairline inline-flex rounded-full p-1' : 'flex gap-2'}>
@@ -103,65 +95,15 @@ function LangSwitch({ lang, onLang, segmented }: { lang: LangCode; onLang: (l: L
   )
 }
 
-function Masthead({
-  variant,
-  hymns,
-  lang,
-  onLang,
-}: {
-  variant: string
-  hymns: Hymn[]
-  lang: LangCode
-  onLang: (l: LangCode) => void
-}) {
+// A deep panel in the theme hue with an arched lower edge; the search bar overlaps that
+// edge (see the -mt on the search below), which is what sets the header apart from the list.
+function Masthead({ hymns, lang, onLang }: { hymns: Hymn[]; lang: LangCode; onLang: (l: LangCode) => void }) {
   const title = lang === 'en' ? 'Hymnal' : LANGS.find((l) => l.code === lang)?.hymnalTitle
   const date = new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })
   const songs = hymns.filter((h) => h.kind === 'hymn').length
-  const top = 'pt-[calc(max(env(safe-area-inset-top),28px)+32px)]'
 
-  if (variant === 'b')
-    return (
-      <header className={`${top} px-6`}>
-        <div className="arch rise-in flex flex-col items-center px-8 pt-16 pb-8 text-center">
-          <MusicIcon size={22} className="text-[var(--accent-ink)]" />
-          <p className="eyebrow mt-5 text-[var(--accent-ink)] opacity-75">Seventh-day Adventist</p>
-          <h1 className="display-title mt-2 text-balance text-[clamp(40px,13vw,56px)] leading-[0.95] tracking-[-0.02em] text-[var(--accent-ink)]">
-            {title}
-          </h1>
-          <p className="font-lyrics mt-3 text-[15px] italic text-[var(--ink-2)]">
-            {songs} hymns · {date}
-          </p>
-          <div className="mt-7">
-            <LangSwitch lang={lang} onLang={onLang} segmented />
-          </div>
-        </div>
-      </header>
-    )
-
-  if (variant === 'c')
-    return (
-      <header className={`${top} px-5`}>
-        <div className="cover book rise-in rounded-[28px] px-7 pt-8 pb-7 shadow-[var(--shadow-float)]">
-          <div className="flex items-start justify-between gap-4">
-            <p className="eyebrow text-[var(--ink-2)]">Seventh-day Adventist</p>
-            <MusicIcon size={20} className="shrink-0 text-[var(--ink-2)]" />
-          </div>
-          <h1 className="display-title mt-10 text-balance text-[clamp(44px,14vw,60px)] leading-[0.92] tracking-[-0.025em] text-[var(--accent-ink)]">
-            {title}
-          </h1>
-          <p className="font-lyrics mt-3 text-[15px] italic text-[var(--ink-2)]">
-            {songs} hymns · {date}
-          </p>
-          <div className="mt-8 border-t border-[var(--line)] pt-5">
-            <LangSwitch lang={lang} onLang={onLang} />
-          </div>
-        </div>
-      </header>
-    )
-
-  // The search bar overlaps this panel's lower edge (see the -mt on the search in Home).
   return (
-    <header className={`cover ${top} flex flex-col items-center rounded-b-[36px] px-6 pb-[60px] text-center`}>
+    <header className="cover flex flex-col items-center px-6 pt-[calc(max(env(safe-area-inset-top),20px)+28px)] pb-[64px] text-center">
       <span className="rise-in flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-[var(--accent-ink)]">
         <MusicIcon size={20} />
       </span>
@@ -195,7 +137,6 @@ export function Home({
   lang: LangCode
   onLang: (l: LangCode) => void
 }) {
-  const [masthead, setMasthead] = useVariant(MASTHEADS.map((m) => m.key))
   const [query, setQuery] = useState('')
   const [padOpen, setPadOpen] = useState(false)
   const [category, setCategory] = useState<string | null>(null)
@@ -247,12 +188,11 @@ export function Home({
 
   return (
     <div className="pb-36">
-      <PrototypeSwitcher variants={MASTHEADS} current={masthead} onChange={setMasthead} />
-      <Masthead variant={masthead} hymns={hymns} lang={lang} onLang={onLang} />
+      <Masthead hymns={hymns} lang={lang} onLang={onLang} />
 
       {/* Search: free text, plus a dedicated number field that jumps straight
           to a hymn. Both are always available. */}
-      <div className={`rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pt-6 pb-4 ${masthead === 'a' ? '-mt-[52px]' : ''}`} style={{ animationDelay: '120ms' }}>
+      <div className="rise-in sticky top-[env(safe-area-inset-top)] z-30 -mt-[52px] px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
         <div aria-hidden className="top-scrim" />
         <div className="flex items-stretch gap-2.5">
           <label className="glass hairline group flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30">
