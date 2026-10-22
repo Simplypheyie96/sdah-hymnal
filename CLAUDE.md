@@ -8,6 +8,7 @@ Files · scripts/seo-pages.mjs, src/App.tsx (linked, homeTitle, URL-sync effect)
 Open · Rankings take weeks; .vercel.app subdomain caps authority.
 
 ## Decisions log
+- 2026-10-22 · iPhone status bar showed a pale band with a blurred seam over tinted skies: theme-color was a fixed near-white. Now each look has --look-top (looks.css) and App.tsx syncStatusBar() copies it into theme-color as hex on theme/accent change. Yorùbá has no topical index, so its lone "All" chip row is hidden.
 - 2026-10-22 · Search Console: property https://sdahymnal.vercel.app/ verified by HTML tag; sitemap submitted (first fetch "Couldn't fetch"); Request indexing rejected with Robots.txt unreachable on Googlebot only. Nothing changed on the site for it; retry after a day.
 - 2026-10-22 · One link: sdah-hymnal.vercel.app kept attached as a 308 domain redirect, not removed (removing would 404 old links). Per-hymn prerendered pages + /hymn/N URLs added for search; static markup lives in #root and React replaces it on mount.
 - 2026-10-22 · SEO: canonical domain is sdahymnal.vercel.app. Added <link rel=canonical>, public/robots.txt, public/sitemap.xml, and a permanent host redirect sdah-hymnal.vercel.app → sdahymnal.vercel.app in vercel.json. prototype/home-directions merged to main.
