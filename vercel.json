@@ -38,5 +38,18 @@
       "source": "/installed",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "sdah-hymnal.vercel.app"
+        }
+      ],
+      "destination": "https://sdahymnal.vercel.app/$1",
+      "permanent": true
+    }
   ]
 }
