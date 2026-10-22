@@ -48,3 +48,4 @@ media/audio/*.mp3
 
 # Claude Code launch config stays local
 .claude/
+media/audio-processed/
