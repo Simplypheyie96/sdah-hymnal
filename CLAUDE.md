@@ -3,7 +3,7 @@
 ## Now
 Task · SEO for "sda hymnal" / "adventist hymnal" rankings; one Vercel domain
 Done · sdah-hymnal.vercel.app is a 308 domain redirect (Vercel project setting) to sdahymnal.vercel.app. Build now runs scripts/seo-pages.mjs: 920 /hymn/N + 621 /yo/hymn/N static pages (title, description, lyrics, JSON-LD), crawlable hymn list on home, sitemap of 1,542 URLs. App opens the hymn in the path and keeps URL + tab title in step.
-Next · User: Search Console verify (HTML tag into index.html), submit sitemap.xml, request indexing of / and a few hymns. Biggest remaining lever: a real domain (e.g. sdahymnal.org) + backlinks from church sites/groups.
+Next · IndexNow done 2026-10-22 (Bing 200, Yandex 202; key public/ffffd61a45084d2fa11637a3b57f7893.txt, resubmit sitemap URLs after big changes). Google: Comet CDP attach hung, needs Comet restart, then Search Console verify (HTML tag into index.html), submit sitemap.xml, request indexing of / and a few hymns. Biggest remaining lever: a real domain (e.g. sdahymnal.org) + backlinks from church sites/groups.
 Files · scripts/seo-pages.mjs, src/App.tsx (linked, homeTitle, URL-sync effect), index.html (title/description)
 Open · Rankings take weeks; .vercel.app subdomain caps authority.
 
