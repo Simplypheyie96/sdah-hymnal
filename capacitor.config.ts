@@ -7,6 +7,9 @@ const config: CapacitorConfig = {
   appName: 'Hymnal',
   webDir: 'dist',
   ios: { contentInset: 'never' },
+  // Android: env(safe-area-inset-*) holds the real insets (or the webview is
+  // padded on old Chromium), so the web's own CSS needs no native variant.
+  plugins: { SystemBars: { insetsHandling: 'native' } },
 }
 
 export default config

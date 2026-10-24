@@ -83,7 +83,7 @@ export function HymnContent({
     <>
       {/* Floating chrome — two detached glass clusters so the page reads as
           one continuous sheet of paper running underneath them. */}
-      <div className="sticky top-0 z-30 px-4 pt-[max(var(--st),12px)] pointer-events-none">
+      <div className="sticky top-0 z-30 px-4 pt-[max(env(safe-area-inset-top),12px)] pointer-events-none">
         <div aria-hidden className="top-scrim" />
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
           {onClose ? (
@@ -226,7 +226,7 @@ export function HymnContent({
       </motion.article>
 
       {/* Floating controls: previous / next hymn + accompaniment */}
-      <div className="sticky bottom-0 z-20 mt-auto flex justify-center pb-[max(var(--sb),20px)] pt-3 pointer-events-none">
+      <div className="sticky bottom-0 z-20 mt-auto flex justify-center pb-[max(env(safe-area-inset-bottom),20px)] pt-3 pointer-events-none">
         <div aria-hidden className="bottom-scrim" />
         <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 pointer-events-auto sm:gap-x-3">
           <div className="glass hairline flex items-center rounded-full px-1.5 py-1.5 shadow-[var(--shadow-float)] md:px-2 md:py-2">

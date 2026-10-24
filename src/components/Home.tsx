@@ -103,7 +103,7 @@ function Masthead({ hymns, lang, onLang }: { hymns: Hymn[]; lang: LangCode; onLa
   const songs = hymns.filter((h) => h.kind === 'hymn').length
 
   return (
-    <header className="px-6 pt-[max(var(--st),24px)]">
+    <header className="px-6 pt-[max(env(safe-area-inset-top),24px)]">
       <div className="arch rise-in flex flex-col items-center px-8 pt-16 pb-8 text-center">
         <MusicIcon size={22} className="text-[var(--accent-ink)]" />
         <p className="eyebrow mt-5 text-[var(--accent-ink)] opacity-75">Seventh-day Adventist</p>
@@ -187,7 +187,7 @@ export function Home({
 
       {/* Search: free text, plus a dedicated number field that jumps straight
           to a hymn. Both are always available. */}
-      <div className="rise-in sticky top-[var(--st)] z-30 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
+      <div className="rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
         <div aria-hidden className="top-scrim" />
         <div className="flex items-stretch gap-2.5">
           <label className="glass hairline group flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30">

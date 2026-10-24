@@ -140,7 +140,7 @@ export function Settings({
 
   return (
     <div className="space-y-9 pb-36">
-      <header className="px-6 pt-[max(var(--st),28px)]">
+      <header className="px-6 pt-[max(env(safe-area-inset-top),28px)]">
         <p className="rise-in pt-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--ink-3)]">
           Make it yours
         </p>
@@ -433,14 +433,21 @@ export function Settings({
             </div>
             <div className="px-5 py-4">
               <p className="eyebrow text-[var(--ink-3)]">Privacy</p>
+              {storeApp ? (
+                <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+                  No accounts, no cookies, no tracking: the app counts nothing and sends nothing about
+                  you. A tip is handled by the store, never by the app. Your favourites and settings
+                  stay on your own device. Full policy at{' '}
+                  <a href="https://feyidesigns.com/apps/sdah-hymnal/privacy/" target="_blank" rel="noopener noreferrer" className="underline">feyidesigns.com/apps/sdah-hymnal/privacy</a>.
+                </p>
+              ) : (
               <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--ink-2)]">
-                {storeApp
-                  ? 'No accounts, no cookies, no tracking: the app counts nothing and sends nothing about you. A tip is handled by the store, never by the app.'
-                  : 'No accounts, no cookies, no tracking. Vercel counts anonymous page views, and that is all.'}{' '}
-                Your favourites and settings stay on your own device.
+                No accounts, no cookies, no tracking. Vercel counts anonymous page views, and that
+                is all. Your favourites and settings stay on your own device.
                 Full policy at{' '}
                 <a href="https://feyidesigns.com/apps/sdah-hymnal/privacy/" target="_blank" rel="noopener noreferrer" className="underline">feyidesigns.com/apps/sdah-hymnal/privacy</a>.
               </p>
+              )}
             </div>
           </div>
         </Section>

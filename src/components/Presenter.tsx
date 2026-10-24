@@ -89,7 +89,7 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
           upright: the title truncates rather than wrapping a word per line,
           and the controls fall back to icons when there is no room for
           labels. */}
-      <div className="flex items-center gap-3 px-[4vw] pt-[max(var(--st),14px)] text-[#7a8187]">
+      <div className="flex items-center gap-3 px-[4vw] pt-[max(env(safe-area-inset-top),14px)] text-[#7a8187]">
         <div className="flex min-w-0 flex-1 items-baseline gap-3">
           <span className="numeral shrink-0 text-[clamp(17px,1.8vw,26px)] text-[#c7ccd0]">
             {hymn.number}

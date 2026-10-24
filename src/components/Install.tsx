@@ -60,7 +60,7 @@ export function IosInstallSheet({ onClose }: { onClose: () => void }) {
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{ duration: 0.42, ease: EASE }}
-        className="glass hairline relative w-full max-w-md rounded-t-3xl px-6 pt-6 pb-[max(var(--sb),24px)] shadow-[var(--shadow-float)]"
+        className="glass hairline relative w-full max-w-md rounded-t-3xl px-6 pt-6 pb-[max(env(safe-area-inset-bottom),24px)] shadow-[var(--shadow-float)]"
       >
         <div aria-hidden className="mx-auto mb-5 h-1 w-10 rounded-full bg-[var(--line-strong)]" />
         <p className="eyebrow text-[var(--ink-3)]">On iPhone &amp; iPad</p>
@@ -129,7 +129,7 @@ export function InstallBanner() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="pointer-events-none fixed inset-x-0 bottom-[calc(var(--sb)+86px)] z-30 px-4"
+            className="pointer-events-none fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+86px)] z-30 px-4"
           >
             <div className="glass hairline pointer-events-auto mx-auto flex max-w-md items-center gap-3 rounded-2xl py-3 pl-3.5 pr-2.5 shadow-[var(--shadow-float)]">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--accent-contrast)]">

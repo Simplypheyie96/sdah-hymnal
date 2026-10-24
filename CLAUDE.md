@@ -1,13 +1,14 @@
 # SDAH Hymnal
 
 ## Now
-Task · Store apps (App Store + Google Play), branch claude/store-ab50bc. Not merged, not pushed.
-Done · Capacitor 8 shell, id com.feyidesigns.sdahymnal, name Hymnal. Native gates in src/lib/native.ts (storeApp): no SW, no analytics, no install UI, store tip jar (tip1/2/3 consumables $0.99/2.99/4.99, no receipt check, no server). Safe areas via --st/--sr/--sb/--sl. Fonts vendored natively (native/fonts). iOS runs in the Simulator; Android assembleDebug builds. Web build identical to main (pages, data, layout-check counts).
-Next · Blockers in docs/store/launch.md §0: hymn text + recording rights (Review and Herald), store name (SDA trademark), R2 CORS add capacitor://localhost + https://localhost (until then recordings don't save offline in the apps). Then App Store Connect / Play Console steps in the same doc.
-Files · capacitor.config.ts, src/lib/native.ts, src/components/TipJar.tsx, scripts/native-*.mjs, ios/App/App/Hymnal.storekit, docs/store/launch.md
-Open · Not checked: Cache API on iOS capacitor://, a real phone, tip purchase sheet (needs Xcode Run with the StoreKit config). Build needs VITE_AUDIO_BASE exported (set -a; source .env.local). Android needs JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home.
+Task · Store apps (App Store + Google Play), branch claude/store-ab50bc. Not pushed. Rule: the web must stay pixel-identical to main; native-only changes go behind storeApp.
+Done · Capacitor 8 shell, id com.feyidesigns.sdahymnal, name Hymnal. Native gates in src/lib/native.ts (storeApp): no SW, no analytics, no install UI, store tip jar (tip1/2/3 consumables $0.99/2.99/4.99). Safe areas: web CSS untouched; Android uses SystemBars insetsHandling 'native'. Web vs main pixelmatch: 0 px on every screen at 390 and 1440. iOS runs in the Simulator; Android assembleDebug builds.
+Next · Blockers in docs/store/launch.md §0: hymn text + recording rights (Review and Herald), store name (SDA trademark), R2 CORS add capacitor://localhost + https://localhost. Then App Store Connect / Play Console steps in the same doc.
+Files · capacitor.config.ts, src/lib/native.ts, src/components/TipJar.tsx, src/components/Settings.tsx, scripts/native-*.mjs, docs/store/launch.md
+Open · Not checked: Cache API on iOS capacitor://, a real phone, tip purchase sheet, Android insets on a device. Build needs VITE_AUDIO_BASE exported (set -a; source .env.local). Android needs JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home and ANDROID_HOME=/opt/homebrew/share/android-commandlinetools.
 
 ## Decisions log
+- 2026-10-24 · Web must be identical to live: all shared component/CSS edits from the store commit reverted (--st/--sr/--sb/--sl gone); Settings install section and privacy copy, tip jar, update prompt branch on storeApp. Android safe areas via SystemBars insetsHandling native. Verified 0 px pixelmatch vs main.
 - 2026-10-24 · Store apps: tips are store consumables with no receipt check (no server; a tip unlocks nothing). Paystack, analytics, service worker and install prompt are web-only, gated on Capacitor.isNativePlatform(). Store name kept off "Seventh-day Adventist" pending a trademark check.
 - 2026-10-22 · iPhone status bar showed a pale band with a blurred seam over tinted skies: theme-color was a fixed near-white. Now each look has --look-top (looks.css) and App.tsx syncStatusBar() copies it into theme-color as hex on theme/accent change. Yorùbá has no topical index, so its lone "All" chip row is hidden.
 - 2026-10-22 · Search Console: property https://sdahymnal.vercel.app/ verified by HTML tag; sitemap submitted (first fetch "Couldn't fetch"); Request indexing rejected with Robots.txt unreachable on Googlebot only. Nothing changed on the site for it; retry after a day.

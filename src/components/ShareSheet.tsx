@@ -270,7 +270,7 @@ export function ShareSheet({ hymn, onDismiss }: { hymn: Hymn; onDismiss: () => v
         exit={{ y: 60, opacity: 0 }}
         transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
         onClick={(e) => e.stopPropagation()}
-        className="glass hairline flex max-h-[92dvh] w-full max-w-md flex-col rounded-t-[28px] px-6 pb-[max(var(--sb),24px)] pt-6 shadow-[var(--shadow-float)] sm:rounded-[28px] sm:pb-6"
+        className="glass hairline flex max-h-[92dvh] w-full max-w-md flex-col rounded-t-[28px] px-6 pb-[max(env(safe-area-inset-bottom),24px)] pt-6 shadow-[var(--shadow-float)] sm:rounded-[28px] sm:pb-6"
       >
         <div className="flex items-center justify-between">
           <h2 className="font-lyrics text-[20px] font-[450]">Share this hymn</h2>

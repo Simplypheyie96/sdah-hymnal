@@ -22,7 +22,7 @@ export function UpdatePrompt({ show, onRefresh }: { show: boolean; onRefresh: ()
           exit={{ opacity: 0, y: 24 }}
           transition={{ duration: 0.5, ease: EASE }}
           role="status"
-          className="pointer-events-none fixed inset-x-0 bottom-[calc(var(--sb)+86px)] z-40 px-4"
+          className="pointer-events-none fixed inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+86px)] z-40 px-4"
         >
           <div className="glass hairline pointer-events-auto mx-auto flex max-w-md items-center gap-3 rounded-2xl py-3 pl-4 pr-2.5 shadow-[var(--shadow-float)]">
             <div className="min-w-0 flex-1">
