@@ -4,6 +4,7 @@ import { LANGS, type Hymn, type LangCode } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { KeypadIcon, MusicIcon, SearchIcon } from './icons'
 import { NumberPad } from './NumberPad'
+import { storeApp } from '../lib/native'
 
 /** Strip case and diacritics so a phone keyboard without Yorùbá tone marks
  *  still finds Mímọ́ by typing "mimo". */
@@ -187,7 +188,11 @@ export function Home({
 
       {/* Search: free text, plus a dedicated number field that jumps straight
           to a hymn. Both are always available. */}
-      <div className="rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pt-6 pb-4" style={{ animationDelay: '120ms' }}>
+      {/* In the store app the scrim reaches up under a notch; the top margin keeps it off the arch. */}
+      <div
+        className={`rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pb-4 ${storeApp ? 'mt-[env(safe-area-inset-top)] pt-[max(0px,calc(24px_-_env(safe-area-inset-top)))]' : 'pt-6'}`}
+        style={{ animationDelay: '120ms' }}
+      >
         <div aria-hidden className="top-scrim" />
         <div className="flex items-stretch gap-2.5">
           <label className="glass hairline group flex min-w-0 flex-1 items-center gap-3 rounded-2xl px-4 py-3.5 shadow-[var(--shadow-soft)] transition-all duration-200 focus-within:shadow-[var(--shadow-float)] focus-within:ring-2 focus-within:ring-[var(--accent)]/30">
