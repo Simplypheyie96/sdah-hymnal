@@ -12,6 +12,7 @@ import { AudioButton } from './AudioButton'
 import { stopAudio } from '../lib/audio'
 import { ShareSheet } from './ShareSheet'
 import { useMediaQuery } from '../hooks/useMediaQuery'
+import { storeApp } from '../lib/native'
 
 /** SDAH number whose recording accompanies this entry (shared across editions). */
 export function recordingNumberFor(hymn: Hymn): number | undefined {
@@ -83,7 +84,7 @@ export function HymnContent({
     <>
       {/* Floating chrome — two detached glass clusters so the page reads as
           one continuous sheet of paper running underneath them. */}
-      <div className="sticky top-0 z-30 px-4 pt-[max(env(safe-area-inset-top),12px)] pointer-events-none">
+      <div className={`sticky top-0 z-30 px-4 pt-[max(env(safe-area-inset-top),12px)] pointer-events-none ${storeApp ? 'pr-[calc(1rem+var(--cw))]' : ''}`}>
         <div aria-hidden className="top-scrim" />
         <div className="mx-auto flex max-w-2xl items-center justify-between gap-3">
           {onClose ? (

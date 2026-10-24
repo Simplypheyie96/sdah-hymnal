@@ -208,6 +208,18 @@ body::before {
   backdrop-filter: blur(22px) saturate(1.35);
 }
 
+/* Store apps only: a status column down the right edge (iPhone Duo) keeps its
+   clock and camera in the top corner, so top rows pad clear of it by --cw.
+   Android's WebView reports env() as zero; Capacitor writes the variable instead. */
+:root {
+  --cw: 0px;
+}
+@media (orientation: portrait) {
+  :root {
+    --cw: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+  }
+}
+
 /* Paper backing for sticky top chrome. Without it, scrolled content slid under
    the see-through bar and the status bar and read as a smeared top edge. It
    reaches up through the safe area and fades out below the bar. */

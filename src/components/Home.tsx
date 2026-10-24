@@ -190,7 +190,7 @@ export function Home({
           to a hymn. Both are always available. */}
       {/* In the store app the scrim reaches up under a notch; the top margin keeps it off the arch. */}
       <div
-        className={`rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pb-4 ${storeApp ? 'mt-[env(safe-area-inset-top)] pt-[max(0px,calc(24px_-_env(safe-area-inset-top)))]' : 'pt-6'}`}
+        className={`rise-in sticky top-[env(safe-area-inset-top)] z-30 px-6 pb-4 ${storeApp ? 'mt-[env(safe-area-inset-top)] pt-[max(0px,calc(24px_-_env(safe-area-inset-top)))] pr-[calc(1.5rem+var(--cw))]' : 'pt-6'}`}
         style={{ animationDelay: '120ms' }}
       >
         <div aria-hidden className="top-scrim" />
