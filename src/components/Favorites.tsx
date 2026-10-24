@@ -13,7 +13,7 @@ export function Favorites({
 
   return (
     <div className="pb-36">
-      <header className="px-6 pt-[max(env(safe-area-inset-top),28px)]">
+      <header className="px-6 pt-[max(var(--st),28px)]">
         <p className="rise-in pt-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--ink-3)]">
           Saved for Sabbath
         </p>

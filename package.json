@@ -6,11 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "node scripts/check-audio.mjs && tsc -b && vite build && node scripts/seo-pages.mjs",
+    "ios": "npm run build && node scripts/native-dist.mjs && npx cap sync ios",
+    "android": "npm run build && node scripts/native-dist.mjs && npx cap sync android",
+    "android:bundle": "npm run android && cd android && ./gradlew bundleRelease",
     "lint": "oxlint",
     "preview": "vite preview",
     "check:audio": "node scripts/check-audio.mjs"
   },
   "dependencies": {
+    "@capacitor/core": "8.5.3",
+    "@capgo/native-purchases": "8.8.2",
     "@paystack/inline-js": "^2.22.2",
     "@tailwindcss/vite": "^4.3.3",
     "@vercel/analytics": "^2.0.1",
@@ -22,6 +27,9 @@
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.1090.0",
+    "@capacitor/android": "8.5.3",
+    "@capacitor/cli": "8.5.3",
+    "@capacitor/ios": "8.5.3",
     "@types/node": "^24.13.2",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19.2.17",

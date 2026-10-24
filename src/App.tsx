@@ -13,6 +13,7 @@ import { Splash } from './components/Splash'
 import { InstallBanner } from './components/Install'
 import { UpdatePrompt } from './components/UpdatePrompt'
 import { useAppUpdate } from './hooks/useAppUpdate'
+import { setBarsDark, storeApp } from './lib/native'
 import { TabBar, type Tab } from './components/TabBar'
 import { BookIcon } from './components/icons'
 import { ReceiverScreen } from './components/ReceiverScreen'
@@ -50,6 +51,7 @@ function syncStatusBar() {
     document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', hex))
   }
   probe.remove()
+  void setBarsDark(document.documentElement.classList.contains('dark'))
 }
 
 export default function App() {
@@ -243,7 +245,7 @@ export default function App() {
 
       {/* Only on the Hymns tab: elsewhere it would float over unrelated
           content, and the nudge belongs where a first-time reader lands. */}
-      {tab === 'hymns' && <InstallBanner />}
+      {tab === 'hymns' && !storeApp && <InstallBanner />}
 
       <UpdatePrompt show={needRefresh} onRefresh={refresh} />
 

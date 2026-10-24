@@ -63,7 +63,7 @@ export function SecondScreen({
         exit={{ y: 60, opacity: 0 }}
         transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
         onClick={(e) => e.stopPropagation()}
-        className="glass hairline max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-[28px] px-7 pb-[max(env(safe-area-inset-bottom),28px)] pt-7 shadow-[var(--shadow-float)] sm:rounded-[28px] sm:pb-7"
+        className="glass hairline max-h-[88vh] w-full max-w-md overflow-y-auto rounded-t-[28px] px-7 pb-[max(var(--sb),28px)] pt-7 shadow-[var(--shadow-float)] sm:rounded-[28px] sm:pb-7"
       >
         <div className="flex items-center justify-between gap-4">
           <h2 className="font-lyrics text-[21px] font-[450]">Put this on the TV</h2>

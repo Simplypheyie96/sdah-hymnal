@@ -65,7 +65,7 @@ export function NumberPad({
         exit={{ y: 70, opacity: 0 }}
         transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
         onClick={(e) => e.stopPropagation()}
-        className="glass hairline w-full max-w-sm rounded-t-[30px] px-6 pb-[max(env(safe-area-inset-bottom),22px)] pt-5 shadow-[var(--shadow-float)] sm:rounded-[30px] sm:pb-6"
+        className="glass hairline w-full max-w-sm rounded-t-[30px] px-6 pb-[max(var(--sb),22px)] pt-5 shadow-[var(--shadow-float)] sm:rounded-[30px] sm:pb-6"
       >
         {/* Readout */}
         <div className="flex items-start justify-between gap-4">

@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PaystackPop from '@paystack/inline-js'
+import { STORE, TIPS, giveTip, storeApp, tipPrices, type Tip } from '../lib/native'
 
 // The publishable key is meant to live in client code — it can only start a
 // checkout, never move money or read the account. Wired through an env var so
@@ -14,7 +15,11 @@ const MIN_NAIRA = 100
 const naira = (n: number) => `₦${n.toLocaleString('en-NG')}`
 const looksLikeEmail = (s: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim())
 
-export function TipJar() {
+// The web takes tips through Paystack; the store apps through the store's own
+// in-app purchase, as Apple and Google require. Paystack never shows in them.
+export const TipJar = storeApp ? StoreTipJar : PaystackTipJar
+
+function PaystackTipJar() {
   const [amount, setAmount] = useState('')
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'paying' | 'done' | 'error'>('idle')
@@ -51,28 +56,12 @@ export function TipJar() {
 
   if (status === 'done') {
     return (
-      <div className="px-5 py-6 text-center">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--accent-contrast)]">
-          <svg aria-hidden viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
-        </div>
-        <p className="mt-4 font-lyrics text-[19px] text-[var(--ink)]">Thank you</p>
-        <p className="mx-auto mt-1.5 max-w-[16rem] text-[13.5px] leading-relaxed text-[var(--ink-2)]">
-          Your gift genuinely helps keep the hymnal free and the recordings
-          playing. It means a lot.
-        </p>
-        <button
-          type="button"
-          onClick={() => {
-            setAmount('')
-            setStatus('idle')
-          }}
-          className="mt-4 text-[13px] font-medium text-[var(--ink-3)] underline underline-offset-4"
-        >
-          Give again
-        </button>
-      </div>
+      <Thanks
+        onAgain={() => {
+          setAmount('')
+          setStatus('idle')
+        }}
+      />
     )
   }
 
@@ -152,6 +141,94 @@ export function TipJar() {
           <span className="text-[var(--accent-ink)]">{error}</span>
         ) : (
           'Secured by Paystack — pay by bank transfer, USSD, OPay, or card, whichever is easiest. No name or card needed up front, and the app itself collects nothing.'
+        )}
+      </p>
+    </div>
+  )
+}
+
+function Thanks({ onAgain }: { onAgain: () => void }) {
+  return (
+    <div className="px-5 py-6 text-center">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--accent-contrast)]">
+        <svg aria-hidden viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+      </div>
+      <p className="mt-4 font-lyrics text-[19px] text-[var(--ink)]">Thank you</p>
+      <p className="mx-auto mt-1.5 max-w-[16rem] text-[13.5px] leading-relaxed text-[var(--ink-2)]">
+        Your gift genuinely helps keep the hymnal free and the recordings
+        playing. It means a lot.
+      </p>
+      <button
+        type="button"
+        onClick={onAgain}
+        className="mt-4 text-[13px] font-medium text-[var(--ink-3)] underline underline-offset-4"
+      >
+        Give again
+      </button>
+    </div>
+  )
+}
+
+// What each tier says. Prices come from the store, in the reader's own currency.
+const TIER: Record<Tip, string> = { tip1: 'Small tip', tip2: 'Kind tip', tip3: 'Generous tip' }
+
+function StoreTipJar() {
+  const [prices, setPrices] = useState<Partial<Record<Tip, string>> | null>(null)
+  const [status, setStatus] = useState<'idle' | 'paying' | 'done' | 'error'>('idle')
+
+  useEffect(() => {
+    tipPrices().then(setPrices, () => setPrices({}))
+  }, [])
+
+  async function give(t: Tip) {
+    setStatus('paying')
+    try {
+      setStatus((await giveTip(t)) ? 'done' : 'idle')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  if (status === 'done') return <Thanks onAgain={() => setStatus('idle')} />
+
+  const unavailable = prices !== null && TIPS.every((t) => !prices[t])
+
+  return (
+    <div className="px-5 py-5">
+      <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
+        This app is free, and always will be — no ads, no subscription, nothing
+        to buy. It is built and run by one Adventist, out of pocket and after
+        hours. If it has blessed your worship, you are welcome to leave the
+        builder a tip toward hosting and the hymn recordings. Never expected,
+        always appreciated.
+      </p>
+
+      <div className="mt-5 flex gap-2">
+        {TIPS.map((t) => (
+          <button
+            key={t}
+            type="button"
+            onClick={() => give(t)}
+            disabled={!prices?.[t] || status === 'paying'}
+            className="flex h-14 flex-1 flex-col items-center justify-center rounded-2xl hairline text-[var(--ink-2)] transition-transform duration-200 active:scale-[0.98] disabled:opacity-40 disabled:active:scale-100"
+          >
+            <span className="text-[14.5px] font-semibold text-[var(--ink)]">{prices?.[t] ?? '…'}</span>
+            <span className="text-[12px]">{TIER[t]}</span>
+          </button>
+        ))}
+      </div>
+
+      <p className="mt-3 text-[12.5px] leading-relaxed text-[var(--ink-3)]">
+        {status === 'error' || unavailable ? (
+          <span className="text-[var(--accent-ink)]">
+            {unavailable ? 'Tips are unavailable right now — please try again later.' : 'The tip did not go through. Nothing was charged.'}
+          </span>
+        ) : status === 'paying' ? (
+          'Opening…'
+        ) : (
+          `A tip is a thank-you and unlocks nothing: every hymn and recording is already yours. Paid through ${STORE}.`
         )}
       </p>
     </div>

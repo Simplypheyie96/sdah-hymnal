@@ -1,3 +1,5 @@
+import { SITE, storeApp } from './native'
+
 // Casting a hymn to a television.
 //
 // Two different things get called "presenting", and they behave differently:
@@ -50,7 +52,8 @@ export const isReceiver = (): boolean =>
 
 /** The URL the television should open for a given hymn. */
 export function receiverUrl(songId: string, lang: string): string {
-  const u = new URL(window.location.href)
+  // The store apps run from a local address no television can reach.
+  const u = new URL(storeApp ? SITE : window.location.href)
   u.hash = ''
   u.search = `?present=${encodeURIComponent(songId)}&lang=${encodeURIComponent(lang)}`
   return u.toString()

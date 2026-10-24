@@ -1,13 +1,14 @@
 # SDAH Hymnal
 
 ## Now
-Task · SEO for "sda hymnal" / "adventist hymnal" rankings; one Vercel domain
-Done · sdah-hymnal.vercel.app is a 308 domain redirect (Vercel project setting) to sdahymnal.vercel.app. Build now runs scripts/seo-pages.mjs: 920 /hymn/N + 621 /yo/hymn/N static pages (title, description, lyrics, JSON-LD), crawlable hymn list on home, sitemap of 1,542 URLs. App opens the hymn in the path and keeps URL + tab title in step.
-Next · IndexNow done (Bing 200, Yandex 202; key public/ffffd61a45084d2fa11637a3b57f7893.txt). Google Search Console: ownership verified (HTML tag in index.html, keep it), sitemap.xml submitted. Live test of / fails "Robots.txt unreachable" although robots.txt is 200 and PageSpeed (Google servers) scores SEO 100: likely Googlebot cached a DNS miss for the hostname new today. Recheck from 2026-10-23: URL Inspection on / → Request indexing, then a few hymns (/hymn/100). Biggest remaining lever: a real domain (e.g. sdahymnal.org) + backlinks from church sites/groups.
-Files · scripts/seo-pages.mjs, src/App.tsx (linked, homeTitle, URL-sync effect), index.html (title/description)
-Open · Rankings take weeks; .vercel.app subdomain caps authority.
+Task · Store apps (App Store + Google Play), branch claude/store-ab50bc. Not merged, not pushed.
+Done · Capacitor 8 shell, id com.feyidesigns.sdahymnal, name Hymnal. Native gates in src/lib/native.ts (storeApp): no SW, no analytics, no install UI, store tip jar (tip1/2/3 consumables $0.99/2.99/4.99, no receipt check, no server). Safe areas via --st/--sr/--sb/--sl. Fonts vendored natively (native/fonts). iOS runs in the Simulator; Android assembleDebug builds. Web build identical to main (pages, data, layout-check counts).
+Next · Blockers in docs/store/launch.md §0: hymn text + recording rights (Review and Herald), store name (SDA trademark), R2 CORS add capacitor://localhost + https://localhost (until then recordings don't save offline in the apps). Then App Store Connect / Play Console steps in the same doc.
+Files · capacitor.config.ts, src/lib/native.ts, src/components/TipJar.tsx, scripts/native-*.mjs, ios/App/App/Hymnal.storekit, docs/store/launch.md
+Open · Not checked: Cache API on iOS capacitor://, a real phone, tip purchase sheet (needs Xcode Run with the StoreKit config). Build needs VITE_AUDIO_BASE exported (set -a; source .env.local). Android needs JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home.
 
 ## Decisions log
+- 2026-10-24 · Store apps: tips are store consumables with no receipt check (no server; a tip unlocks nothing). Paystack, analytics, service worker and install prompt are web-only, gated on Capacitor.isNativePlatform(). Store name kept off "Seventh-day Adventist" pending a trademark check.
 - 2026-10-22 · iPhone status bar showed a pale band with a blurred seam over tinted skies: theme-color was a fixed near-white. Now each look has --look-top (looks.css) and App.tsx syncStatusBar() copies it into theme-color as hex on theme/accent change. Yorùbá has no topical index, so its lone "All" chip row is hidden.
 - 2026-10-22 · Search Console: property https://sdahymnal.vercel.app/ verified by HTML tag; sitemap submitted (first fetch "Couldn't fetch"); Request indexing rejected with Robots.txt unreachable on Googlebot only. Nothing changed on the site for it; retry after a day.
 - 2026-10-22 · One link: sdah-hymnal.vercel.app kept attached as a 308 domain redirect, not removed (removing would 404 old links). Per-hymn prerendered pages + /hymn/N URLs added for search; static markup lives in #root and React replaces it on mount.

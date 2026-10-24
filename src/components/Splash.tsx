@@ -209,7 +209,7 @@ export function Splash({ ready }: { ready: boolean }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.9, ease: EASE, delay: 2.1 }}
-            className="absolute bottom-[max(env(safe-area-inset-bottom),30px)] px-8 text-center text-[12px] leading-relaxed tracking-wide text-[var(--ink-3)]"
+            className="absolute bottom-[max(var(--sb),30px)] px-8 text-center text-[12px] leading-relaxed tracking-wide text-[var(--ink-3)]"
           >
             The complete hymnal — in English and Yorùbá
           </motion.p>

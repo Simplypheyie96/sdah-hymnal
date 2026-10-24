@@ -3,6 +3,7 @@ import { LANGS } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { useOnline } from '../hooks/useOnline'
 import { canCast } from '../lib/present'
+import { storeApp } from '../lib/native'
 import { InstallControls } from './Install'
 import { TipJar } from './TipJar'
 
@@ -139,7 +140,7 @@ export function Settings({
 
   return (
     <div className="space-y-9 pb-36">
-      <header className="px-6 pt-[max(env(safe-area-inset-top),28px)]">
+      <header className="px-6 pt-[max(var(--st),28px)]">
         <p className="rise-in pt-8 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--ink-3)]">
           Make it yours
         </p>
@@ -247,16 +248,19 @@ export function Settings({
         </Section>
       </div>
 
-      <div className="rise-in" style={{ animationDelay: '160ms' }}>
-        <Section title="Install the app">
-          <InstallControls />
-          <div className="divide-y divide-[var(--line)] border-t border-[var(--line)]">
-            {INSTALL_HELP.map((item) => (
-              <Disclosure key={item.title} group="install-help" title={item.title} body={item.body} />
-            ))}
-          </div>
-        </Section>
-      </div>
+      {/* The store apps are already installed. */}
+      {!storeApp && (
+        <div className="rise-in" style={{ animationDelay: '160ms' }}>
+          <Section title="Install the app">
+            <InstallControls />
+            <div className="divide-y divide-[var(--line)] border-t border-[var(--line)]">
+              {INSTALL_HELP.map((item) => (
+                <Disclosure key={item.title} group="install-help" title={item.title} body={item.body} />
+              ))}
+            </div>
+          </Section>
+        </div>
+      )}
 
       <div className="rise-in" style={{ animationDelay: '200ms' }}>
         <Section title="How to use it">
@@ -430,8 +434,10 @@ export function Settings({
             <div className="px-5 py-4">
               <p className="eyebrow text-[var(--ink-3)]">Privacy</p>
               <p className="mt-2 text-[13.5px] leading-relaxed text-[var(--ink-2)]">
-                No accounts, no cookies, no tracking. Vercel counts anonymous page views, and that
-                is all. Your favourites and settings stay on your own device.
+                {storeApp
+                  ? 'No accounts, no cookies, no tracking: the app counts nothing and sends nothing about you. A tip is handled by the store, never by the app.'
+                  : 'No accounts, no cookies, no tracking. Vercel counts anonymous page views, and that is all.'}{' '}
+                Your favourites and settings stay on your own device.
                 Full policy at{' '}
                 <a href="https://feyidesigns.com/apps/sdah-hymnal/privacy/" target="_blank" rel="noopener noreferrer" className="underline">feyidesigns.com/apps/sdah-hymnal/privacy</a>.
               </p>

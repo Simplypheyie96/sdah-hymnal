@@ -17,6 +17,12 @@
 }
 
 :root {
+  /* Safe areas. On the web these are exactly env(); the Android store app zeroes
+     env() and hands the insets over as --safe-area-inset-* instead. */
+  --st: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --sr: var(--safe-area-inset-right, env(safe-area-inset-right, 0px));
+  --sb: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+  --sl: var(--safe-area-inset-left, env(safe-area-inset-left, 0px));
   --paper: #f2f3f3;
   --paper-raised: rgba(255, 255, 255, 0.62);
   --glass: rgba(244, 245, 245, 0.72);
@@ -214,7 +220,7 @@ body::before {
 .top-scrim {
   position: absolute;
   inset-inline: 0;
-  top: calc(-1 * env(safe-area-inset-top));
+  top: calc(-1 * var(--st));
   bottom: -24px;
   z-index: -1;
   pointer-events: none;

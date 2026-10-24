@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Hymnal</string>
+    <string name="title_activity_main">Hymnal</string>
+    <string name="package_name">com.feyidesigns.sdahymnal</string>
+    <string name="custom_url_scheme">com.feyidesigns.sdahymnal</string>
+</resources>

@@ -1,0 +1,74 @@
+{
+  "appPolicies": {
+    "eula": "",
+    "policies": [
+      {
+        "locale": "en_US",
+        "policyText": "",
+        "policyURL": ""
+      }
+    ]
+  },
+  "identifier": "HYMNAL",
+  "nonRenewingSubscriptions": [],
+  "products": [
+    {
+      "displayPrice": "0.99",
+      "familyShareable": false,
+      "internalID": "5DA00001",
+      "localizations": [
+        {
+          "description": "A thank-you that unlocks nothing",
+          "displayName": "Small tip",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "com.feyidesigns.sdahymnal.tip1",
+      "referenceName": "tip1",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "2.99",
+      "familyShareable": false,
+      "internalID": "5DA00002",
+      "localizations": [
+        {
+          "description": "A thank-you that unlocks nothing",
+          "displayName": "Kind tip",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "com.feyidesigns.sdahymnal.tip2",
+      "referenceName": "tip2",
+      "type": "Consumable"
+    },
+    {
+      "displayPrice": "4.99",
+      "familyShareable": false,
+      "internalID": "5DA00003",
+      "localizations": [
+        {
+          "description": "A thank-you that unlocks nothing",
+          "displayName": "Generous tip",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "com.feyidesigns.sdahymnal.tip3",
+      "referenceName": "tip3",
+      "type": "Consumable"
+    }
+  ],
+  "settings": {
+    "_applicationInternalID": "",
+    "_developerTeamID": "",
+    "_failTransactionsEnabled": false,
+    "_locale": "en_US",
+    "_storefront": "USA",
+    "_storeKitErrors": []
+  },
+  "subscriptionGroups": [],
+  "version": {
+    "major": 4,
+    "minor": 0
+  }
+}

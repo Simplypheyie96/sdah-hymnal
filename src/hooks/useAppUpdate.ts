@@ -1,4 +1,5 @@
 import { useRegisterSW } from 'virtual:pwa-register/react'
+import { storeApp } from '../lib/native'
 
 // How often an open app re-checks for a new version. A check is one
 // conditional request for sw.js, which the server answers 304 when nothing
@@ -18,7 +19,15 @@ const UPDATE_EVERY_MS = 60 * 60 * 1000
  * check again whenever the app returns to the foreground, and hourly while it
  * stays open.
  */
-export function useAppUpdate() {
+export const useAppUpdate = storeApp ? useStoreAppUpdate : useWebAppUpdate
+
+// The store apps carry their files inside them and update through the store:
+// no service worker, so no Refresh prompt.
+function useStoreAppUpdate() {
+  return { needRefresh: false, refresh: () => {} }
+}
+
+function useWebAppUpdate() {
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
