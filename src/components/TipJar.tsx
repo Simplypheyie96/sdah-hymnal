@@ -85,7 +85,7 @@ function PaystackTipJar() {
     <div className="px-5 py-5">
       <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
         This app is free, and always will be — no ads, no subscription, nothing
-        to buy. It is built and run by one Adventist, out of pocket and after
+        locked. It is built and run by one Adventist, out of pocket and after
         hours. If it has blessed your worship, you are welcome to leave the
         builder a tip toward hosting and the hymn recordings. Never expected,
         always appreciated.
@@ -216,7 +216,7 @@ function StoreTipJar() {
     <div className="px-5 py-5">
       <p className="text-[14.5px] leading-relaxed text-[var(--ink-2)]">
         This app is free, and always will be — no ads, no subscription, nothing
-        to buy. It is built and run by one Adventist, out of pocket and after
+        locked. It is built and run by one Adventist, out of pocket and after
         hours. If it has blessed your worship, you are welcome to leave the
         builder a tip toward hosting and the hymn recordings. Never expected,
         always appreciated.

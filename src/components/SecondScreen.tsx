@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import QRCode from 'qrcode'
 import { canCast, receiverUrl } from '../lib/present'
+import { iosApp } from '../lib/native'
 
 /**
  * Getting a hymn onto a screen.
@@ -107,7 +108,7 @@ export function SecondScreen({
             <ol className="mt-6 space-y-4">
               {[
                 ['On the TV', 'Open the input or source list and turn on screen mirroring. Hisense calls it Anyview Cast, LG calls it Screen Share, Sony and others just say Screen Mirroring.'],
-                ['On your phone', 'Swipe down for the quick settings and tap Smart View on Samsung, or Cast on most other Android phones.'],
+                ['On your phone', iosApp ? 'Open Control Centre, tap Screen Mirroring and pick a TV that supports AirPlay.' : 'Swipe down for the quick settings and tap Smart View on Samsung, or Cast on most other Android phones.'],
                 ['Pick the TV', 'Choose it from the list. The hymn fills the screen, and this phone stays the remote.'],
               ].map(([label, body], i) => (
                 <li key={label} className="flex gap-4">
@@ -161,7 +162,7 @@ export function SecondScreen({
             <p className="mt-6 text-[12.5px] leading-relaxed text-[var(--ink-3)]">
               {canCast()
                 ? 'The Cast button only finds Chromecast and Android TV. A set running VIDAA, webOS or Tizen will never appear in that list, however long you wait.'
-                : 'iPhone and iPad cannot cast from a web page at all, so this is the way to reach a TV from here.'}
+                : iosApp ? 'This works on any TV with a web browser, with no AirPlay needed.' : 'iPhone and iPad cannot cast from a web page at all, so this is the way to reach a TV from here.'}
             </p>
           </div>
         )}

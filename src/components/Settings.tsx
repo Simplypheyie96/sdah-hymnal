@@ -3,7 +3,7 @@ import { LANGS } from '../data/hymns'
 import { useHymnal } from '../data/hymnal'
 import { useOnline } from '../hooks/useOnline'
 import { canCast } from '../lib/present'
-import { storeApp } from '../lib/native'
+import { iosApp, storeApp } from '../lib/native'
 import { InstallControls } from './Install'
 import { TipJar } from './TipJar'
 
@@ -283,12 +283,13 @@ export function Settings({
               </p>
             </div>
             <div className="px-5 py-5">
-              <p className="text-[13px] leading-relaxed text-[var(--ink-3)]">
+              {/* the iPhone app shows only the iPhone way */}
+              {!iosApp && <p className="text-[13px] leading-relaxed text-[var(--ink-3)]">
                 Sending it to a television depends on the device — both are below, since people
                 pass phones around.
-              </p>
-              <div className="mt-4 space-y-3">
-                <div className="hairline rounded-2xl px-4 py-3">
+              </p>}
+              <div className={iosApp ? 'space-y-3' : 'mt-4 space-y-3'}>
+                {!iosApp && <div className="hairline rounded-2xl px-4 py-3">
                   <p className="text-[12.5px] font-semibold text-[var(--accent-ink)]">
                     Android, Chrome, Edge {canCastHere && '· this device'}
                   </p>
@@ -296,13 +297,13 @@ export function Settings({
                     Tap <span className="font-semibold">Cast</span> in the presenter and pick your
                     Chromecast or smart TV. The phone stays the remote.
                   </p>
-                </div>
+                </div>}
                 <div className="hairline rounded-2xl px-4 py-3">
                   <p className="text-[12.5px] font-semibold text-[var(--accent-ink)]">
                     iPhone, iPad {!canCastHere && '· this device'}
                   </p>
                   <p className="mt-1 text-[13px] leading-relaxed text-[var(--ink-2)]">
-                    Apple allows casting only from its own apps, so there is no Cast button here.
+                    {!iosApp && 'Apple allows casting only from its own apps, so there is no Cast button here. '}
                     Use <span className="font-semibold">Control Centre → Screen Mirroring</span>,
                     pick your Apple TV, then open the hymn and tap the screen icon. AirPlay carries
                     the music across too.

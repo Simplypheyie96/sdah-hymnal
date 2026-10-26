@@ -7,6 +7,7 @@ const cap = (globalThis as { Capacitor?: { isNativePlatform?: () => boolean; get
 
 export const storeApp = Boolean(cap?.isNativePlatform?.())
 export const androidApp = storeApp && cap?.getPlatform?.() === 'android'
+export const iosApp = storeApp && !androidApp
 export const STORE = androidApp ? 'Google Play' : 'the App Store'
 
 /** The public site, for links that must open outside the app (a TV, a share). */
