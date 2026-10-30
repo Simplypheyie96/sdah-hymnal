@@ -22,3 +22,4 @@ Open · Not checked: Cache API on iOS capacitor://, a real phone, tip purchase s
 - 2026-10-22 · Looks legibility: secondary text darkened (light ink-2 32%/ink-3 38%, dark 87%/81%) and the darkest motifs softened (mono-1, sage-2, rose-3, sky-2 light); worst-case contrast over every motif peak now ≥4.89 on all 24 looks.
 - 2026-10-22 · Looks: "same designs in different colors" rejected; each theme now gets its own three motifs, not shared recipes.
 - 2026-10-21 · Icons: hand-drawn strokes ran to the 24px box edge and clipped; replaced with Remix (`KeypadIcon` = hashtag, `MusicOffIcon` = volume-mute, `PresentIcon` = slideshow-3).
+- 2026-10-30: `vercel.json` sends a Content-Security-Policy. Inline `<script>`s in index.html are allowed by sha256 hash, so editing one means updating its hash there; a new outside script host must be added to `script-src`.
