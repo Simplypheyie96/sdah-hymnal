@@ -52,3 +52,41 @@ export async function giveTip(t: Tip): Promise<boolean> {
     throw e
   }
 }
+
+// Asking for a rating. Ratings are what lift a new app in the stores, and the
+// stores' own sheet (Google's in-app review, Apple's SKStoreReviewController)
+// is the only kind they allow. Asked once, only after the reader has come back
+// on three different days and opened a dozen hymns: by then the app has earned
+// it. The store decides whether the sheet actually shows.
+const REVIEW_KEY = 'sdah.review'
+type ReviewState = { opens: number; days: string[]; asked?: boolean }
+
+export function noteHymnOpened() {
+  if (!storeApp) return
+  let s: ReviewState = { opens: 0, days: [] }
+  try {
+    s = { ...s, ...JSON.parse(localStorage.getItem(REVIEW_KEY) || '{}') }
+  } catch {
+    /* fresh state */
+  }
+  if (s.asked) return
+  const today = new Date().toISOString().slice(0, 10)
+  s.opens += 1
+  if (!s.days.includes(today)) s.days = [...s.days, today].slice(-3)
+  const ready = s.opens >= 12 && s.days.length >= 3
+  if (ready) s.asked = true
+  try {
+    localStorage.setItem(REVIEW_KEY, JSON.stringify(s))
+  } catch {
+    /* storage off: never ask rather than ask every time */
+    return
+  }
+  if (ready) {
+    // After the hymn has settled on screen, never over the page turn.
+    setTimeout(() => {
+      void import('@capacitor-community/in-app-review')
+        .then(({ InAppReview }) => InAppReview.requestReview())
+        .catch(() => {})
+    }, 2500)
+  }
+}

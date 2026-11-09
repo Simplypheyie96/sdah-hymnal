@@ -1,6 +1,6 @@
 import { useState, useEffect, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { useInstall } from '../hooks/useInstall'
+import { useInstall, androidBrowser, PLAY_URL } from '../hooks/useInstall'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { InstallIcon, CheckIcon, ShareIcon } from './icons'
 
@@ -11,6 +11,9 @@ const EASE = [0.22, 1, 0.36, 1] as const
 // would be the one nagging note in it. Settings keeps a permanent, quiet way
 // to install for anyone who changes their mind.
 const DISMISS_KEY = 'sdah.installNudge.dismissed'
+// Its own key: Android readers who waved off the old home-screen nudge have
+// not yet been told the hymnal is on Google Play.
+const PLAY_DISMISS_KEY = 'sdah.playNudge.dismissed'
 
 /** The iPhone/iPad walkthrough, shown as a bottom sheet. */
 export function IosInstallSheet({ onClose }: { onClose: () => void }) {
@@ -104,13 +107,18 @@ export function IosInstallSheet({ onClose }: { onClose: () => void }) {
  */
 export function InstallBanner() {
   const { installed, canPrompt, platform, promptInstall } = useInstall()
-  const [dismissed, setDismissed] = useLocalStorage(DISMISS_KEY, false)
+  const [dismissed, setDismissed] = useLocalStorage(androidBrowser ? PLAY_DISMISS_KEY : DISMISS_KEY, false)
   const [sheet, setSheet] = useState(false)
 
-  const eligible = !installed && !dismissed && (canPrompt || platform === 'ios')
+  const eligible = androidBrowser
+    ? !dismissed
+    : !installed && !dismissed && (canPrompt || platform === 'ios')
 
   async function act() {
-    if (canPrompt) {
+    if (androidBrowser) {
+      setDismissed(true)
+      window.open(PLAY_URL, '_blank', 'noopener')
+    } else if (canPrompt) {
       // The reader has now seen the real dialog and answered it; either way we
       // have asked, so retire the nudge.
       await promptInstall()
@@ -137,22 +145,22 @@ export function InstallBanner() {
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-[13.5px] font-medium leading-tight text-[var(--ink)]">
-                  Keep the hymnal on your phone
+                  {androidBrowser ? 'Get the hymnal app' : 'Keep the hymnal on your phone'}
                 </p>
                 <p className="mt-0.5 text-[12px] leading-snug text-[var(--ink-3)]">
-                  Full screen · works without a signal
+                  {androidBrowser ? 'Free on Google Play' : 'Full screen · works without a signal'}
                 </p>
               </div>
               <button
                 onClick={act}
                 className="shrink-0 rounded-full bg-[var(--accent)] px-4 py-2 text-[12.5px] font-semibold text-[var(--accent-contrast)]"
               >
-                {canPrompt ? 'Install' : 'How'}
+                {androidBrowser ? 'Get it' : canPrompt ? 'Install' : 'How'}
               </button>
               <button
                 onClick={() => setDismissed(true)}
                 aria-label="Not now"
-                className="shrink-0 px-1.5 text-[18px] leading-none text-[var(--ink-3)]"
+                className="flex h-8 w-8 shrink-0 items-center justify-center text-[18px] leading-none text-[var(--ink-3)]"
               >
                 ×
               </button>
@@ -174,6 +182,32 @@ export function InstallBanner() {
  */
 export function InstallControls() {
   const { installed, canPrompt, promptInstall } = useInstall()
+
+  if (androidBrowser) {
+    return (
+      <div className="px-5 py-4">
+        <div className="flex items-center gap-3">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-[var(--accent-contrast)]">
+            <InstallIcon size={18} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[15px] font-medium">Get the app on Google Play</p>
+            <p className="mt-0.5 text-[12.5px] leading-relaxed text-[var(--ink-3)]">
+              Free, and works without a signal.
+            </p>
+          </div>
+        </div>
+        <a
+          href={PLAY_URL}
+          target="_blank"
+          rel="noopener"
+          className="mt-4 block w-full rounded-full bg-[var(--accent)] py-2.5 text-center text-[13px] font-semibold text-[var(--accent-contrast)]"
+        >
+          Open Google Play
+        </a>
+      </div>
+    )
+  }
 
   if (installed) {
     return (

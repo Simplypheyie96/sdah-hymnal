@@ -12,7 +12,7 @@ import { AudioButton } from './AudioButton'
 import { stopAudio } from '../lib/audio'
 import { ShareSheet } from './ShareSheet'
 import { useMediaQuery } from '../hooks/useMediaQuery'
-import { storeApp } from '../lib/native'
+import { storeApp, noteHymnOpened } from '../lib/native'
 
 /** SDAH number whose recording accompanies this entry (shared across editions). */
 export function recordingNumberFor(hymn: Hymn): number | undefined {
@@ -69,6 +69,9 @@ export function HymnContent({
   // straight through, while paging to another hymn (a new number) or closing
   // the reader (unmount) still stops it.
   useEffect(() => () => stopAudio(), [recordingNumber])
+
+  // Counts toward the one-time rating request in the store apps.
+  useEffect(() => noteHymnOpened(), [hymn.number, hymn.lang])
 
   useEffect(() => {
     if (presenting) return

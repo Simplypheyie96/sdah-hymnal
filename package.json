@@ -14,6 +14,7 @@
     "check:audio": "node scripts/check-audio.mjs"
   },
   "dependencies": {
+    "@capacitor-community/in-app-review": "8.0.0",
     "@capacitor/core": "8.5.3",
     "@capgo/native-purchases": "8.8.2",
     "@paystack/inline-js": "^2.22.2",

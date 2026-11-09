@@ -15,6 +15,15 @@ type BeforeInstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
 }
 
+// Android has the real app on Google Play now, which beats a home-screen copy
+// (recordings bundled, no browser chrome). On Android the install routes there.
+export const androidBrowser =
+  typeof navigator !== 'undefined' &&
+  /android/i.test(navigator.userAgent) &&
+  !(globalThis as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor?.isNativePlatform?.()
+export const PLAY_URL =
+  'https://play.google.com/store/apps/details?id=com.feyidesigns.sdahymnal&referrer=utm_source%3Dsdahymnal.vercel.app%26utm_medium%3Dinstall'
+
 export type InstallPlatform = 'ios' | 'chromium' | 'other'
 
 // Held at module scope, deliberately. `beforeinstallprompt` fires once, early,
