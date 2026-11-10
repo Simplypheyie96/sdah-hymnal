@@ -16,9 +16,10 @@ const esc = (s) =>
 const clip = (s, n) => (s.length <= n ? s : s.slice(0, s.lastIndexOf(' ', n - 1)) + '…')
 const ld = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, '\\u003c')}</script>`
 
-// Readable before the app's script arrives, in the page's own ink.
+// For search engines and browsers without JavaScript. Hidden wherever scripts
+// run, so visitors never see it flash before the app replaces it.
 const STYLE =
-  '<style>.seo{max-width:40rem;margin:0 auto;padding:32px 24px;color:var(--ink,#222);font:17px/1.6 Georgia,serif}.seo a{color:inherit}.seo ol{padding-left:2.5em}</style>'
+  '<style>.seo{max-width:40rem;margin:0 auto;padding:32px 24px;color:var(--ink,#222);font:17px/1.6 Georgia,serif}.seo a{color:inherit}.seo ol{padding-left:2.5em}@media (scripting:enabled){.seo{display:none}}</style>'
 
 function page({ path, title, description, body, data }) {
   const url = SITE + path
