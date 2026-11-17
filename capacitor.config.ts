@@ -4,7 +4,7 @@ import type { CapacitorConfig } from '@capacitor/cli'
 // texts load from the app itself, never from the website.
 const config: CapacitorConfig = {
   appId: 'com.feyidesigns.sdahymnal',
-  appName: 'Hymnal',
+  appName: 'SDA Hymnal',
   webDir: 'dist',
   ios: { contentInset: 'never' },
   // Android: env(safe-area-inset-*) holds the real insets (or the webview is
