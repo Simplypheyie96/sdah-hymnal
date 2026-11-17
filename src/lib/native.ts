@@ -56,10 +56,10 @@ export async function giveTip(t: Tip): Promise<boolean> {
 // Asking for a rating. Ratings are what lift a new app in the stores, and the
 // stores' own sheet (Google's in-app review, Apple's SKStoreReviewController)
 // is the only kind they allow. Asked once, only after the reader has come back
-// on three different days and opened a dozen hymns: by then the app has earned
+// on three different days, two weeks or more after the first, with ten hymns opened: by then the app has earned
 // it. The store decides whether the sheet actually shows.
 const REVIEW_KEY = 'sdah.review'
-type ReviewState = { opens: number; days: string[]; asked?: boolean }
+type ReviewState = { opens: number; days: string[]; first?: string; asked?: boolean }
 
 export function noteHymnOpened() {
   if (!storeApp) return
@@ -71,9 +71,13 @@ export function noteHymnOpened() {
   }
   if (s.asked) return
   const today = new Date().toISOString().slice(0, 10)
+  s.first ??= today
   s.opens += 1
   if (!s.days.includes(today)) s.days = [...s.days, today].slice(-3)
-  const ready = s.opens >= 12 && s.days.length >= 3
+  // Church use is weekly: wait for three different days at least two weeks
+  // after the first hymn (say, three Sabbaths), not a busy first week.
+  const weeks = (Date.parse(today) - Date.parse(s.first)) / 86_400_000 >= 14
+  const ready = s.opens >= 10 && s.days.length >= 3 && weeks
   if (ready) s.asked = true
   try {
     localStorage.setItem(REVIEW_KEY, JSON.stringify(s))
