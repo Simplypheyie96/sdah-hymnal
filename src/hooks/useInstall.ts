@@ -24,6 +24,23 @@ export const androidBrowser =
 export const PLAY_URL =
   'https://play.google.com/store/apps/details?id=com.feyidesigns.sdahymnal&referrer=utm_source%3Dsdahymnal.vercel.app%26utm_medium%3Dinstall'
 
+// iPhone and iPad have the App Store app now too, so the browser there routes
+// to it the same way.
+export const iosBrowser =
+  typeof navigator !== 'undefined' &&
+  (/iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1)) &&
+  !(globalThis as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor?.isNativePlatform?.()
+export const APP_STORE_URL =
+  'https://apps.apple.com/app/id6826719717'
+
+/** The store this browser's phone has the app in, if any. */
+export const store = androidBrowser
+  ? { name: 'Google Play', url: PLAY_URL }
+  : iosBrowser
+    ? { name: 'the App Store', url: APP_STORE_URL }
+    : null
+
 export type InstallPlatform = 'ios' | 'chromium' | 'other'
 
 // Held at module scope, deliberately. `beforeinstallprompt` fires once, early,

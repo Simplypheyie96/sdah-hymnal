@@ -1,6 +1,6 @@
 import { useState, useEffect, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { useInstall, androidBrowser, PLAY_URL } from '../hooks/useInstall'
+import { useInstall, androidBrowser, store } from '../hooks/useInstall'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { InstallIcon, CheckIcon, ShareIcon } from './icons'
 
@@ -14,6 +14,9 @@ const DISMISS_KEY = 'sdah.installNudge.dismissed'
 // Its own key: Android readers who waved off the old home-screen nudge have
 // not yet been told the hymnal is on Google Play.
 const PLAY_DISMISS_KEY = 'sdah.playNudge.dismissed'
+// And iPhone readers who waved off the home-screen steps have not yet been
+// told it is on the App Store.
+const APP_STORE_DISMISS_KEY = 'sdah.appStoreNudge.dismissed'
 
 /** The iPhone/iPad walkthrough, shown as a bottom sheet. */
 export function IosInstallSheet({ onClose }: { onClose: () => void }) {
@@ -107,17 +110,20 @@ export function IosInstallSheet({ onClose }: { onClose: () => void }) {
  */
 export function InstallBanner() {
   const { installed, canPrompt, platform, promptInstall } = useInstall()
-  const [dismissed, setDismissed] = useLocalStorage(androidBrowser ? PLAY_DISMISS_KEY : DISMISS_KEY, false)
+  const [dismissed, setDismissed] = useLocalStorage(
+    androidBrowser ? PLAY_DISMISS_KEY : store ? APP_STORE_DISMISS_KEY : DISMISS_KEY,
+    false,
+  )
   const [sheet, setSheet] = useState(false)
 
-  const eligible = androidBrowser
+  const eligible = store
     ? !dismissed
     : !installed && !dismissed && (canPrompt || platform === 'ios')
 
   async function act() {
-    if (androidBrowser) {
+    if (store) {
       setDismissed(true)
-      window.open(PLAY_URL, '_blank', 'noopener')
+      window.open(store.url, '_blank', 'noopener')
     } else if (canPrompt) {
       // The reader has now seen the real dialog and answered it; either way we
       // have asked, so retire the nudge.
@@ -145,17 +151,17 @@ export function InstallBanner() {
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-[13.5px] font-medium leading-tight text-[var(--ink)]">
-                  {androidBrowser ? 'Get the hymnal app' : 'Keep the hymnal on your phone'}
+                  {store ? 'Get the hymnal app' : 'Keep the hymnal on your phone'}
                 </p>
                 <p className="mt-0.5 text-[12px] leading-snug text-[var(--ink-3)]">
-                  {androidBrowser ? 'Free on Google Play' : 'Full screen · works without a signal'}
+                  {store ? `Free on ${store.name}` : 'Full screen · works without a signal'}
                 </p>
               </div>
               <button
                 onClick={act}
                 className="shrink-0 rounded-full bg-[var(--accent)] px-4 py-2 text-[12.5px] font-semibold text-[var(--accent-contrast)]"
               >
-                {androidBrowser ? 'Get it' : canPrompt ? 'Install' : 'How'}
+                {store ? 'Get it' : canPrompt ? 'Install' : 'How'}
               </button>
               <button
                 onClick={() => setDismissed(true)}
@@ -183,7 +189,7 @@ export function InstallBanner() {
 export function InstallControls() {
   const { installed, canPrompt, promptInstall } = useInstall()
 
-  if (androidBrowser) {
+  if (store) {
     return (
       <div className="px-5 py-4">
         <div className="flex items-center gap-3">
@@ -191,19 +197,19 @@ export function InstallControls() {
             <InstallIcon size={18} />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-[15px] font-medium">Get the app on Google Play</p>
+            <p className="text-[15px] font-medium">Get the app on {store.name}</p>
             <p className="mt-0.5 text-[12.5px] leading-relaxed text-[var(--ink-3)]">
               Free, and works without a signal.
             </p>
           </div>
         </div>
         <a
-          href={PLAY_URL}
+          href={store.url}
           target="_blank"
           rel="noopener"
           className="mt-4 block w-full rounded-full bg-[var(--accent)] py-2.5 text-center text-[13px] font-semibold text-[var(--accent-contrast)]"
         >
-          Open Google Play
+          Open {store.name.replace(/^the /, '')}
         </a>
       </div>
     )
