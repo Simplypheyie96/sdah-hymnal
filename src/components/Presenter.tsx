@@ -34,7 +34,12 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
   // flip the app's split-view breakpoint. Fullscreen is a nicety — the
   // presenter is already a fixed, full-bleed overlay — so every failure here
   // is swallowed and nothing downstream depends on it.
+  //
+  // Never in the store apps: there is no browser chrome to hide, and on iOS
+  // WebKit's fullscreen window clashes with the app's view controllers and
+  // UIKit aborts the whole app (WKFullScreenWindowController, SIGABRT).
   useEffect(() => {
+    if (storeApp) return
     document.documentElement.requestFullscreen?.().catch(() => {})
     return () => {
       if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {})
