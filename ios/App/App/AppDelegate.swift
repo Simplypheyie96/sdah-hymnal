@@ -36,6 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        // A TV, projector or monitor: the app's own slide, not a second copy of the app.
+        if connectingSceneSession.role.rawValue.contains("ExternalDisplay") {
+            let tv = UISceneConfiguration(name: "TV", sessionRole: connectingSceneSession.role)
+            tv.delegateClass = TvSceneDelegate.self
+            return tv
+        }
         let config = UISceneConfiguration(name: "Default Configuration",
                                           sessionRole: connectingSceneSession.role)
         config.delegateClass = SceneDelegate.self

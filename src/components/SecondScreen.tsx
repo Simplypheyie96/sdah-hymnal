@@ -101,8 +101,10 @@ export function SecondScreen({
           <div className="mt-6">
             <p className="text-[13.5px] leading-relaxed text-[var(--ink-2)]">
               Nothing to type on the television, and it works with sets that cannot cast —
-              Hisense, LG, Samsung and the rest. Your whole screen goes across, so leave the
-              hymn open in this presenter.
+              Hisense, LG, Samsung and the rest.{' '}
+              {iosApp
+                ? 'The TV gets the verse on its own, full width, and this phone becomes the remote.'
+                : 'Your whole screen goes across, so leave the hymn open in this presenter.'}
             </p>
 
             <ol className="mt-6 space-y-4">

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import type { Hymn, Verse } from '../data/hymns'
 import { ChevronLeftIcon, ChevronRightIcon, PresentIcon } from './icons'
@@ -6,6 +6,8 @@ import { AudioButton } from './AudioButton'
 import { recordingNumberFor } from './HymnView'
 import { SecondScreen } from './SecondScreen'
 import { storeApp } from '../lib/native'
+import { useFitText } from '../lib/fit'
+import { showOnTv, watchTv } from '../lib/tv'
 
 function verseLabel(verses: Verse[], index: number) {
   if (verses[index].isRefrain) return 'Refrain'
@@ -19,6 +21,41 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
   const [index, setIndex] = useState(0)
   const [secondScreen, setSecondScreen] = useState(false)
   const verse = hymn.verses[index]
+  const [tvOn, setTvOn] = useState(false)
+  const box = useRef<HTMLDivElement>(null)
+  const text = useRef<HTMLParagraphElement>(null)
+  useFitText(box, text, `${hymn.songId}:${index}`)
+
+  // Store app on iPhone connected to a TV: the TV shows its own slide (TvSlide)
+  // and this screen is the remote. Back to the resting screen on close.
+  useEffect(() => watchTv(setTvOn), [])
+  useEffect(() => {
+    if (!tvOn) return
+    showOnTv({
+      number: hymn.number,
+      title: hymn.title,
+      label: verseLabel(hymn.verses, index),
+      lines: verse.lines,
+      refrain: verse.isRefrain,
+      position: `${index + 1}/${hymn.verses.length}`,
+    })
+  }, [tvOn, hymn, index, verse])
+  useEffect(() => () => showOnTv(null), [])
+
+  // Paint the page behind the presenter dark too, so Safari's side strips in
+  // landscape (and a mirrored TV) show black, not the light page.
+  useEffect(() => {
+    const root = document.documentElement
+    const metas = [...document.querySelectorAll('meta[name="theme-color"]')]
+    const before = { bg: root.style.backgroundColor, body: document.body.style.backgroundColor, theme: metas.map((m) => m.getAttribute('content')) }
+    root.style.backgroundColor = document.body.style.backgroundColor = '#0b0d0e'
+    metas.forEach((m) => m.setAttribute('content', '#0b0d0e'))
+    return () => {
+      root.style.backgroundColor = before.bg
+      document.body.style.backgroundColor = before.body
+      metas.forEach((m, i) => m.setAttribute('content', before.theme[i] ?? ''))
+    }
+  }, [])
 
   const go = useCallback(
     (delta: number) => {
@@ -138,10 +175,12 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="flex flex-1 items-center justify-center px-[8vw] pb-16 text-center"
+        ref={box}
+        className="flex min-h-0 flex-1 items-center justify-center overflow-hidden px-[8vw] py-4 text-center"
       >
         <p
-          className={`font-lyrics leading-[1.5] text-[clamp(28px,4.2vw,64px)] ${
+          ref={text}
+          className={`font-lyrics leading-[1.5] text-[clamp(28px,4.2vw,64px)] [@media(max-height:500px)]:!leading-[1.3] ${
             verse.isRefrain ? 'italic' : ''
           }`}
         >
@@ -154,7 +193,7 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
       </motion.div>
 
       {/* Bottom controls */}
-      <div className="flex flex-col items-center gap-5 pb-8">
+      <div className="flex flex-col items-center gap-5 pb-[max(env(safe-area-inset-bottom),20px)] [@media(max-height:500px)]:pb-3">
         <div className="flex items-center justify-center gap-4" onClick={(e) => e.stopPropagation()}>
           <button
             onClick={() => go(-1)}
@@ -179,10 +218,16 @@ export function Presenter({ hymn, onClose }: { hymn: Hymn; onClose: () => void }
             <ChevronRightIcon />
           </button>
         </div>
-        <p className="max-w-md px-8 text-center text-[12px] leading-relaxed tracking-wide text-[#565d63]">
-          To put this on a TV or projector, mirror your screen — or use “Open on TV”
-          for a link you can open on the screen itself.
-        </p>
+        {tvOn ? (
+          <p className="text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-[#7a8187] [@media(max-height:500px)]:hidden">
+            Showing on the TV
+          </p>
+        ) : (
+          <p className="max-w-md px-8 text-center text-[12px] leading-relaxed tracking-wide text-[#7a8187] [@media(max-height:500px)]:hidden">
+            To put this on a TV or projector, mirror your screen — or use “Open on TV”
+            for a link you can open on the screen itself.
+          </p>
+        )}
       </div>
 
       {secondScreen && (
